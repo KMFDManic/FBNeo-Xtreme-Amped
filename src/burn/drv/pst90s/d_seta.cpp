@@ -1,4 +1,4 @@
-// FB Alpha Seta driver module
+// FB Neo Seta driver module
 // Based on MAME driver by Luca Elia
 
 #include "tiles_generic.h"
@@ -1176,38 +1176,38 @@ static struct BurnInputInfo CrazyfgtInputList[] = {
 STDINPUTINFO(Crazyfgt)
 
 static struct BurnInputInfo Calibr50InputList[] = {
-	{"P1 Coin",		BIT_DIGITAL,	DrvJoy3 + 7,	"p1 coin"	},
+	{"P1 Coin",			BIT_DIGITAL,	DrvJoy3 + 7,	"p1 coin"	},
 	{"P1 Start",		BIT_DIGITAL,	DrvJoy1 + 7,	"p1 start"	},
-	{"P1 Up",		BIT_DIGITAL,	DrvJoy1 + 0,	"p1 up"		},
-	{"P1 Down",		BIT_DIGITAL,	DrvJoy1 + 1,	"p1 down"	},
-	{"P1 Left",		BIT_DIGITAL,	DrvJoy1 + 2,	"p1 left"	},
+	{"P1 Up",			BIT_DIGITAL,	DrvJoy1 + 0,	"p1 up"		},
+	{"P1 Down",			BIT_DIGITAL,	DrvJoy1 + 1,	"p1 down"	},
+	{"P1 Left",			BIT_DIGITAL,	DrvJoy1 + 2,	"p1 left"	},
 	{"P1 Right",		BIT_DIGITAL,	DrvJoy1 + 3,	"p1 right"	},
 	{"P1 Button 1",		BIT_DIGITAL,	DrvJoy1 + 4,	"p1 fire 1"	},
 	{"P1 Button 2",		BIT_DIGITAL,	DrvJoy1 + 5,	"p1 fire 2"	},
-	{"P1 Button 3 (rotate)",		BIT_DIGITAL,	DrvFakeInput + 4,	"p1 fire 3"	},
-	A("P1 Aim X", BIT_ANALOG_REL, &DrvAnalogPort0,"p1 x-axis"),
-	A("P1 Aim Y", BIT_ANALOG_REL, &DrvAnalogPort1,"p1 y-axis"),
+	{"P1 Button 3 (rotate)", BIT_DIGITAL,	DrvFakeInput + 4,	"p1 fire 3"	},
+	A("P1 Aim X", 		BIT_ANALOG_REL, &DrvAnalogPort0,"p1 x-axis"),
+	A("P1 Aim Y", 		BIT_ANALOG_REL, &DrvAnalogPort1,"p1 y-axis"),
 
-	{"P2 Coin",		BIT_DIGITAL,	DrvJoy3 + 6,	"p2 coin"	},
+	{"P2 Coin",			BIT_DIGITAL,	DrvJoy3 + 6,	"p2 coin"	},
 	{"P2 Start",		BIT_DIGITAL,	DrvJoy2 + 7,	"p2 start"	},
-	{"P2 Up",		BIT_DIGITAL,	DrvJoy2 + 0,	"p2 up"		},
-	{"P2 Down",		BIT_DIGITAL,	DrvJoy2 + 1,	"p2 down"	},
-	{"P2 Left",		BIT_DIGITAL,	DrvJoy2 + 2,	"p2 left"	},
+	{"P2 Up",			BIT_DIGITAL,	DrvJoy2 + 0,	"p2 up"		},
+	{"P2 Down",			BIT_DIGITAL,	DrvJoy2 + 1,	"p2 down"	},
+	{"P2 Left",			BIT_DIGITAL,	DrvJoy2 + 2,	"p2 left"	},
 	{"P2 Right",		BIT_DIGITAL,	DrvJoy2 + 3,	"p2 right"	},
 	{"P2 Button 1",		BIT_DIGITAL,	DrvJoy2 + 4,	"p2 fire 1"	},
 	{"P2 Button 2",		BIT_DIGITAL,	DrvJoy2 + 5,	"p2 fire 2"	},
-	{"P2 Button 3 (rotate)",		BIT_DIGITAL,	DrvFakeInput + 5,	"p2 fire 3"	},
-	A("P2 Aim X", BIT_ANALOG_REL, &DrvAnalogPort2,"p2 x-axis"),
-	A("P2 Aim Y", BIT_ANALOG_REL, &DrvAnalogPort3,"p2 y-axis"),
+	{"P2 Button 3 (rotate)", BIT_DIGITAL,	DrvFakeInput + 5,	"p2 fire 3"	},
+	A("P2 Aim X", 		BIT_ANALOG_REL, &DrvAnalogPort2,"p2 x-axis"),
+	A("P2 Aim Y", 		BIT_ANALOG_REL, &DrvAnalogPort3,"p2 y-axis"),
 
-	{"Reset",		BIT_DIGITAL,	&DrvReset,	"reset"		},
-	{"Service",		BIT_DIGITAL,	DrvJoy3 + 5,	"service"	},
-	{"Tilt",		BIT_DIGITAL,	DrvJoy3 + 4,	"tilt"},
-	{"Dip A",		BIT_DIPSWITCH,	DrvDips + 0,	"dip"		},
-	{"Dip B",		BIT_DIPSWITCH,	DrvDips + 1,	"dip"		},
-	{"Dip C",		BIT_DIPSWITCH,	DrvDips + 2,	"dip"		},
+	{"Reset",			BIT_DIGITAL,	&DrvReset,		"reset"		},
+	{"Service",			BIT_DIGITAL,	DrvJoy3 + 5,	"service"	},
+	{"Tilt",			BIT_DIGITAL,	DrvJoy3 + 4,	"tilt"		},
+	{"Dip A",			BIT_DIPSWITCH,	DrvDips + 0,	"dip"		},
+	{"Dip B",			BIT_DIPSWITCH,	DrvDips + 1,	"dip"		},
+	{"Dip C",			BIT_DIPSWITCH,	DrvDips + 2,	"dip"		},
 	// Auto-fire on right-stick
-	{"Dip D", 		BIT_DIPSWITCH, 	DrvDips + 3, 	"dip"       },
+	{"Dip D", 			BIT_DIPSWITCH, 	DrvDips + 3, 	"dip"       },
 };
 
 STDINPUTINFO(Calibr50)
@@ -4005,8 +4005,8 @@ void __fastcall setaSoundRegWriteWord(UINT32 sekAddress, UINT16 wordValue)
 	reg		= offset % sizeof(X1_010_CHANNEL);
 
 	if( channel < SETA_NUM_CHANNELS && reg == 0 && (x1_010_chip->reg[offset]&1) == 0 && (wordValue&1) != 0 ) {
-	 	x1_010_chip->smp_offset[channel] = 0;
-	 	x1_010_chip->env_offset[channel] = 0;
+		x1_010_chip->smp_offset[channel] = 0;
+		x1_010_chip->env_offset[channel] = 0;
 	}
 	x1_010_chip->reg[offset] = wordValue & 0xff;
 }
@@ -4039,8 +4039,8 @@ static void __fastcall setaSoundRegWriteByte(UINT32 sekAddress, UINT8 byteValue)
 		reg      = offset % sizeof(X1_010_CHANNEL);
 
 		if (channel < SETA_NUM_CHANNELS && reg == 0 && (x1_010_chip->reg[offset] & 1) == 0 && (byteValue&1) != 0) {
-	 		x1_010_chip->smp_offset[channel] = 0;
-	 		x1_010_chip->env_offset[channel] = 0;
+			x1_010_chip->smp_offset[channel] = 0;
+			x1_010_chip->env_offset[channel] = 0;
 		}
 		x1_010_chip->reg[offset] = byteValue;
 	}
@@ -5308,7 +5308,7 @@ static void RotateReset() {
 }
 
 static UINT32 RotationTimer(void) {
-    return nCurrentFrame;
+	return nCurrentFrame;
 }
 
 static void RotateRight(INT32 *v) {
@@ -5346,70 +5346,33 @@ static UINT8 Joy2Rotate(UINT8 *joy) { // ugly code, but the effect is awesome. -
 	return 0xff;
 }
 
-#define Rotate16CheckSector(num, joy0, joy1) \
-{ \
-	if (joy0 && joy1) { \
-		if (joy0 > joy1) \
-			return calibr50_sectors[num][0]; \
-		else if (joy0 < joy1) \
-			return calibr50_sectors[num][1]; \
-		else \
-			return calibr50_sectors[num][2]; \
-	} \
-}
-
-static UINT8 Joy2Rotate16(UINT8 *joy) { // even more ugly code
-	// Changing this to 16 directions
-	// 0 is up, 2 is up-right, 4 is right, 6 is down-right
-	// 8 is down, 10 is down-left, 12 is left, 14 is up-left
-
-	static const UINT8 calibr50_sectors[4][3] = {
-		{ 15, 13, 14 }, // up+ left, up left+, up left
-		{  1,  3,  2 }, // up+ right, up right+, up right
-		{  9, 11, 10 }, // down+ left, down left+, down left
-		{  7,  5,  6 }  // down+ right, down right+, down right
-	};
-
-	Rotate16CheckSector(0, joy[0], joy[2]);
-	Rotate16CheckSector(1, joy[0], joy[3]);
-	Rotate16CheckSector(2, joy[1], joy[2]);
-	Rotate16CheckSector(3, joy[1], joy[3]);
-
-	if (joy[0]) return 0;    // up
-	if (joy[1]) return 8;    // down
-	if (joy[2]) return 12;   // left
-	if (joy[3]) return 4;    // right
-
-	return 0xff;
-}
-
 static int dialRotation(INT32 playernum) {
-    // p1 = 0, p2 = 1
+	// p1 = 0, p2 = 1
 	UINT8 player[2] = { 0, 0 };
 	static UINT8 lastplayer[2][2] = { { 0, 0 }, { 0, 0 } };
 
-    if ((playernum != 0) && (playernum != 1)) {
-        bprintf(PRINT_NORMAL, _T("Strange Rotation address => %06X\n"), playernum);
-        return 0;
-    }
-    if (playernum == 0) {
-        player[0] = DrvFakeInput[0]; player[1] = DrvFakeInput[1];
-    }
-    if (playernum == 1) {
-        player[0] = DrvFakeInput[2]; player[1] = DrvFakeInput[3];
-    }
+	if ((playernum != 0) && (playernum != 1)) {
+		bprintf(PRINT_NORMAL, _T("Strange Rotation address => %06X\n"), playernum);
+		return 0;
+	}
+	if (playernum == 0) {
+		player[0] = DrvFakeInput[0]; player[1] = DrvFakeInput[1];
+	}
+	if (playernum == 1) {
+		player[0] = DrvFakeInput[2]; player[1] = DrvFakeInput[3];
+	}
 
-    if (player[0] && (player[0] != lastplayer[playernum][0] || (RotationTimer() > nRotateTime[playernum]+0xf))) {
+	if (player[0] && (player[0] != lastplayer[playernum][0] || (RotationTimer() > nRotateTime[playernum]+0xf))) {
 		RotateLeft(&nRotate[playernum]);
 		bprintf(PRINT_NORMAL, _T("Player %d Rotate Left => %06X\n"), playernum+1, nRotate[playernum]);
 		nRotateTime[playernum] = RotationTimer();
 		nRotateTarget[playernum] = -1;
-    }
+	}
 
 	if (player[1] && (player[1] != lastplayer[playernum][1] || (RotationTimer() > nRotateTime[playernum]+0xf))) {
-        RotateRight(&nRotate[playernum]);
-        bprintf(PRINT_NORMAL, _T("Player %d Rotate Right => %06X\n"), playernum+1, nRotate[playernum]);
-        nRotateTime[playernum] = RotationTimer();
+		RotateRight(&nRotate[playernum]);
+		bprintf(PRINT_NORMAL, _T("Player %d Rotate Right => %06X\n"), playernum+1, nRotate[playernum]);
+		nRotateTime[playernum] = RotationTimer();
 		nRotateTarget[playernum] = -1;
 	}
 
@@ -5500,7 +5463,8 @@ static void RotateDoTick() {
 			} else {
 				RotateRight(&nRotate[i]); // --
 			}
-			bprintf(0, _T("p%X target %X mempos %X nRotate %X try %X.\n"), i, nRotateTarget[i], adjusted_rotate_gunpos(i) & 0x0f, nRotate[i], nRotateTry[i]);
+ // temp disabled!!!!!
+ //   		bprintf(0, _T("p%X target %X mempos %X nRotate %X try %X.\n"), i, nRotateTarget[i], adjusted_rotate_gunpos(i) & 0x0f, nRotate[i], nRotateTry[i]);
 			nRotateTry[i]++;
 			if (nRotateTry[i] > 0xf) nRotateTarget[i] = -1; // don't get stuck in a loop if something goes horribly wrong here.
 		} else {
@@ -5511,7 +5475,6 @@ static void RotateDoTick() {
 
 static void ProcessAnalogInputs() {
 	// converts analog inputs to something that the existing rotate logic can work with
-	INT16 AnalogInputs[4] = { 0, 0, 0, 0 }; // p1y, p1x, p2y, p2x - compatibility with Joy2Rotate
 	INT16 AnalogPorts[4] = { DrvAnalogPort1, DrvAnalogPort0, DrvAnalogPort3, DrvAnalogPort2 };
 
 	if (game_rotates != 1) return;
@@ -5521,18 +5484,22 @@ static void ProcessAnalogInputs() {
 	for (int i = 6; i < 14; i++)
 		DrvFakeInput[i] = 0;
 
-	// convert these x and y to something Joy2Rotate could read.
-	for (int i = 0; i < 4; i++) {
-		// ProcessAnalog() will convert the analog value to: 0x00 full left, 0x80 center, 0xff full right
-		// Range 16 makes it too biased towards the directions between diagonals and up/down/left/right
-		// Range 8 makes it more biased towards the diagonals, seems to be the sweet spot
-		UINT8 AnalogRange = 8;
+	for (int i = 0; i < 2; i++) { // 1 (x,y) for each player
+		// note: most thumbsticks return -1024 0 +1023
+		// some analog joysticks & inputs return -0x8000 0 +0x7fff
+		// atan2() needs -1 0 +1
 
-		AnalogInputs[i] = ProcessAnalog(AnalogPorts[i], 0, INPUT_DEADZONE, 0x00, 0xff) / ((256/AnalogRange));
-		if (AnalogInputs[i] < AnalogRange/2) {
-			DrvFakeInput[6 + 2*i] = AnalogRange/2-AnalogInputs[i];
-		} else if (AnalogInputs[i] > AnalogRange/2) {
-			DrvFakeInput[6 + 2*i + 1] = AnalogInputs[i]-AnalogRange/2;
+		float y_axis = (ProcessAnalog(AnalogPorts[i*2 + 0], 0, INPUT_DEADZONE, 0x00, 0xff) - 128.0)/128.0;
+		float x_axis = (ProcessAnalog(AnalogPorts[i*2 + 1], 0, INPUT_DEADZONE, 0x00, 0xff) - 128.0)/128.0;
+
+		int deg = (atan2(-x_axis, -y_axis) * 180 / M_PI) - 360/16/2; // technically, on a scale from 0-f, "0" should be -11.25 to 11.25, and not 0 to 22.5.
+		if (deg < 0) deg += 360;
+
+		int g_val = deg * 16 / 360; // scale from 0-360 to 0-f
+		g_val = 0xf - g_val; // invert so up-left is 0xf, instead of up-right
+		if (!(x_axis == 0.0 && y_axis == 0.0)) { // we're not in deadzone -- changed below
+			DrvFakeInput[6 + i*4] = g_val; // for autofire
+			DrvFakeInput[7 + i*4] = 1; // if g_val is 0, we need to still register movement!
 		}
 	}
 }
@@ -5547,6 +5514,7 @@ static void SuperJoy2Rotate() {
 
 	ProcessAnalogInputs();
 
+	// check if udlr (or analog direction) is pressed for p1/p2
 	for (INT32 i = 0; i < 2; i++) {
 		for (INT32 n = 0; n < 4; n++) {
 			UINT8* RotationInput = (!i) ? &FakeDrvInputPort0[0] : &FakeDrvInputPort1[0];
@@ -5562,7 +5530,7 @@ static void SuperJoy2Rotate() {
 			UINT8 rot;
 			if (game_rotates == 1) {
 				// calibr50 uses 16 directions
-				rot = Joy2Rotate16(((!i) ? &FakeDrvInputPort0[0] : &FakeDrvInputPort1[0]));
+				rot = DrvFakeInput[6 + i*4]; // ProcessAnalogInputs() stores it here
 			} else {
 				rot = Joy2Rotate(((!i) ? &FakeDrvInputPort0[0] : &FakeDrvInputPort1[0]));
 			}
@@ -5582,7 +5550,6 @@ static void SuperJoy2Rotate() {
 		else if (DrvFakeInput[4 + i]) { //  rotate-button had been pressed
 			UINT8 rot = Joy2Rotate(((!i) ? &DrvJoy1[0] : &DrvJoy2[0]));
 			if (rot != 0xff) {
-				//bprintf(0, _T("joy2rotate[%x] = %X\n"), i, rot);
 				if (game_rotates == 1) {
 					nRotateTarget[i] = rot * 2; // convert 8-way to 16-way (multiplier is 1 for the analog inputs)
 				} else {
@@ -8235,7 +8202,7 @@ static void Drv68kZ80M6295FrameCallback()
 
 static INT32 DrvZ80M6295Frame()
 {
- 	return DrvCommonFrame(Drv68kZ80M6295FrameCallback);
+	return DrvCommonFrame(Drv68kZ80M6295FrameCallback);
 }
 
 
@@ -9396,7 +9363,7 @@ static INT32 umanclubInit()
 
 struct BurnDriver BurnDrvNeobattl = {
 	"neobattl", NULL, NULL, NULL, "1992",
-	"SD Gundam Neo Battling (Japan)\0", NULL, "Banpresto / Sotsu Agency. Sunrise", "Seta",
+	"SD Gundam Neo Battling (Japan)\0", NULL, "Banpresto", "Seta",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_HISCORE_SUPPORTED, 2, HARDWARE_SETA1, GBF_VERSHOOT, 0,
 	NULL, neobattlRomInfo, neobattlRomName, NULL, NULL, NULL, NULL, NeobattlInputInfo, NeobattlDIPInfo,
@@ -9422,7 +9389,7 @@ STD_ROM_FN(umanclub)
 
 struct BurnDriver BurnDrvUmanclub = {
 	"umanclub", NULL, NULL, NULL, "1992",
-	"Ultraman Club - Tatakae! Ultraman Kyoudai!!\0", NULL, "Banpresto / Tsuburaya Productions", "Seta",
+	"Ultraman Club - Tatakae! Ultraman Kyoudai!!\0", NULL, "Banpresto", "Seta",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_SETA1, GBF_SHOOT, 0,
 	NULL, umanclubRomInfo, umanclubRomName, NULL, NULL, NULL, NULL, UmanclubInputInfo, UmanclubDIPInfo,
@@ -9457,7 +9424,7 @@ static INT32 kamenridInit()
 
 struct BurnDriver BurnDrvKamenrid = {
 	"kamenrid", NULL, NULL, NULL, "1993",
-	"Masked Riders Club Battle Race / Kamen Rider Club Battle Racer\0", NULL, "Banpresto / Toei", "Seta",
+	"Masked Riders Club Battle Race / Kamen Rider Club Battle Racer\0", NULL, "Banpresto", "Seta",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_SETA1, GBF_RACING, 0,
 	NULL, kamenridRomInfo, kamenridRomName, NULL, NULL, NULL, NULL, KamenridInputInfo, KamenridDIPInfo,
@@ -9919,7 +9886,7 @@ STD_ROM_FN(zombraidpj)
 
 struct BurnDriver BurnDrvZombraidpj = {
 	"zombraidpj", "zombraid", NULL, NULL, "1995",
-	"Zombie Raid (9/28/95, Japan, prototype PCB)\0", NULL, "Sammy Industries Co.,Ltd.", "Seta",
+	"Zombie Raid (9/28/95, Japan, prototype PCB)\0", NULL, "Sammy Industries", "Seta",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_PROTOTYPE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_SETA1, GBF_SHOOT, 0,
 	NULL, zombraidpjRomInfo, zombraidpjRomName, NULL, NULL, NULL, NULL, ZombraidInputInfo, ZombraidDIPInfo,
@@ -10413,7 +10380,7 @@ static INT32 pairloveInit()
 
 struct BurnDriver BurnDrvPairlove = {
 	"pairlove", NULL, NULL, NULL, "1991",
-	"Pairs Love\0", NULL, "Athena", "Seta",
+	"Pairs Love\0", NULL, "Athena / Nihon System", "Seta",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_HISCORE_SUPPORTED, 2, HARDWARE_SETA1, GBF_PUZZLE, 0,
 	NULL, pairloveRomInfo, pairloveRomName, NULL, NULL, NULL, NULL, PairloveInputInfo, PairloveDIPInfo,
@@ -11037,7 +11004,7 @@ static INT32 utoukondInit()
 
 struct BurnDriver BurnDrvUtoukond = {
 	"utoukond", NULL, NULL, NULL, "1993",
-	"Ultra Toukon Densetsu (Japan)\0", NULL, "Banpresto / Tsuburaya Productions", "Seta",
+	"Ultra Toukon Densetsu (Japan)\0", NULL, "Banpresto", "Seta",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_SETA1, GBF_VSFIGHT, 0,
 	NULL, utoukondRomInfo, utoukondRomName, NULL, NULL, NULL, NULL, UtoukondInputInfo, UtoukondDIPInfo,
@@ -11597,7 +11564,7 @@ static INT32 calibr50Init()
 
 struct BurnDriver BurnDrvCalibr50 = {
 	"calibr50", NULL, NULL, NULL, "1989",
-	"Caliber 50 (Ver. 1.01)\0", NULL, "Athena / Seta", "Seta",
+	"Caliber 50 (Ver. 1.01)\0", NULL, "Seta", "Seta",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_SETA1, GBF_RUNGUN, 0,
 	NULL, calibr50RomInfo, calibr50RomName, NULL, NULL, NULL, NULL, Calibr50InputInfo, Calibr50DIPInfo,

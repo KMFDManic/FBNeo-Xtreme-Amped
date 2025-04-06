@@ -27,6 +27,8 @@ UINT8 macroSystemFFWD = 0;
 UINT8 macroSystemFrame = 0;
 UINT8 macroSystemSaveState = 0;
 UINT8 macroSystemLoadState = 0;
+UINT8 macroSystemNextState = 0;
+UINT8 macroSystemPreviousState = 0;
 UINT8 macroSystemUNDOState = 0;
 UINT8 macroSystemSlowMo[5] = { 0, 0, 0, 0, 0 };
 UINT8 macroSystemRewind = 0;
@@ -398,6 +400,26 @@ static void GameInpInitMacros()
 			pgi->Macro.nSysMacro = 1;
 			sprintf(pgi->Macro.szName, "System Save State");
 			pgi->Macro.pVal[0] = &macroSystemSaveState;
+			pgi->Macro.nVal[0] = 1;
+			nMacroCount++;
+			pgi++;
+
+			pgi->nInput = GIT_MACRO_AUTO;
+			pgi->nType = BIT_DIGITAL;
+			pgi->Macro.nMode = 0;
+			pgi->Macro.nSysMacro = 1;
+			sprintf(pgi->Macro.szName, "System Next State");
+			pgi->Macro.pVal[0] = &macroSystemNextState;
+			pgi->Macro.nVal[0] = 1;
+			nMacroCount++;
+			pgi++;
+
+			pgi->nInput = GIT_MACRO_AUTO;
+			pgi->nType = BIT_DIGITAL;
+			pgi->Macro.nMode = 0;
+			pgi->Macro.nSysMacro = 1;
+			sprintf(pgi->Macro.szName, "System Previous State");
+			pgi->Macro.pVal[0] = &macroSystemPreviousState;
 			pgi->Macro.nVal[0] = 1;
 			nMacroCount++;
 			pgi++;
@@ -2143,6 +2165,8 @@ tIniStruct gamehw_cfg[] = {
 	{_T("Neo Geo Pocket C hardware"),	_T("config/presets/ngp.ini"),		{ HARDWARE_SNK_NGPC, 0 },			"\t\t\t<item list=\"ngpc\" name=\""			},
 	{_T("NES hardware"),				_T("config/presets/nes.ini"),		{ HARDWARE_NES, 0 },				"\t\t\t<item list=\"nes\" name=\""			},
 	{_T("FDS hardware"),				_T("config/presets/fds.ini"),		{ HARDWARE_FDS, 0 },				"\t\t\t<item list=\"famicom_flop\" name=\""	},
+	{_T("SNES hardware"),				_T("config/presets/snes.ini"),		{ HARDWARE_SNES, 0 },				"\t\t\t<item list=\"snes\" name=\""			},
+	{_T("SNES w/Scope hardware"),		_T("config/presets/snes_scope.ini"),{ HARDWARE_SNES_ZAPPER, 0 },				"\t\t\t<item list=\"snes\" name=\""			},
 	{_T("PGM hardware"),				_T("config/presets/pgm.ini"),		{ HARDWARE_IGS_PGM, 0 },			"\t\t\t<system name=\""        				},
 	{_T("MegaDrive hardware"),			_T("config/presets/megadrive.ini"),	{ HARDWARE_SEGA_MEGADRIVE, 0 },		"\t\t\t<item list=\"megadriv\" name=\""		},
 	{_T("PCE/SGX hardware"),			_T("config/presets/pce.ini"),		{ HARDWARE_PCENGINE_PCENGINE, 0 },	"\t\t\t<item list=\"pce\" name=\""			},
@@ -2159,7 +2183,7 @@ tIniStruct gamehw_cfg[] = {
 
 void GetHistoryDatHardwareToken(char *to_string)
 {
-	INT32 nHardwareFlag = (BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK);
+	UINT32 nHardwareFlag = (BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK);
 
 	// See if nHardwareFlag belongs to any systems in gamehw_config
 	for (INT32 i = 0; gamehw_cfg[i].ini[0] != '\0'; i++) {
@@ -2176,6 +2200,18 @@ void GetHistoryDatHardwareToken(char *to_string)
 	strcpy(to_string, "\t\t\t<system name=\"");
 }
 
+UINT32 GameInputGetHWFlag()
+{
+	UINT32 nHardwareFlag = (BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK);
+
+	if (nHardwareFlag == HARDWARE_SNES) {
+		// for this(these?) systems, get the unmasked HW flag
+		nHardwareFlag = BurnDrvGetHardwareCode();
+	}
+
+	return nHardwareFlag;
+}
+
 INT32 ConfigGameLoadHardwareDefaults()
 {
 #if defined(BUILD_SDL2) && !defined(SDL_WINDOWS)
@@ -2187,7 +2223,7 @@ INT32 ConfigGameLoadHardwareDefaults()
 #endif
 	INT32 nApplyHardwareDefaults = 0;
 
-	INT32 nHardwareFlag = (BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK);
+	UINT32 nHardwareFlag = GameInputGetHWFlag();
 
 	// See if nHardwareFlag belongs to any systems in gamehw_config
 	for (INT32 i = 0; gamehw_cfg[i].ini[0] != '\0'; i++) {

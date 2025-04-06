@@ -1821,6 +1821,56 @@ static struct BurnRomInfo NebulbeeRomDesc[] = {
 STD_ROM_PICK(Nebulbee)
 STD_ROM_FN(Nebulbee)
 
+static struct BurnRomInfo GalagawmRomDesc[] = {
+	{ "wmgg1_1b.3p",   0x01000, 0xd7dffd9c, BRF_ESS | BRF_PRG   }, //  0	Z80 #1 Program Code
+	{ "wmgg1_2b.3m",   0x01000, 0xab7cbd28, BRF_ESS | BRF_PRG   }, //	 1
+	{ "wmgg1_3.2m",    0x01000, 0x75bcd999, BRF_ESS | BRF_PRG   }, //	 2
+	{ "wmgg1_4b.2l",   0x01000, 0x114f2ae5, BRF_ESS | BRF_PRG   }, //	 3
+
+	{ "gg1_5b.3f",     0x01000, 0xbb5caae3, BRF_ESS | BRF_PRG   }, //  4	Z80 #2 Program Code
+
+	{ "gg1_7b.2c",     0x01000, 0xd016686b, BRF_ESS | BRF_PRG   }, //  5	Z80 #3 Program Code
+
+	{ "gg1_9.4l",      0x01000, 0x58b2f47c, BRF_GRA             },	//  6	Characters
+
+	{ "gg1_11.4d",     0x01000, 0xad447c80, BRF_GRA             },	//  7	Sprites
+	{ "gg1_10.4f",     0x01000, 0xdd6f1afc, BRF_GRA             },	//  8
+
+	{ "prom-5.5n",     0x00020, 0x54603c6b, BRF_GRA             },	//  9	PROMs
+	{ "prom-4.2n",     0x00100, 0x59b6edab, BRF_GRA             },	// 10
+	{ "prom-3.1c",     0x00100, 0x4a04bb6b, BRF_GRA             },	// 11
+	{ "prom-1.1d",     0x00100, 0x7a2815b4, BRF_GRA             },	// 12
+	{ "prom-2.5c",     0x00100, 0x77245b66, BRF_GRA             },	// 13
+};
+
+STD_ROM_PICK(Galagawm)
+STD_ROM_FN(Galagawm)
+
+static struct BurnRomInfo GalagapRomDesc[] = {
+	{ "gg1_1b.3p",     0x01000, 0xab036c9f, BRF_ESS | BRF_PRG   }, //  0	Z80 #1 Program Code
+	{ "gg1_2b.3m",     0x01000, 0xd9232240, BRF_ESS | BRF_PRG   }, //	 1
+	{ "galagap.2m",    0x01000, 0xb62c0ece, BRF_ESS | BRF_PRG   }, //	 2
+	{ "gg1_4b.2l",     0x01000, 0x499fcc76, BRF_ESS | BRF_PRG   }, //	 3
+
+	{ "gg1_5b.3f",     0x01000, 0xbb5caae3, BRF_ESS | BRF_PRG   }, //  4	Z80 #2 Program Code
+
+	{ "gg1_7b.2c",     0x01000, 0xd016686b, BRF_ESS | BRF_PRG   }, //  5	Z80 #3 Program Code
+
+	{ "gg1_9.4l",      0x01000, 0x58b2f47c, BRF_GRA             },	//  6	Characters
+
+	{ "gg1_11.4d",     0x01000, 0xad447c80, BRF_GRA             },	//  7	Sprites
+	{ "gg1_10.4f",     0x01000, 0xdd6f1afc, BRF_GRA             },	//  8
+
+	{ "prom-5.5n",     0x00020, 0x54603c6b, BRF_GRA             },	//  9	PROMs
+	{ "prom-4.2n",     0x00100, 0x59b6edab, BRF_GRA             },	// 10
+	{ "prom-3.1c",     0x00100, 0x4a04bb6b, BRF_GRA             },	// 11
+	{ "prom-1.1d",     0x00100, 0x7a2815b4, BRF_GRA             },	// 12
+	{ "prom-2.5c",     0x00100, 0x77245b66, BRF_GRA             },	// 13
+};
+
+STD_ROM_PICK(Galagap)
+STD_ROM_FN(Galagap)
+
 static struct BurnSampleInfo GalagaSampleDesc[] = {
 #if !defined (ROM_VERIFY)
 	{ "bang", SAMPLE_NOLOOP },
@@ -2490,6 +2540,30 @@ struct BurnDriver BurnDrvNebulbee = {
 	GALAGA_PALETTE_SIZE, NAMCO_SCREEN_WIDTH, NAMCO_SCREEN_HEIGHT, 3, 4
 };
 
+// https://www.donkeykonghacks.net/page_other.html
+struct BurnDriver BurnDrvGalagawm = {
+	"galagawm", "galaga", NULL, "galaga", "2024",
+	"Galaga Wave Mixer (Hack)\0", NULL, "Namco", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_HACK | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
+	NULL, GalagawmRomInfo, GalagawmRomName, NULL, NULL, GalagaSampleInfo, GalagaSampleName, GalagaInputInfo, GalagaDIPInfo,
+	galagaInit, DrvExit, DrvFrame, DrvDraw, galagaScan, NULL,
+	GALAGA_PALETTE_SIZE, NAMCO_SCREEN_WIDTH, NAMCO_SCREEN_HEIGHT, 3, 4
+};
+
+// This set has the fix proposed by Don Hodges at the page:
+//   http://donhodges.com/galaga_stage_256_fix.htm
+// note: unlike HBMAME, the roms here were hard-patched
+struct BurnDriver BurnDrvGalagap = {
+	"galagap", "galaga", NULL, "galaga", "2007",
+	"Galaga (Patched)\0", NULL, "Hack (Don Hodges)", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_HACK | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
+	NULL, GalagapRomInfo, GalagapRomName, NULL, NULL, GalagaSampleInfo, GalagaSampleName, GalagaInputInfo, GalagaDIPInfo,
+	galagaInit, DrvExit, DrvFrame, DrvDraw, galagaScan, NULL,
+	GALAGA_PALETTE_SIZE, NAMCO_SCREEN_WIDTH, NAMCO_SCREEN_HEIGHT, 3, 4
+};
+
 /* === Dig Dug === */
 
 static struct BurnInputInfo DigdugInputList[] =
@@ -2640,6 +2714,41 @@ static struct BurnRomInfo digdugRomDesc[] = {
 
 STD_ROM_PICK(digdug)
 STD_ROM_FN(digdug)
+
+// Dig Dug (rev 1)
+
+static struct BurnRomInfo digdug1RomDesc[] = {
+	{ "dd1.1",	      0x1000, 0xb9198079, BRF_ESS | BRF_PRG  }, //  0 Z80 #1 Program Code
+	{ "dd1.2",	      0x1000, 0xb2acbe49, BRF_ESS | BRF_PRG  }, //  1
+	{ "dd1.3",	      0x1000, 0xd6407b49, BRF_ESS | BRF_PRG  }, //  2
+	{ "dd1.4b",	      0x1000, 0xf4cebc16, BRF_ESS | BRF_PRG  }, //  3
+
+	{ "dd1.5b",	      0x1000, 0x370ef9b4, BRF_ESS | BRF_PRG  }, //  4	Z80 #2 Program Code
+	{ "dd1.6b",	      0x1000, 0x361eeb71, BRF_ESS | BRF_PRG  }, //  5
+
+	{ "dd1.7",	      0x1000, 0xa41bce72, BRF_ESS | BRF_PRG  }, //  6	Z80 #3 Program Code
+
+	{ "dd1.9",	      0x0800, 0xf14a6fe1, BRF_GRA            }, //  7	Characters
+
+	{ "dd1.15",	      0x1000, 0xe22957c8, BRF_GRA            }, //  8	Sprites
+	{ "dd1.14",	      0x1000, 0x2829ec99, BRF_GRA            }, //  9
+	{ "dd1.13",	      0x1000, 0x458499e9, BRF_GRA            }, // 10
+	{ "dd1.12",	      0x1000, 0xc58252a0, BRF_GRA            }, // 11
+
+	{ "dd1.11",	      0x1000, 0x7b383983, BRF_GRA            }, // 12	Characters 8x8 2bpp
+
+	{ "dd1.10b",      0x1000, 0x2cf399c2, BRF_GRA            }, // 13 Playfield Data
+
+	{ "136007.113",   0x0020, 0x4cb9da99, BRF_GRA            }, // 14 Palette Prom
+	{ "136007.111",   0x0100, 0x00c7c419, BRF_GRA            }, // 15 Sprite Color Prom
+	{ "136007.112",   0x0100, 0xe9b3e08e, BRF_GRA            }, // 16 Character Color Prom
+
+	{ "136007.110",   0x0100, 0x7a2815b4, BRF_GRA            }, // 17 Namco Sound Proms
+	{ "136007.109",   0x0100, 0x77245b66, BRF_GRA            }, // 18
+};
+
+STD_ROM_PICK(digdug1)
+STD_ROM_FN(digdug1)
 
 // Dig Dug (Atari, rev 2)
 
@@ -3186,6 +3295,16 @@ struct BurnDriver BurnDrvDigdug = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_MAZE | GBF_ACTION, 0,
 	NULL, digdugRomInfo, digdugRomName, NULL, NULL, NULL, NULL, DigdugInputInfo, DigdugDIPInfo,
+	digdugInit, DrvExit, DrvFrame, DrvDraw, digdugScan, NULL,
+	DIGDUG_PALETTE_SIZE, NAMCO_SCREEN_WIDTH, NAMCO_SCREEN_HEIGHT, 3, 4
+};
+
+struct BurnDriver BurnDrvDigdug1 = {
+	"digdug1", "digdug", NULL, NULL, "1982",
+	"Dig Dug (rev 1)\0", NULL, "Namco", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_MAZE | GBF_ACTION, 0,
+	NULL, digdug1RomInfo, digdug1RomName, NULL, NULL, NULL, NULL, DigdugInputInfo, DigdugDIPInfo,
 	digdugInit, DrvExit, DrvFrame, DrvDraw, digdugScan, NULL,
 	DIGDUG_PALETTE_SIZE, NAMCO_SCREEN_WIDTH, NAMCO_SCREEN_HEIGHT, 3, 4
 };

@@ -1810,7 +1810,7 @@ struct BurnDriver BurnDrvRyukendna = {
 };
 
 
-// Wild Fang / Tecmo Knight
+// Wild Fang / Tecmo Knight (World?)
 
 static struct BurnRomInfo wildfangRomDesc[] = {
 	{ "1.3st",		    0x20000, 0xab876c9b, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
@@ -1840,7 +1840,7 @@ STD_ROM_FN(wildfang)
 
 struct BurnDriver BurnDrvWildfang = {
 	"wildfang", NULL, NULL, NULL, "1989",
-	"Wild Fang / Tecmo Knight\0", NULL, "Tecmo", "Miscellaneous",
+	"Wild Fang / Tecmo Knight (World?)\0", NULL, "Tecmo", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, wildfangRomInfo, wildfangRomName, NULL, NULL, NULL, NULL, DrvInputInfo, WildfangDIPInfo,
@@ -1849,7 +1849,7 @@ struct BurnDriver BurnDrvWildfang = {
 };
 
 
-// Wild Fang
+// Wild Fang (Japan)
 
 static struct BurnRomInfo wildfangsRomDesc[] = {
 	{ "1.3s",		    0x20000, 0x3421f691, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
@@ -1879,7 +1879,7 @@ STD_ROM_FN(wildfangs)
 
 struct BurnDriver BurnDrvWildfangs = {
 	"wildfangs", "wildfang", NULL, NULL, "1989",
-	"Wild Fang\0", NULL, "Tecmo", "Miscellaneous",
+	"Wild Fang (Japan)\0", NULL, "Tecmo", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, wildfangsRomInfo, wildfangsRomName, NULL, NULL, NULL, NULL, DrvInputInfo, TknightDIPInfo,
@@ -1888,7 +1888,7 @@ struct BurnDriver BurnDrvWildfangs = {
 };
 
 
-// Tecmo Knight
+// Tecmo Knight (US)
 
 static struct BurnRomInfo tknightRomDesc[] = {
 	{ "tkni1.bin",		0x20000, 0x9121daa8, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
@@ -1915,10 +1915,46 @@ STD_ROM_FN(tknight)
 
 struct BurnDriver BurnDrvTknight = {
 	"tknight", "wildfang", NULL, NULL, "1989",
-	"Tecmo Knight\0", NULL, "Tecmo", "Miscellaneous",
+	"Tecmo Knight (US)\0", NULL, "Tecmo", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, tknightRomInfo, tknightRomName, NULL, NULL, NULL, NULL, DrvInputInfo, TknightDIPInfo,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x1000,
+	256, 224, 4, 3
+};
+
+
+// Wild Fang (1991 year hack)
+
+static struct BurnRomInfo wildfanghRomDesc[] = {
+	{ "wlf_91.3s",		0x20000, 0x3421f691, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
+	{ "wlf_91.5s",		0x20000, 0x37bf1b63, 1 | BRF_PRG | BRF_ESS }, //  1
+
+	{ "tkni3.bin",		0x10000, 0x15623ec7, 2 | BRF_PRG | BRF_ESS }, //  2 Z80 Code
+
+	{ "tkni5.bin",		0x10000, 0x5ed15896, 3 | BRF_GRA },           //  3 Characters
+
+	{ "tkni7.bin",		0x80000, 0x4b4d4286, 4 | BRF_GRA },           //  4 Foreground Tiles
+
+	{ "tkni6.bin",		0x80000, 0xf68fafb1, 5 | BRF_GRA },           //  8
+
+	{ "tkni9.bin",		0x80000, 0xd22f4239, 6 | BRF_GRA },           //  9 Sprites
+	{ "tkni8.bin",		0x80000, 0x4931b184, 6 | BRF_GRA },           // 10
+
+	{ "tkni4.bin",		0x20000, 0xa7a1dbcf, 7 | BRF_SND },           // 11 MSM6295 Samples
+
+	{ "a-6v.mcu",       0x01000, 0x00000000, 0 | BRF_OPT | BRF_NODUMP },
+};
+
+STD_ROM_PICK(wildfangh)
+STD_ROM_FN(wildfangh)
+
+struct BurnDriver BurnDrvWildfangh = {
+	"wildfangh", "wildfang", NULL, NULL, "1991",
+	"Wild Fang (1991 year hack)\0", NULL, "Tecmo", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
+	NULL, wildfanghRomInfo, wildfanghRomName, NULL, NULL, NULL, NULL, DrvInputInfo, TknightDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };

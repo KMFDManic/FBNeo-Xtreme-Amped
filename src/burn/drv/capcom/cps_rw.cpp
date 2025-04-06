@@ -15,7 +15,7 @@ CPSINPSET
 UINT16 CpsInp055 = 0;
 UINT16 CpsInp05d = 0;
 UINT8 CpsDigUD[4] = {0, 0, 0, 0};
-static INT32 nDial055, nDial05d;
+INT32 nDial055, nDial05d;
 
 // puzloop paddles
 INT16 CpsInpPaddle1 = 0;
@@ -38,7 +38,6 @@ INT32 Forgottn = 0;
 INT32 Cps1QsHack = 0;
 INT32 Kodh = 0;
 INT32 Cawingb = 0;
-INT32 Wofh = 0;
 INT32 Sf2thndr = 0;
 INT32 Pzloop2 = 0;
 INT32 Hkittymp = 0;
@@ -47,6 +46,12 @@ INT32 Dinohunt = 0;
 INT32 Port6SoundWrite = 0;
 INT32 CpsBootlegEEPROM = 0;
 INT32 Cps2Turbo = 0;
+INT32 Jurassic99 = 0;
+INT32 Dinoh = 0;
+INT32 Wofhfh = 0;
+INT32 Wofsgzb = 0;
+INT32 Wof3js = 0;
+INT32 Knightsh = 0;
 
 ClearOpposite<4, UINT8> clear_opposite;
 
@@ -315,16 +320,16 @@ static UINT8 CpsReadPort(const UINT32 ia)
 		// Forgotten Worlds Dial
 		if (Forgottn) {
 			if (ia == 0x053) {
-				return (nDial055 >>  8) & 0xFF;
+				return (nDial055 >> 0) & 0xff;
 			}
 			if (ia == 0x055) {
-				return (nDial055 >> 16) & 0xFF;
+				return (nDial055 >> 8) & 0x0f;
 			}
 			if (ia == 0x05B) {
-				return (nDial05d >>  8) & 0xFF;
+				return (nDial05d >> 0) & 0xff;
 			}
 			if (ia == 0x05D) {
-				return (nDial05d >> 16) & 0xFF;
+				return (nDial05d >> 8) & 0x0f;
 			}
 		}	
 	}
@@ -510,7 +515,7 @@ UINT16 __fastcall CpsReadWord(UINT32 a)
 	}
 	
 //	bprintf(PRINT_NORMAL, _T("Read Word %x\n"), a);
-	
+
 	SEK_DEF_READ_WORD(0, a);
 }
 
@@ -579,22 +584,27 @@ INT32 CpsRwGetInp()
 	CPSINPEX
 #undef INP
 
+	if (Jurassic99)
+		Inpc001 |= (CpsInp179[0] & 1) << 7;
+	if (Wofsgzb)
+		Inpc001 |= (CpsInp179[0] & 1) << 6;
+	if (Dinoh)
+		Inp177  |= (CpsInp179[0] & 1) << 7;
+	if (Wofhfh || Wof3js || Knightsh)
+		Inp177  |= (CpsInp179[0] & 1) << 6;
+
 	if (Forgottn) {
 		// Handle analog controls
 		if (fFakeDip & 0x80) {
-			if (CpsDigUD[0]) nDial055 += 1<<13; // p1
-			if (CpsDigUD[1]) nDial055 -= 1<<13;
-			if (CpsDigUD[2]) nDial05d += 1<<13; // p2
-			if (CpsDigUD[3]) nDial05d -= 1<<13;
-			nDial055 += (INT32)((INT16)CpsInp055)<<3;
-			nDial05d += (INT32)((INT16)CpsInp05d)<<3;
+			if (CpsDigUD[0]) nDial055 += 0x40; // p1
+			if (CpsDigUD[1]) nDial055 -= 0x40;
+			if (CpsDigUD[2]) nDial05d += 0x40; // p2
+			if (CpsDigUD[3]) nDial05d -= 0x40;
 		} else {
-			if (CpsDigUD[0]) nDial055 -= 1<<13; // p1
-			if (CpsDigUD[1]) nDial055 += 1<<13;
-			if (CpsDigUD[2]) nDial05d -= 1<<13; // p2
-			if (CpsDigUD[3]) nDial05d += 1<<13;
-			nDial055 -= (INT32)((INT16)CpsInp055)<<3;
-			nDial05d -= (INT32)((INT16)CpsInp05d)<<3;
+			if (CpsDigUD[0]) nDial055 -= 0x40; // p1
+			if (CpsDigUD[1]) nDial055 += 0x40;
+			if (CpsDigUD[2]) nDial05d -= 0x40; // p2
+			if (CpsDigUD[3]) nDial05d += 0x40;
 		}
 	}
 	

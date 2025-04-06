@@ -7,6 +7,8 @@
 
 int nIniVersion = 0;
 
+extern bool bBurnGunPositionalMode;
+
 struct VidPresetData VidPreset[4] = {
 	{ 640, 480},
 	{ 1024, 768},
@@ -20,6 +22,15 @@ struct VidPresetDataVer VidPresetVer[4] = {
 	{ 1280, 960},
 	// last one set at desktop resolution
 };
+
+static void HardFXLoadDefaults()
+{
+	int totalHardFX = MENU_DX9_ALT_HARD_FX_LAST - MENU_DX9_ALT_HARD_FX_NONE;
+
+	for (int thfx = 0; thfx < totalHardFX; thfx++) {
+		HardFXConfigs[thfx].hardfx_config_load_defaults();
+	}
+}
 
 static void CreateConfigName(TCHAR* szConfig)
 {
@@ -37,6 +48,8 @@ int ConfigAppLoad()
 #ifdef _UNICODE
 	setlocale(LC_ALL, "");
 #endif
+
+	HardFXLoadDefaults();
 
 	CreateConfigName(szConfig);
 
@@ -118,6 +131,7 @@ int ConfigAppLoad()
 		STR(VerScreen);
 
 		VAR(bVidTripleBuffer);
+		VAR(bVidDX9WinFullscreen);
 		VAR(bVidVSync);
 		VAR(bVidDWMSync);
 
@@ -161,6 +175,21 @@ int ConfigAppLoad()
 		VAR(bVidHardwareVertex);
 		VAR(bVidMotionBlur);
 		VAR(bVidForce16bitDx9Alt);
+
+		{
+			int totalHardFX = MENU_DX9_ALT_HARD_FX_LAST - MENU_DX9_ALT_HARD_FX_NONE;
+
+			for (int thfx = 0; thfx < totalHardFX; thfx++) {
+				// for each fx, check if it has settings that needs to be saved
+				for (int thfx_option = 0; thfx_option < HardFXConfigs[thfx].nOptions; thfx_option++) {
+					TCHAR szLabel[64];
+					_stprintf(szLabel, _T("HardFXOption[%d][%d]"), thfx, thfx_option);
+
+					TCHAR* szValue = LabelCheck(szLine, szLabel);
+					if (szValue) HardFXConfigs[thfx].fOptions[thfx_option] = _tcstod(szValue, NULL);
+				}
+			}
+		}
 
 		// Sound
 		VAR(nAudSelect);
@@ -270,6 +299,7 @@ int ConfigAppLoad()
 		VAR(bBurnUseBlend);
 		VAR(BurnShiftEnabled);
 		VAR(bBurnGunDrawReticles);
+		VAR(bBurnGunPositionalMode);
 		VAR(bSkipStartupCheck);
 
 		VAR(nSlowMo);
@@ -440,6 +470,8 @@ int ConfigAppSave()
 	VAR(bVidCorrectAspect);
 	_ftprintf(h, _T("\n// If non-zero, try to use a triple buffer in fullscreen\n"));
 	VAR(bVidTripleBuffer);
+	_ftprintf(h, _T("\n// If non-zero, use a windowed fullscreen mode in DX9\n"));
+	VAR(bVidDX9WinFullscreen);
 	_ftprintf(h, _T("\n// If non-zero, try to synchronise blits with the display\n"));
 	VAR(bVidVSync);
 	_ftprintf(h, _T("\n// If non-zero, try to synchronise to DWM on Windows 7+, this fixes frame stuttering problems.\n"));
@@ -512,6 +544,19 @@ int ConfigAppSave()
 	VAR(bVidMotionBlur);
 	_ftprintf(h, _T("\n// If non-zero, force 16 bit emulation even in 32-bit screenmodes\n"));
 	VAR(bVidForce16bitDx9Alt);
+
+	_ftprintf(h, _T("\n// HardFX shader options\n"));
+
+	{
+		int totalHardFX = MENU_DX9_ALT_HARD_FX_LAST - MENU_DX9_ALT_HARD_FX_NONE;
+
+		for (int thfx = 0; thfx < totalHardFX; thfx++) {
+			// for each fx, check if it has settings that needs to be saved
+			for (int thfx_option = 0; thfx_option < HardFXConfigs[thfx].nOptions; thfx_option++) {
+				_ftprintf(h, _T("HardFXOption[%d][%d] %lf\n"), thfx, thfx_option, HardFXConfigs[thfx].fOptions[thfx_option]);
+			}
+		}
+	}
 
 	_ftprintf(h, _T("\n\n\n"));
 	_ftprintf(h, _T("// --- Sound ------------------------------------------------------------------\n"));
@@ -708,6 +753,9 @@ int ConfigAppSave()
 
 	_ftprintf(h, _T("\n// If non-zero, enable lightgun reticle display support.\n"));
 	VAR(bBurnGunDrawReticles);
+
+	_ftprintf(h, _T("\n// If non-zero, enable lightgun positional mode (Sinden or real lightgun HW).\n"));
+	VAR(bBurnGunPositionalMode);
 
 	_ftprintf(h, _T("\n// If non-zero, DISABLE start-up rom scan (if needed).\n"));
 	VAR(bSkipStartupCheck);

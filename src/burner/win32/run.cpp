@@ -27,6 +27,7 @@ static bool bAppDoFasttoggled = 0;
 static bool bAppDoRewind = 0;
 
 static int nFastSpeed = 6;
+static void DisplayFPSInit(); // forward
 
 // in FFWD, the avi-writer still needs to write all frames (skipped or not)
 #define FFWD_GHOST_FRAME 0x8000
@@ -36,7 +37,7 @@ int nSlowMo = 0;
 static int flippy = 0; // free running RunFrame() counter
 
 // For System Macros (below)
-static int prevPause = 0, prevFFWD = 0, prevFrame = 0, prevSState = 0, prevLState = 0, prevUState = 0;
+static int prevPause = 0, prevFFWD = 0, prevFrame = 0, prevSState = 0, prevLState = 0, prevNState = 0, prevPState = 0, prevUState = 0;
 UINT32 prevPause_debounce = 0;
 
 struct lua_hotkey_handler {
@@ -77,10 +78,13 @@ static void CheckSystemMacros() // These are the Pause / FFWD macros added to th
 
 	if (!kNetGame) {
 		// FFWD
+		int bPrevAppDoFast = bAppDoFast;
 		if (macroSystemFFWD) {
 			bAppDoFast = 1; prevFFWD = 1;
+			if (!bPrevAppDoFast) DisplayFPSInit(); // resync fps display
 		} else if (prevFFWD) {
 			bAppDoFast = 0; prevFFWD = 0;
+			if (bPrevAppDoFast) DisplayFPSInit(); // resync fps display
 		}
 
 		// Frame
@@ -130,6 +134,16 @@ static void CheckSystemMacros() // These are the Pause / FFWD macros added to th
 		PostMessage(hScrnWnd, WM_KEYDOWN, VK_F10, 0);
 	}
 	prevSState = macroSystemSaveState;
+	// Next State
+	if (macroSystemNextState && macroSystemNextState != prevNState) {
+		PostMessage(hScrnWnd, WM_KEYDOWN, VK_F11, 0);
+	}
+	prevNState = macroSystemNextState;
+	// Previous State
+	if (macroSystemPreviousState && macroSystemPreviousState != prevPState) {
+		PostMessage(hScrnWnd, WM_KEYDOWN, VK_F8, 0);
+	}
+	prevPState = macroSystemPreviousState;
 	// UNDO State
 	if (macroSystemUNDOState && macroSystemUNDOState != prevUState) {
 		scrnSSUndo();
@@ -168,7 +182,7 @@ static void DisplayFPS()
 {
 	const int nFPSTotal = (bAppDoFast) ? nFramesEmulated : nFramesRendered;
 
-	TCHAR fpsstring[8];
+	TCHAR fpsstring[20];
 	time_t temptime = clock();
 	double fps = (double)(nFPSTotal - nPreviousFrames) * CLOCKS_PER_SEC / (temptime - fpstimer);
 
@@ -188,6 +202,28 @@ void ToggleLayer(unsigned char thisLayer)
 	VidRedraw();
 	VidPaint(0);
 }
+
+#ifdef FBNEO_DEBUG
+void do_shonky_profile()
+{
+	bShonkyProfileMode = false; // run once!
+	pBurnDraw = NULL; //pVidImage;
+
+	const int total_frames = 5000;
+	unsigned int start_time = timeGetTime();
+
+	for (int i = 0; i < total_frames; i++) {
+		BurnDrvFrame();
+	}
+	unsigned int end_time = timeGetTime();
+
+	unsigned int total_time = end_time - start_time;
+	float total_seconds = (float)total_time / 1000.0;
+
+	bprintf(0, _T("shonky profile mode %d\n"), total_frames);
+	bprintf(0, _T("shonky profile:  %d frames,  %dms,  %dfps\n"), total_frames, total_time, (int)(total_frames / total_seconds));
+}
+#endif
 
 // With or without sound, run one frame.
 // If bDraw is true, it's the last frame before we are up to date, and so we should draw the screen
@@ -258,6 +294,9 @@ int RunFrame(int bDraw, int bPause)
 				nFramesRendered++;
 
 			if (!bRunAhead || (BurnDrvGetFlags() & BDF_RUNAHEAD_DISABLED) || bAppDoFast) {
+#ifdef FBNEO_DEBUG
+				if (bShonkyProfileMode) do_shonky_profile();
+#endif
 				if (VidFrame()) {				// Do one normal frame (w/o RunAhead)
 
 					// VidFrame() failed, but we must run a driver frame because we have
@@ -335,10 +374,10 @@ static int RunGetNextSound(int bDraw)
 		if (bAppDoStep) {
 			bAppDoStep = 0;									// done one step
 			RunFrame(bDraw, 0);
-			memset(nAudNextSound, 0, nAudSegLen << 2);	// Write silence into the buffer
 		} else {
 			RunFrame(bDraw, 1);
 		}
+		memset(nAudNextSound, 0, nAudSegLen << 2);	// Write silence into the buffer
 
 		return 0;
 	}
@@ -346,7 +385,7 @@ static int RunGetNextSound(int bDraw)
 	int bBrokeOutOfFFWD = 0;
 	if (bAppDoFast) {									// do more frames
 		for (int i = 0; i < nFastSpeed; i++) {
-			if (!bAppDoFast) {
+			if (!bAppDoFast || bRunPause) {
 				bBrokeOutOfFFWD = 1; // recording ended, etc.
 				break;
 			}                     // break out if no longer in ffwd

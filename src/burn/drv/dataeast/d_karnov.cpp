@@ -1140,14 +1140,14 @@ struct BurnDriver BurnDrvKarnova = {
 /* DE-0248-3 main board, DE-259-0 sub/rom board */
 
 static struct BurnRomInfo karnovjRomDesc[] = {
-	{ "kar8.j15",		0x10000, 0x3e17e268, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
-	{ "kar11.j20",		0x10000, 0x417c936d, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "dn08-.j15",		0x10000, 0x3e17e268, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
+	{ "dn11-.j20",		0x10000, 0x417c936d, 1 | BRF_PRG | BRF_ESS }, //  1
 	{ "dn07-.j14",		0x10000, 0xfc14291b, 1 | BRF_PRG | BRF_ESS }, //  2
 	{ "dn10-.j18",		0x10000, 0xa4a34e37, 1 | BRF_PRG | BRF_ESS }, //  3
-	{ "kar6.j13",		0x10000, 0xc641e195, 1 | BRF_PRG | BRF_ESS }, //  4
-	{ "kar9.j17",		0x10000, 0xd420658d, 1 | BRF_PRG | BRF_ESS }, //  5
+	{ "dn06-.j13",		0x10000, 0xc641e195, 1 | BRF_PRG | BRF_ESS }, //  4
+	{ "dn09-.j17",		0x10000, 0xd420658d, 1 | BRF_PRG | BRF_ESS }, //  5
 
-	{ "kar5.f3",		0x08000, 0x7c9158f1, 2 | BRF_PRG | BRF_ESS }, //  6 m6502 Code
+	{ "dn05-.f3",		0x08000, 0x7c9158f1, 2 | BRF_PRG | BRF_ESS }, //  6 m6502 Code
 
 	{ "dn00-.c5",		0x08000, 0x0ed77c6d, 3 | BRF_GRA },           //  7 Characters
 
@@ -1168,7 +1168,7 @@ static struct BurnRomInfo karnovjRomDesc[] = {
 	{ "dn-21.k8",		0x00400, 0xaab0bb93, 6 | BRF_GRA },           // 20 Color Proms
 	{ "dn-20.l6",		0x00400, 0x02f78ffb, 6 | BRF_GRA },           // 21
 
-	{ "karnovj_i8751.k14",  0x01000, 0x5a8c4d28,  7 | BRF_PRG }, 	  // 22 i8751 microcontroller
+	{ "dn-3.k14",  0x01000, 0x5a8c4d28,  7 | BRF_PRG }, 	  // 22 i8751 microcontroller
 };
 
 STD_ROM_PICK(karnovj)
@@ -1238,7 +1238,7 @@ struct BurnDriver BurnDrvWndrplnt = {
 };
 
 
-// Chelnov - Atomic Runner (World)
+// Atomic Runner Chelnov (World)
 /* DE-0248-1 main board, DE-259-0 sub/rom board */
 
 static struct BurnRomInfo chelnovRomDesc[] = {
@@ -1279,7 +1279,7 @@ static INT32 ChelnovInit()
 
 struct BurnDriver BurnDrvChelnov = {
 	"chelnov", NULL, NULL, NULL, "1988",
-	"Chelnov - Atomic Runner (World)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Atomic Runner Chelnov (World)\0", NULL, "Data East Corporation", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_PREFIX_DATAEAST, GBF_RUNGUN, 0,
 	NULL, chelnovRomInfo, chelnovRomName, NULL, NULL, NULL, NULL, KarnovInputInfo, ChelnovDIPInfo,
@@ -1288,7 +1288,7 @@ struct BurnDriver BurnDrvChelnov = {
 };
 
 
-// Chelnov - Atomic Runner (US)
+// Atomic Runner Chelnov (US)
 /* DE-0248-1 main board, DE-259-0 sub/rom board */
 
 static struct BurnRomInfo chelnovuRomDesc[] = {
@@ -1324,7 +1324,7 @@ STD_ROM_FN(chelnovu)
 
 struct BurnDriver BurnDrvChelnovu = {
 	"chelnovu", "chelnov", NULL, NULL, "1988",
-	"Chelnov - Atomic Runner (US)\0", NULL, "Data East USA", "Miscellaneous",
+	"Atomic Runner Chelnov (US)\0", NULL, "Data East USA", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_PREFIX_DATAEAST, GBF_RUNGUN, 0,
 	NULL, chelnovuRomInfo, chelnovuRomName, NULL, NULL, NULL, NULL, KarnovInputInfo, ChelnovuDIPInfo,
@@ -1333,7 +1333,7 @@ struct BurnDriver BurnDrvChelnovu = {
 };
 
 
-// Chelnov - Atomic Runner (Japan)
+// Atomic Runner Chelnov (Japan)
 /* DE-0248-1 main board, DE-259-0 sub/rom board */
 
 static struct BurnRomInfo chelnovjRomDesc[] = {
@@ -1369,7 +1369,7 @@ STD_ROM_FN(chelnovj)
 
 struct BurnDriver BurnDrvChelnovj = {
 	"chelnovj", "chelnov", NULL, NULL, "1988",
-	"Chelnov - Atomic Runner (Japan)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Atomic Runner Chelnov (Japan)\0", NULL, "Data East Corporation", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_PREFIX_DATAEAST, GBF_RUNGUN, 0,
 	NULL, chelnovjRomInfo, chelnovjRomName, NULL, NULL, NULL, NULL, KarnovInputInfo, ChelnovuDIPInfo,

@@ -105,10 +105,16 @@ struct nesapu_info
 static nesapu_info nesapu_chips[CHIP_NUM];
 
 static INT32 cycles_per_frame;
+static UINT32 arcade_mode = 0; // not cycle accurate dpcm/dmc (needed for arcade)
 
 #if 0
 INT32 nes_scanline();
 #endif
+
+void nesapuSetArcade(INT32 mode)
+{
+	arcade_mode = mode;
+}
 
 static UINT32 nes_nesapu_sync(INT32 samples_rate)
 {
@@ -123,6 +129,7 @@ static INT32 frame_irq_flag;
 static INT32 mode4017;
 static INT32 step4017;
 static INT32 clocky;
+static INT32 _4017hack = 0;
 
 static UINT8 *dmc_buffer;
 INT16 *nes_ext_buffer;
@@ -231,6 +238,30 @@ const UINT8 pulse_dty[4][8] = {
 	{ 0, 0, 0, 0, 1, 1, 1, 1 },
 	{ 1, 1, 1, 1, 1, 1, 0, 0 }
 };
+
+static void clock_square_sweep_single(struct nesapu_info *info, square_t *chan, int first_channel)
+{
+   /* freqsweeps */
+   if ((chan->regs[1] & 0x80) && (chan->regs[1] & 7))
+   {
+      INT32 sweep_delay = info->sync_times1[((chan->regs[1] >> 4) & 7) + 1];
+      chan->sweep_phase -= info->sync_times1[1];
+	  while (chan->sweep_phase <= 0)
+      {
+         chan->sweep_phase += sweep_delay;
+         if (chan->regs[1] & 8)
+            chan->freq -= (chan->freq >> (chan->regs[1] & 7)) + (first_channel << 16);
+         else
+            chan->freq += chan->freq >> (chan->regs[1] & 7);
+      }
+   }
+}
+
+static void clock_square_sweep(struct nesapu_info *info)
+{
+	clock_square_sweep_single(info, &info->APU.squ[0], 1);
+	clock_square_sweep_single(info, &info->APU.squ[1], 0);
+}
 
 /* OUTPUT SQUARE WAVE SAMPLE (VALUES FROM -16 to +15) */
 static int8 apu_square(struct nesapu_info *info, square_t *chan, INT32 first_channel)
@@ -683,6 +714,12 @@ static inline void apu_regwrite(struct nesapu_info *info,INT32 address, UINT8 va
 	   step4017 = 1;
 	   clocky = 14915;
 
+	   if (_4017hack && mode4017 & 0x80) { // clock the frame counter (used by Sam's Journey)
+		   // this core doesn't have a proper frame counter, it's simulated, but this game expects
+		   // to be able to do this to get the correct pitch.
+		   clock_square_sweep(info);
+	   }
+
 	   M6502SetIRQLine(0, CPU_IRQSTATUS_NONE);
 	   frame_irq_flag = 0;
 
@@ -817,6 +854,8 @@ static void apu_update(struct nesapu_info *info)
 		INT32 dmc = dmc_buffer[dmcoffs];
 		INT32 ext = nes_ext_buffer[dmcoffs];
 
+		if (arcade_mode) dmc = apu_dpcm(info, &info->APU.dpcm);
+
 		INT32 out = (INT32)(((float)info->tnd_table[3*triangle + 2*noise + dmc] +
 							  info->square_table[square1 + square2] + info->square_table[square3 + square4]) * 0x3fff);
 
@@ -939,6 +978,11 @@ void nesapuSetMode4017(UINT8 val)
 	mode4017 = val;
 }
 
+void nesapu4017hack(INT32 enable)
+{
+	_4017hack = enable;
+}
+
 void nesapuReset()
 {
 #if defined FBNEO_DEBUG
@@ -1024,6 +1068,8 @@ void nesapuInit(INT32 chip, INT32 clock, INT32 is_pal, UINT32 (*pSyncCallback)(I
 	}
 	nesapu_mixermode = 0xff; // enable all
 
+	_4017hack = 0;
+
 	info->stream = NULL;
 	info->stream = (INT16*)BurnMalloc(info->samples_per_frame * 2 * sizeof(INT16) + (0x10 * 2));
 	info->gain[BURN_SND_NESAPU_ROUTE_1] = 1.00;
@@ -1064,6 +1110,8 @@ void nesapuExit()
 	BurnFree(dmc_buffer);
 	BurnFree(nes_ext_buffer);
 	nes_ext_sound_cb = NULL;
+
+	nesapuSetArcade(0);
 
 	DebugSnd_NESAPUSndInitted = 0;
 }

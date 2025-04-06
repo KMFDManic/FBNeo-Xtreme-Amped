@@ -134,6 +134,8 @@ struct tIniStruct {
 
 extern tIniStruct gamehw_cfg[];
 
+UINT32 GameInputGetHWFlag();
+
 void GetHistoryDatHardwareToken(char *to_string);
 
 // inp_interface.cpp
@@ -149,6 +151,8 @@ extern UINT8 macroSystemFFWD;
 extern UINT8 macroSystemFrame;
 extern UINT8 macroSystemSaveState;
 extern UINT8 macroSystemLoadState;
+extern UINT8 macroSystemNextState;
+extern UINT8 macroSystemPreviousState;
 extern UINT8 macroSystemUNDOState;
 extern UINT8 macroSystemRewind;
 extern UINT8 macroSystemRewindCancel;
@@ -221,8 +225,9 @@ void ComputeGammaLUT();
 #define DAT_NEOGEO_ONLY			11
 #define DAT_NES_ONLY			12
 #define DAT_FDS_ONLY			13
-#define DAT_NGP_ONLY			14
-#define DAT_CHANNELF_ONLY		15
+#define DAT_SNES_ONLY			14
+#define DAT_NGP_ONLY			15
+#define DAT_CHANNELF_ONLY		16
 
 INT32 write_datfile(INT32 bType, FILE* fDat);
 INT32 create_datfile(TCHAR* szFilename, INT32 bType);
@@ -253,6 +258,15 @@ INT32 ZipClose();
 INT32 ZipGetList(struct ZipEntry** pList, INT32* pnListCount);
 INT32 ZipLoadFile(UINT8* Dest, INT32 nLen, INT32* pnWrote, INT32 nEntry);
 INT32 __cdecl ZipLoadOneFile(char* arcName, const char* fileName, void** Dest, INT32* pnWrote);
+
+// retro_romdata.cpp
+
+extern TCHAR szRomdataName[MAX_PATH];
+
+// retro_ips.cpp 
+
+void IpsPatchInit();
+void IpsPatchExit();
 
 // bzip.cpp
 

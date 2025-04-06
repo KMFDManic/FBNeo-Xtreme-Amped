@@ -72,8 +72,7 @@ INT32 nPGMSpriteBufferHack = 0;
 INT32 nPGMMapperHack = 0;
 INT32 OldCodeMode = 0;
 
-INT32 pgm_cave_refresh = 0;
-#define Z80_FREQ	8468000
+#define Z80_FREQ	8467200
 
 #define M68K_CYCS_PER_FRAME	((20000000 * 100) / nBurnFPS)
 #define ARM7_CYCS_PER_FRAME	((20000000 * 100) / nBurnFPS)
@@ -634,6 +633,48 @@ static void __fastcall PgmZ80PortWrite(UINT16 port, UINT8 data)
 	}
 }
 
+static void OrlegendRegionHack()
+{
+	const char* ol_name[] = {
+		"orlegend",
+		"orlegende",
+		"orlegendea",
+		"orlegendc",
+		"orlegendca",
+		"orlegend105k",
+		"orlegend105t",
+		"orlegend111c",
+		"orlegend111k",
+		"orlegend111t"
+	};
+
+	UINT32 reg_addr[][5] = {
+		{ 0x046ae4, 0x0d1725, 0x0d1749, 0x0d176d, 0x0d177f },	// orlegend
+		{ 0x046af4, 0x0d1735, 0x0d1759, 0x0d177d, 0x0d178f },	// orlegende
+		{ 0x046af4, 0x0d15ab, 0x0d15cf, 0x0d15f3, 0x0d1605 },	// orlegendea
+		{ 0x046af4, 0x0d15ab, 0x0d15cf, 0x0d15f3, 0x0d1605 },	// orlegendc
+		{ 0x046aba, 0x0459fc, 0x045a00, 0x000000, 0x000000 },	// orlegendca
+		{ 0x046450, 0x0d0e47, 0x000000, 0x000000, 0x000000 },	// orlegend105k
+		{ 0x046450, 0x0d0e11, 0x000000, 0x000000, 0x000000 },	// orlegend105t
+		{ 0x0468b2, 0x0457f4, 0x0457f8, 0x000000, 0x000000 },	// orlegend111c
+		{ 0x0468a8, 0x0d12bd, 0x000000, 0x000000, 0x000000 },	// orlegend111k
+		{ 0x0468a8, 0x0d1287, 0x000000, 0x000000, 0x000000 },	// orlegend111t
+	};
+
+	for (INT32 nGame = 0; nGame < sizeof(ol_name) / sizeof(char*); nGame++) {
+		if (0 == strcmp(BurnDrvGetTextA(DRV_NAME), ol_name[nGame])) {
+			*((UINT16*)(PGM68KROM + reg_addr[nGame][0] + 0)) = BURN_ENDIAN_SWAP_INT16(0x4e71);
+			*((UINT16*)(PGM68KROM + reg_addr[nGame][0] + 2)) = BURN_ENDIAN_SWAP_INT16(0x4e71);
+
+			for (INT32 nAddr = 1; nAddr <= 4; nAddr++) {
+				if (0x000000 != reg_addr[nGame][nAddr]) {
+					PGM68KROM[reg_addr[nGame][nAddr]] = PgmInput[7];
+				}
+			}
+		}
+	}
+}
+
 static INT32 PgmDoReset()
 {
 	if (nPgmCurrentBios != PgmInput[8]) {	// Load the 68k bios
@@ -676,6 +717,11 @@ static INT32 PgmDoReset()
 
 	if (pPgmResetCallback) {
 		pPgmResetCallback();
+
+		// Orlegend series of regions hack
+		if (0 == strncmp(BurnDrvGetTextA(DRV_NAME), "orlegend", 8)) {
+			OrlegendRegionHack();
+		}
 	}
 
 	hold_coin.reset();
@@ -761,8 +807,8 @@ static void expand_colourdata()
 	
 			if ((ri.nType & BRF_GRA) && (ri.nType & 0x0f) == 3)
 			{
-				// Fix for kovsh a0603 rom overlap
-				if (ri.nLen == 0x400000 && prev_len == 0x400000 && nPGMSPRColROMLen == 0x2000000) {
+				// Fix for kovsh & hacks a0613 rom overlap
+				if ((ri.nLen >= 0x400000) && (prev_len == 0x400000) && (nPGMSPRColROMLen >= 0x2000000)) {
 					PGMSPRColROMLoad -= 0x200000;
 				}
 
@@ -798,7 +844,7 @@ static void ics2115_sound_irq(INT32 nState)
 
 INT32 pgmInit()
 {
-	BurnSetRefreshRate(((BurnDrvGetHardwareCode() & HARDWARE_IGS_JAMMAPCB) || pgm_cave_refresh) ? 59.17 : 60.00);
+	BurnSetRefreshRate(59.185606);
 
 	nEnableArm7 = (BurnDrvGetHardwareCode() / HARDWARE_IGS_USE_ARM_CPU) & 1;
 	OldCodeMode = ((HackCodeDip & 1) || (bDoIpsPatch) || (NULL != pDataRomDesc)) ? 1 : 0;
@@ -1002,7 +1048,6 @@ INT32 pgmExit()
 
 	nPgmCurrentBios = -1;
 
-	pgm_cave_refresh = 0;
 	nPGMSpriteBufferHack = 0;
 	nPGMMapperHack = 0;
 

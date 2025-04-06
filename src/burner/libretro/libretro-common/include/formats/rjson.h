@@ -106,7 +106,7 @@ const char *rjson_get_error(rjson_t *json);
 void rjson_set_error(rjson_t *json, const char* error);
 
 /* Functions to get the current position in the source stream as well as */
-/* a bit of source json arround the current position for additional detail
+/* a bit of source json around the current position for additional detail
  * when parsing has failed with RJSON_ERROR.
  * Intended to be used with printf style formatting like:
  * printf("Invalid JSON at line %d, column %d - %s - Source: ...%.*s...\n",
@@ -127,7 +127,7 @@ bool rjson_check_context(rjson_t *json, unsigned int depth, ...);
 unsigned int rjson_get_context_depth(rjson_t *json);
 
 /* Return the current parsing context, that is, RJSON_OBJECT if we are inside
- * an object, RJSON_ARRAY if we are inside an array, and RJSON_DONE or 
+ * an object, RJSON_ARRAY if we are inside an array, and RJSON_DONE or
  * RJSON_ERROR if we are not yet/anymore in either. */
 enum rjson_type rjson_get_context_type(rjson_t *json);
 
@@ -194,6 +194,14 @@ rjsonwriter_t *rjsonwriter_open_user(rjsonwriter_io_t io, void *user_data);
  * Returns NULL if writing ran out of memory or not opened from memory.
  * Returned buffer is only valid until writer is modified or freed. */
 char* rjsonwriter_get_memory_buffer(rjsonwriter_t *writer, int* len);
+
+/* When opened with rjsonwriter_open_memory, will return current length */
+int rjsonwriter_count_memory_buffer(rjsonwriter_t *writer);
+
+/* When opened with rjsonwriter_open_memory, will clear the buffer.
+   The buffer will be partially erased if keep_len is > 0.
+   No memory is freed or re-allocated with this function. */
+void rjsonwriter_erase_memory_buffer(rjsonwriter_t *writer, int keep_len);
 
 /* Free rjsonwriter handle and return result of final rjsonwriter_flush call */
 bool rjsonwriter_free(rjsonwriter_t *writer);

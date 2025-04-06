@@ -57,11 +57,16 @@ static UINT32 lightgun_port;
 
 static UINT16 color_base[3];
 
-static INT32 nExtraCycles;
+static INT32 nExtraCycles[3];
 
 static UINT8 DrvJoy1[16];
 static UINT8 DrvJoy2[16];
 static UINT8 DrvJoy3[16];
+static UINT8 DrvJoyFS[4];
+// fake start buttons for symmetrical 4p inputs (nslasher: 3p coin & captaven 3p, 4p start)
+// captaven: not hooked up (p1,p2 start buttons are non-functional when system is set to 4players!)
+// therefore, the p3, p4 start buttons are only there to keep symmetry between the inputs for netgames to work
+// nslasher: p3 coin is mirrored to p1 coin
 static UINT8 DrvDips[5];
 static UINT8 DrvReset;
 static UINT16 DrvInputs[3];
@@ -101,6 +106,7 @@ static struct BurnInputInfo CaptavenInputList[] = {
 	{"P2 Button 2",		BIT_DIGITAL,	DrvJoy1 + 13,	"p2 fire 2"	},
 
 	{"P3 Coin",			BIT_DIGITAL,	DrvJoy3 + 2,	"p3 coin"	},
+	{"P3 Start",		BIT_DIGITAL,	DrvJoyFS + 0,	"p3 start"	}, // see notes for DrvJoyFS[]
 	{"P3 Up",			BIT_DIGITAL,	DrvJoy2 + 0,	"p3 up"		},
 	{"P3 Down",			BIT_DIGITAL,	DrvJoy2 + 1,	"p3 down"	},
 	{"P3 Left",			BIT_DIGITAL,	DrvJoy2 + 2,	"p3 left"	},
@@ -109,6 +115,7 @@ static struct BurnInputInfo CaptavenInputList[] = {
 	{"P3 Button 2",		BIT_DIGITAL,	DrvJoy2 + 5,	"p3 fire 2"	},
 
 	{"P4 Coin",			BIT_DIGITAL,	DrvJoy3 + 3,	"p4 coin"	},
+	{"P4 Start",		BIT_DIGITAL,	DrvJoyFS + 1,	"p4 start"	}, // ""
 	{"P4 Up",			BIT_DIGITAL,	DrvJoy2 + 8,	"p4 up"		},
 	{"P4 Down",			BIT_DIGITAL,	DrvJoy2 + 9,	"p4 down"	},
 	{"P4 Left",			BIT_DIGITAL,	DrvJoy2 + 10,	"p4 left"	},
@@ -128,86 +135,87 @@ STDINPUTINFO(Captaven)
 
 static struct BurnDIPInfo CaptavenDIPList[]=
 {
-	{0x20, 0xff, 0xff, 0xff, NULL			},
-	{0x21, 0xff, 0xff, 0x7f, NULL			},
-	{0x22, 0xff, 0xff, 0xff, NULL			},
-	{0x23, 0xff, 0xff, 0x00, NULL			},
+	DIP_OFFSET(0x22)
+	{0x00, 0xff, 0xff, 0xff, NULL			},
+	{0x01, 0xff, 0xff, 0x7f, NULL			},
+	{0x02, 0xff, 0xff, 0xff, NULL			},
+	{0x03, 0xff, 0xff, 0x00, NULL			},
 
 	{0   , 0xfe, 0   ,    8, "Coin A"		},
-	{0x20, 0x01, 0x07, 0x00, "3 Coins 1 Credits"	},
-	{0x20, 0x01, 0x07, 0x01, "2 Coins 1 Credits"	},
-	{0x20, 0x01, 0x07, 0x07, "1 Coin  1 Credits"	},
-	{0x20, 0x01, 0x07, 0x06, "1 Coin  2 Credits"	},
-	{0x20, 0x01, 0x07, 0x05, "1 Coin  3 Credits"	},
-	{0x20, 0x01, 0x07, 0x04, "1 Coin  4 Credits"	},
-	{0x20, 0x01, 0x07, 0x03, "1 Coin  5 Credits"	},
-	{0x20, 0x01, 0x07, 0x02, "1 Coin  6 Credits"	},
+	{0x00, 0x01, 0x07, 0x00, "3 Coins 1 Credits"	},
+	{0x00, 0x01, 0x07, 0x01, "2 Coins 1 Credits"	},
+	{0x00, 0x01, 0x07, 0x07, "1 Coin  1 Credits"	},
+	{0x00, 0x01, 0x07, 0x06, "1 Coin  2 Credits"	},
+	{0x00, 0x01, 0x07, 0x05, "1 Coin  3 Credits"	},
+	{0x00, 0x01, 0x07, 0x04, "1 Coin  4 Credits"	},
+	{0x00, 0x01, 0x07, 0x03, "1 Coin  5 Credits"	},
+	{0x00, 0x01, 0x07, 0x02, "1 Coin  6 Credits"	},
 
 	{0   , 0xfe, 0   ,    8, "Coin B"		},
-	{0x20, 0x01, 0x38, 0x00, "3 Coins 1 Credits"	},
-	{0x20, 0x01, 0x38, 0x08, "2 Coins 1 Credits"	},
-	{0x20, 0x01, 0x38, 0x38, "1 Coin  1 Credits"	},
-	{0x20, 0x01, 0x38, 0x30, "1 Coin  2 Credits"	},
-	{0x20, 0x01, 0x38, 0x28, "1 Coin  3 Credits"	},
-	{0x20, 0x01, 0x38, 0x20, "1 Coin  4 Credits"	},
-	{0x20, 0x01, 0x38, 0x18, "1 Coin  5 Credits"	},
-	{0x20, 0x01, 0x38, 0x10, "1 Coin  6 Credits"	},
+	{0x00, 0x01, 0x38, 0x00, "3 Coins 1 Credits"	},
+	{0x00, 0x01, 0x38, 0x08, "2 Coins 1 Credits"	},
+	{0x00, 0x01, 0x38, 0x38, "1 Coin  1 Credits"	},
+	{0x00, 0x01, 0x38, 0x30, "1 Coin  2 Credits"	},
+	{0x00, 0x01, 0x38, 0x28, "1 Coin  3 Credits"	},
+	{0x00, 0x01, 0x38, 0x20, "1 Coin  4 Credits"	},
+	{0x00, 0x01, 0x38, 0x18, "1 Coin  5 Credits"	},
+	{0x00, 0x01, 0x38, 0x10, "1 Coin  6 Credits"	},
 
 	{0   , 0xfe, 0   ,    2, "Flip Screen"		},
-	{0x20, 0x01, 0x40, 0x40, "Off"			},
-	{0x20, 0x01, 0x40, 0x00, "On"			},
+	{0x00, 0x01, 0x40, 0x40, "Off"			},
+	{0x00, 0x01, 0x40, 0x00, "On"			},
 
 	{0   , 0xfe, 0   ,    2, "Continue Coin"	},
-	{0x20, 0x01, 0x80, 0x80, "1 Start/1 Continue"	},
-	{0x20, 0x01, 0x80, 0x00, "2 Start/1 Continue"	},
+	{0x00, 0x01, 0x80, 0x80, "1 Start/1 Continue"	},
+	{0x00, 0x01, 0x80, 0x00, "2 Start/1 Continue"	},
 
 	{0   , 0xfe, 0   ,    4, "Lives"		},
-	{0x21, 0x01, 0x03, 0x01, "1"			},
-	{0x21, 0x01, 0x03, 0x00, "2"			},
-	{0x21, 0x01, 0x03, 0x03, "3"			},
-	{0x21, 0x01, 0x03, 0x02, "4"			},
+	{0x01, 0x01, 0x03, 0x01, "1"			},
+	{0x01, 0x01, 0x03, 0x00, "2"			},
+	{0x01, 0x01, 0x03, 0x03, "3"			},
+	{0x01, 0x01, 0x03, 0x02, "4"			},
 
 	{0   , 0xfe, 0   ,    4, "Difficulty"		},
-	{0x21, 0x01, 0x0c, 0x08, "Easy"			},
-	{0x21, 0x01, 0x0c, 0x0c, "Normal"		},
-	{0x21, 0x01, 0x0c, 0x04, "Hard"			},
-	{0x21, 0x01, 0x0c, 0x00, "Hardest"		},
+	{0x01, 0x01, 0x0c, 0x08, "Easy"			},
+	{0x01, 0x01, 0x0c, 0x0c, "Normal"		},
+	{0x01, 0x01, 0x0c, 0x04, "Hard"			},
+	{0x01, 0x01, 0x0c, 0x00, "Hardest"		},
 
 	{0   , 0xfe, 0   ,    2, "Coin Slots"		},
-	{0x21, 0x01, 0x10, 0x10, "Common"		},
-	{0x21, 0x01, 0x10, 0x00, "Individual"		},
+	{0x01, 0x01, 0x10, 0x10, "Common"		},
+	{0x01, 0x01, 0x10, 0x00, "Individual"		},
 
 	{0   , 0xfe, 0   ,    2, "Play Mode"		},
-	{0x21, 0x01, 0x20, 0x20, "2 Player"		},
-	{0x21, 0x01, 0x20, 0x00, "4 Player"		},
+	{0x01, 0x01, 0x20, 0x20, "2 Player"		},
+	{0x01, 0x01, 0x20, 0x00, "4 Player"		},
 
 	{0   , 0xfe, 0   ,    2, "Allow Continue"	},
-	{0x21, 0x01, 0x40, 0x00, "Off"			},
-	{0x21, 0x01, 0x40, 0x40, "On"			},
+	{0x01, 0x01, 0x40, 0x00, "Off"			},
+	{0x01, 0x01, 0x40, 0x40, "On"			},
 
 	{0   , 0xfe, 0   ,    2, "Demo Sounds"		},
-	{0x21, 0x01, 0x80, 0x80, "Off"			},
-	{0x21, 0x01, 0x80, 0x00, "On"			},
+	{0x01, 0x01, 0x80, 0x80, "Off"			},
+	{0x01, 0x01, 0x80, 0x00, "On"			},
 
 	{0   , 0xfe, 0   ,    2, "Reset"		},
-	{0x22, 0x01, 0x10, 0x10, "Off"			},
-	{0x22, 0x01, 0x10, 0x00, "On"			},
+	{0x02, 0x01, 0x10, 0x10, "Off"			},
+	{0x02, 0x01, 0x10, 0x00, "On"			},
 
 	{0   , 0xfe, 0   ,    2, "Free Play"		},
-	{0x22, 0x01, 0x20, 0x20, "Off"			},
-	{0x22, 0x01, 0x20, 0x00, "On"			},
+	{0x02, 0x01, 0x20, 0x20, "Off"			},
+	{0x02, 0x01, 0x20, 0x00, "On"			},
 
 	{0   , 0xfe, 0   ,    2, "Stage Select"		},
-	{0x22, 0x01, 0x40, 0x40, "Off"			},
-	{0x22, 0x01, 0x40, 0x00, "On"			},
+	{0x02, 0x01, 0x40, 0x40, "Off"			},
+	{0x02, 0x01, 0x40, 0x00, "On"			},
 
 	{0   , 0xfe, 0   ,    2, "Debug Mode"		},
-	{0x22, 0x01, 0x80, 0x80, "Off"			},
-	{0x22, 0x01, 0x80, 0x00, "On"			},
+	{0x02, 0x01, 0x80, 0x80, "Off"			},
+	{0x02, 0x01, 0x80, 0x00, "On"			},
 
 	{0   , 0xfe, 0   ,    2, "Speed Hacks"		},
-	{0x23, 0x01, 0x01, 0x00, "Off"			},
-	{0x23, 0x01, 0x01, 0x01, "On"			},
+	{0x03, 0x01, 0x01, 0x00, "Off"			},
+	{0x03, 0x01, 0x01, 0x01, "On"			},
 };
 
 STDDIPINFO(Captaven)
@@ -284,6 +292,7 @@ static struct BurnInputInfo NslasherInputList[] = {
 	{"P2 Button 2",		BIT_DIGITAL,	DrvJoy1 + 13,	"p2 fire 2"	},
 	{"P2 Button 3",		BIT_DIGITAL,	DrvJoy1 + 14,	"p2 fire 3"	},
 
+	{"P3 Coin",			BIT_DIGITAL,	DrvJoyFS + 3,	"p3 coin"	},
 	{"P3 Start",		BIT_DIGITAL,	DrvJoy2 + 15,	"p3 start"	},
 	{"P3 Up",			BIT_DIGITAL,	DrvJoy2 + 8,	"p3 up"		},
 	{"P3 Down",			BIT_DIGITAL,	DrvJoy2 + 9,	"p3 down"	},
@@ -303,16 +312,17 @@ STDINPUTINFO(Nslasher)
 
 static struct BurnDIPInfo NslasherDIPList[]=
 {
-	{0x1c, 0xff, 0xff, 0x08, NULL			},
-	{0x1d, 0xff, 0xff, 0x00, NULL			},
+	DIP_OFFSET(0x1d)
+	{0x00, 0xff, 0xff, 0x08, NULL			},
+	{0x01, 0xff, 0xff, 0x00, NULL			},
 
 	{0   , 0xfe, 0   ,    2, "Service Mode "	},
-	{0x1c, 0x01, 0x08, 0x08, "Off"			},
-	{0x1c, 0x01, 0x08, 0x00, "On"			},
+	{0x00, 0x01, 0x08, 0x08, "Off"			},
+	{0x00, 0x01, 0x08, 0x00, "On"			},
 
 	{0   , 0xfe, 0   ,    2, "Speed Hacks"			},
-	{0x1d, 0x01, 0x01, 0x00, "Off"				},
-	{0x1d, 0x01, 0x01, 0x01, "On"				},
+	{0x01, 0x01, 0x01, 0x00, "Off"				},
+	{0x01, 0x01, 0x01, 0x01, "On"				},
 };
 
 STDDIPINFO(Nslasher)
@@ -539,8 +549,8 @@ void deco32_z80_sound_init(UINT8 *rom, UINT8 *ram)
 	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.40, BURN_SND_ROUTE_RIGHT);
 	BurnTimerAttachZet(3580000);
 
-	MSM6295Init(0, (32220000 / 32) / 132, 1);
-	MSM6295Init(1, (32220000 / 16) / 132, 1);
+	MSM6295Init(0, (32220000 / 32) / MSM6295_PIN7_HIGH, 1);
+	MSM6295Init(1, (32220000 / 16) / MSM6295_PIN7_HIGH, 1);
 	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 	MSM6295SetRoute(1, 0.25, BURN_SND_ROUTE_BOTH);
 }
@@ -1466,7 +1476,7 @@ static INT32 DrvDoReset()
 	raster_irq_scanline = 0;
 	lightgun_latch = 0;
 
-	nExtraCycles = 0;
+	nExtraCycles[0] = nExtraCycles[1] = nExtraCycles[2] = 0;
 
 	HiscoreReset();
 
@@ -1567,6 +1577,8 @@ static INT32 FghthistCommonInit(INT32 z80_sound, UINT32 speedhack)
 	game_select = 1;
 	speedhack_address = speedhack;
 
+	BurnSetRefreshRate(57.79965);
+
 	gfxlen[0] = 0x200000;
 	gfxlen[1] = 0x200000;
 	gfxlen[2] = 0x200000;
@@ -1647,7 +1659,7 @@ static INT32 FghthistCommonInit(INT32 z80_sound, UINT32 speedhack)
 	else
 	{
 		use_z80 = 0;
-		deco16SoundInit(DrvHucROM, DrvHucRAM, 3580000, 0, DrvYM2151WritePort, 0.42, 1006875, 1.00, 2013750, 0.35);
+		deco16SoundInit(DrvHucROM, DrvHucRAM, 4027500, 0, DrvYM2151WritePort, 0.42, 1006875, 1.00, 2013750, 0.35);
 		BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.80, BURN_SND_ROUTE_LEFT);
 		BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.80, BURN_SND_ROUTE_RIGHT);
 	}
@@ -1700,6 +1712,8 @@ static INT32 CaptavenCommonInit(INT32 has_z80, UINT32 speedhack)
 {
 	game_select = 0;
 	speedhack_address = speedhack;
+
+	BurnSetRefreshRate(57.79965);
 
 	gfxlen[0] = 0x100000;
 	gfxlen[1] = 0x100000;
@@ -1830,6 +1844,9 @@ static INT32 NslasherCommonInit(INT32 has_z80, UINT32 speedhack)
 	game_select = 2;
 	has_ace = 1;
 	speedhack_address = speedhack;
+
+	BurnSetRefreshRate(58.464346);
+
 	GenericTilesInit(); // for allocating memory for pTempDraw;
 
 	gfxlen[0] = 0x400000;
@@ -1944,7 +1961,7 @@ static INT32 NslasherCommonInit(INT32 has_z80, UINT32 speedhack)
 	}
 	else
 	{
-		deco16SoundInit(DrvHucROM, DrvHucRAM, 3580000, 0, DrvYM2151WritePort, 0.42, 1006875, 1.00, 2013750, 0.25);
+		deco16SoundInit(DrvHucROM, DrvHucRAM, 4027500, 0, DrvYM2151WritePort, 0.42, 1006875, 1.00, 2013750, 0.25);
 		BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.80, BURN_SND_ROUTE_LEFT);
 		BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.80, BURN_SND_ROUTE_RIGHT);
 	}
@@ -2147,6 +2164,8 @@ static INT32 DragngunCommonInit(INT32 has_z80, UINT32 speedhack)
 {
 	game_select = 4;
 	speedhack_address = speedhack;
+
+	BurnSetRefreshRate(57.79965);
 
 	GenericTilesInit(); // for allocating memory for pTempSprite
 
@@ -3550,6 +3569,10 @@ static INT32 DrvFrame()
 			DrvInputs[1] = (DrvInputs[1] & ~0x18) | (DrvDips[0] & 8);
 		}
 
+		if (game_select == 2) { // nslasher p3 fake coin button
+			DrvJoy2[0] |= DrvJoyFS[3];
+		}
+
 		for (INT32 i = 0; i < 16; i++) {
 			DrvInputs[0] ^= (DrvJoy1[i] & 1) << i;
 			DrvInputs[1] ^= (DrvJoy2[i] & 1) << i;
@@ -3564,8 +3587,11 @@ static INT32 DrvFrame()
 
 	INT32 nInterleave = 274;
 	INT32 nCyclesTotal[2] = { (INT32)((double)7000000 / 57.799650), (INT32)((double)deco16_sound_cpuclock / 57.799650) };
-	if (game_select == 2) nCyclesTotal[0] = 7080500 / 60; // nslasher
-	INT32 nCyclesDone[2] = { nExtraCycles, 0 };
+	if (game_select == 2) { // nslasher
+		nCyclesTotal[0] = (INT32)((double)7080500 / 58.464346);
+		nCyclesTotal[1] = (INT32)((double)deco16_sound_cpuclock / 58.464346);
+	}
+	INT32 nCyclesDone[2] = { nExtraCycles[0], nExtraCycles[1] };
 
 	ArmOpen(0);
 	h6280Open(0);
@@ -3606,7 +3632,8 @@ static INT32 DrvFrame()
 	h6280Close();
 	ArmClose();
 
-	nExtraCycles = nCyclesDone[0] - nCyclesTotal[0];
+	nExtraCycles[0] = nCyclesDone[0] - nCyclesTotal[0];
+	nExtraCycles[1] = nCyclesDone[1] - nCyclesTotal[1];
 
 	if (pBurnDraw && pDrawScanline == NULL) {
 		BurnDrvRedraw();
@@ -3631,6 +3658,10 @@ static INT32 DrvZ80Frame()
 			DrvInputs[1] = (DrvInputs[1] & ~0x18) | (DrvDips[0] & 8);
 		}
 
+		if (game_select == 2) { // nslasher p3 fake coin button
+			DrvJoy2[0] |= DrvJoyFS[3];
+		}
+
 		for (INT32 i = 0; i < 16; i++) {
 			DrvInputs[0] ^= (DrvJoy1[i] & 1) << i;
 			DrvInputs[1] ^= (DrvJoy2[i] & 1) << i;
@@ -3639,9 +3670,12 @@ static INT32 DrvZ80Frame()
 	}
 
 	INT32 nInterleave = 274;
-	INT32 nCyclesTotal[2] = { 7000000 / 60, 3580000 / 60 };
-	if (game_select == 2) nCyclesTotal[0] = 7080500 / 60; // nslasher
-	INT32 nCyclesDone[2] = { nExtraCycles, 0 };
+	INT32 nCyclesTotal[2] = { (INT32)((double)7000000 / 57.799650), (INT32)((double)3580000 / 57.799650) };
+	if (game_select == 2) { // nslasher
+		nCyclesTotal[0] = (INT32)((double)7080500 / 58.464346);
+		nCyclesTotal[1] = (INT32)((double)3580000 / 58.464346);
+	}
+	INT32 nCyclesDone[2] = { nExtraCycles[0], nExtraCycles[1] };
 
 	ArmOpen(0);
 	ZetOpen(0);
@@ -3666,7 +3700,8 @@ static INT32 DrvZ80Frame()
 	ZetClose();
 	ArmClose();
 
-	nExtraCycles = nCyclesDone[0] - nCyclesTotal[0];
+	nExtraCycles[0] = nCyclesDone[0] - nCyclesTotal[0];
+	nExtraCycles[1] = nCyclesDone[1] - nCyclesTotal[1];
 
 	if (pBurnSoundOut) {
 		deco32_z80_sound_update(pBurnSoundOut, nBurnSoundLen);
@@ -3701,7 +3736,7 @@ static INT32 DrvBSMTFrame()
 
 	INT32 nInterleave = 274;
 	INT32 nCyclesTotal[3] = { 7000000 / 58, 1789790 / 58, 24000000/4 / 58 };
-	INT32 nCyclesDone[3] = { nExtraCycles, 0, 0 };
+	INT32 nCyclesDone[3] = { nExtraCycles[0], nExtraCycles[1], nExtraCycles[2] };
 
 	ArmOpen(0);
 	deco16_vblank = 1;
@@ -3739,7 +3774,9 @@ static INT32 DrvBSMTFrame()
 
 	ArmClose();
 
-	nExtraCycles = nCyclesDone[0] - nCyclesTotal[0];
+	nExtraCycles[0] = nCyclesDone[0] - nCyclesTotal[0];
+	nExtraCycles[1] = nCyclesDone[1] - nCyclesTotal[1];
+	nExtraCycles[2] = nCyclesDone[2] - nCyclesTotal[2];
 
 	if (pBurnDraw) {
 		BurnDrvRedraw();

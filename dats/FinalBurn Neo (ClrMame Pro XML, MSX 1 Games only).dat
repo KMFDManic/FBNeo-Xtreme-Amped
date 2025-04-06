@@ -287,7 +287,7 @@
 		<description>Ace Gun (HB)</description>
 		<year>2020</year>
 		<manufacturer>Cobinee</manufacturer>
-		<rom name="ace gun (2020)(cobinee).rom" size="32768" crc="d9bbb093"/>
+		<rom name="Ace Gun (2020)(Cobinee).rom" size="32768" crc="d9bbb093"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -310,7 +310,7 @@
 		<description>Actman (Japan)</description>
 		<year>1984</year>
 		<manufacturer>ASCII Corp. - Mass Tael</manufacturer>
-		<rom name="actman (japan).rom" size="16384" crc="e4dbcdbd"/>
+		<rom name="Actman (Japan)(1984)(ASCII).rom" size="16384" crc="e4dbcdbd"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -321,7 +321,7 @@
 		<description>Actman (Japan, Alt)</description>
 		<year>1984</year>
 		<manufacturer>ASCII Corp. - Mass Tael</manufacturer>
-		<rom name="actman (japan) (alt 1).rom" size="16384" crc="7179a4bd"/>
+		<rom name="Actman (Japan)(Alt 1)(1984)(ASCII).rom" size="16384" crc="7179a4bd"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -354,7 +354,7 @@
 		<description>Adventure Kid (Korea)</description>
 		<year>1993</year>
 		<manufacturer>Open</manufacturer>
-		<rom name="Adventure_Kid (ASCII 16).rom" size="131072" crc="cd8b5dd6"/>
+		<rom name="Adventure Kid (Korea)(1993)(Open)(ASCII 16).rom" size="131072" crc="cd8b5dd6"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -413,7 +413,7 @@
 		<description>Afteroids (Euro, Spanish)</description>
 		<year>1988</year>
 		<manufacturer>Zigurat Software</manufacturer>
-		<rom name="Afteroids (1988)(Zigurat Software)(ES).rom" size="131072" crc="8a599dad"/>
+		<rom name="Afteroids (Euro, ES)(1988)(Zigurat Software).rom" size="131072" crc="8a599dad"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -424,7 +424,7 @@
 		<description>Albatross (Japan)</description>
 		<year>1986</year>
 		<manufacturer>Nihon Telenet</manufacturer>
-		<rom name="albatros (japan).rom" size="32768" crc="847fc6e2"/>
+		<rom name="Albatros (Japan)(1986)(Nihon Telenet).rom" size="32768" crc="847fc6e2"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -435,7 +435,7 @@
 		<description>Albatross (Japan, Alt)</description>
 		<year>1986</year>
 		<manufacturer>Nihon Telenet</manufacturer>
-		<rom name="albatros (japan) (alt 1).rom" size="32768" crc="e27f41df"/>
+		<rom name="Albatros (Japan)(Alt 1)(1986)(Nihon Telenet).rom" size="32768" crc="e27f41df"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -446,7 +446,7 @@
 		<description>Alcazar - the Forgetten Fortress (USA)</description>
 		<year>1985</year>
 		<manufacturer>Activision</manufacturer>
-		<rom name="alcazar - the Forgotten fortress (1985)(activision).rom" size="16384" crc="3ee454b0"/>
+		<rom name="Alcazar - the Forgotten Fortress (USA)(1985)(activision).rom" size="16384" crc="3ee454b0"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -457,7 +457,7 @@
 		<description>Ale Hop! (Euro, Spanish)</description>
 		<year>1988</year>
 		<manufacturer>Topo Soft</manufacturer>
-		<rom name="Ale Hop! (1988)(Topo Soft)(ES).rom" size="131072" crc="c2694922"/>
+		<rom name="Ale Hop! (Euro, ES)(1988)(Topo Soft).rom" size="131072" crc="c2694922"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -556,6 +556,18 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="alienmsx" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Alien MSX (HB, v1.3)</description>
+		<year>2024</year>
+		<manufacturer>Rodrigo Siqueira</manufacturer>
+		<rom name="Alien MSX v1.3 (2024)(Rodrigo Siqueira).rom" size="32768" crc="75990cb4"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="aliensynd" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Alien Syndrome (Euro)</description>
 		<year>1989</year>
@@ -567,12 +579,60 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
-	<game name="aliescapes" romof="msx" sourcefile="msx/d_msx.cpp">
+	<game name="aliescapee" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew, Remaster of 'Alien Confination'</comment>
+		<description>Alien: Escape (English) (HB)</description>
+		<year>2022</year>
+		<manufacturer>Physical Dreams</manufacturer>
+		<rom name="Alien Escape EN (2022)(Physical Dreams).rom" size="49152" crc="ac6a6c30"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="aliescapei" cloneof="aliescapee" romof="aliescapee" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew, Remaster of 'Alien Confination'</comment>
+		<description>Alien: Escape (Italian) (HB)</description>
+		<year>2022</year>
+		<manufacturer>Physical Dreams</manufacturer>
+		<rom name="Alien Escape IT (2022)(Physical Dreams).rom" size="49152" crc="a9b02956"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="aliescapej" cloneof="aliescapee" romof="aliescapee" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew, Remaster of 'Alien Confination'</comment>
+		<description>Alien: Escape (Japanese) (HB)</description>
+		<year>2022</year>
+		<manufacturer>Physical Dreams</manufacturer>
+		<rom name="Alien Escape JP (2022)(Physical Dreams).rom" size="49152" crc="49120e56"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="aliescapes2" cloneof="aliescapee" romof="aliescapee" sourcefile="msx/d_msx.cpp">
 		<comment>Homebrew, Remaster of 'Alien Confination'</comment>
 		<description>Alien: Escape (Spanish) (HB)</description>
 		<year>2022</year>
 		<manufacturer>Physical Dreams</manufacturer>
-		<rom name="Alien Escape ES (2022)(Physical Dreams).rom" size="86016" crc="ad406e52"/>
+		<rom name="Alien Escape ES (2022)(Physical Dreams).rom" size="49152" crc="c6991b1f"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="aliescapes" cloneof="aliescapee" romof="aliescapee" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew, Remaster of 'Alien Confination'</comment>
+		<description>Alien: Escape (Spanish) (HB, Alt)</description>
+		<year>2022</year>
+		<manufacturer>Physical Dreams</manufacturer>
+		<rom name="Alien Escape ES (Alt, Mapper Konami-SCC)(2022)(Physical Dreams).rom" size="86016" crc="ad406e52"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -906,6 +966,18 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="antiair" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>AntiAir (HB)</description>
+		<year>2024</year>
+		<manufacturer>Inufuto</manufacturer>
+		<rom name="AntiAir (2024)(Inufuto).cas" size="7948" crc="f7092fb6"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="anty" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Anty (Japan)</description>
 		<year>1984</year>
@@ -1009,7 +1081,7 @@
 	<game name="arkanoidj" cloneof="arkanoid" romof="arkanoid" sourcefile="msx/d_msx.cpp">
 		<description>Arkanoid (Japan)</description>
 		<year>1986</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Arkanoid (Japan)(1986)(Taito).rom" size="32768" crc="c9a22dfc"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -1020,7 +1092,7 @@
 	<game name="arkanoidja" cloneof="arkanoid" romof="arkanoid" sourcefile="msx/d_msx.cpp">
 		<description>Arkanoid (Japan, Alt)</description>
 		<year>1986</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Arkanoid (Japan)(Alt)(1986)(Taito).rom" size="32768" crc="38a00d1b"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -1549,6 +1621,18 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="ballpopex" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew, DSK2ROM conversion</comment>
+		<description>Balloon Pop EX (HB)</description>
+		<year>2022</year>
+		<manufacturer>Chien Loco</manufacturer>
+		<rom name="Balloon Pop EX (2022)(Chien Loco).rom" size="753664" crc="1c49611c"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="balloonpunch" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Balloon Punch (Japan)</description>
 		<year>1989</year>
@@ -1893,6 +1977,18 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="beep" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew, DSK2ROM conversion</comment>
+		<description>Beep (HB, v1.2)</description>
+		<year>2025</year>
+		<manufacturer>Breinthee</manufacturer>
+		<rom name="Beep v1.2 (2025)(Breinthee).rom" size="753664" crc="c04814ce"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="beez" romof="msx" sourcefile="msx/d_msx.cpp">
 		<comment>Homebrew</comment>
 		<description>BeeZ (HB)</description>
@@ -1922,6 +2018,18 @@
 		<year>2007</year>
 		<manufacturer>CEZ GS</manufacturer>
 		<rom name="BeTiled! (2007)(CEZ GS).rom" size="49152" crc="4f89a784"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="binarybattle" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Binary Battle (HB)</description>
+		<year>2025</year>
+		<manufacturer>joesg</manufacturer>
+		<rom name="Binary Battle (2025)(Haplo).rom" size="32768" crc="92be4f86"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -2872,7 +2980,7 @@
 		<description>Buru to Marty Kikiippatsu - Inspecteur Z (Japan, English)</description>
 		<year>1986</year>
 		<manufacturer>HAL Laboratory</manufacturer>
-		<rom name="Buru to Marty Kikiippatsu - Inspecteur Z (Japan)(1986)(HAL Laboratory)(en).rom" size="32768" crc="57a1bfb3"/>
+		<rom name="Buru to Marty Kikiippatsu - Inspecteur Z (Japan, EN)(1986)(HAL Laboratory).rom" size="32768" crc="57a1bfb3"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -3315,6 +3423,18 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="catbox" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew, DSK2ROM conversion</comment>
+		<description>Catbox (HB, v1.3)</description>
+		<year>2024</year>
+		<manufacturer>Gamecast</manufacturer>
+		<rom name="Catbox v1.3 (2024)(Gamecast).rom" size="753664" crc="11e3133a"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="catspots" romof="msx" sourcefile="msx/d_msx.cpp">
 		<comment>Homebrew</comment>
 		<description>CatsPots (HB, v1.2)</description>
@@ -3366,7 +3486,7 @@
 	<game name="chackn" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Chack'n Pop (Japan)</description>
 		<year>1984</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Chack'n Pop (Japan)(1984)(Taito).rom" size="16384" crc="04f7e0b1"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -3377,7 +3497,7 @@
 	<game name="chackna" cloneof="chackn" romof="chackn" sourcefile="msx/d_msx.cpp">
 		<description>Chack'n Pop (Japan, Alt)</description>
 		<year>1984</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Chack'n Pop (Japan)(Alt)(1984)(Taito).rom" size="16384" crc="0fff4d26"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -3609,6 +3729,18 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="chimneyman" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew, DSK2ROM conversion</comment>
+		<description>ChimneyMan (HB, v1.5)</description>
+		<year>2024</year>
+		<manufacturer>Gamecast</manufacturer>
+		<rom name="ChimneyMan v1.5 (2024)(Gamecast).rom" size="753664" crc="3a36ef6a"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="choplift" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Choplifter (Japan)</description>
 		<year>1985</year>
@@ -3667,7 +3799,7 @@
 	<game name="choroq" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Choro Q (Japan)</description>
 		<year>1984</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Choro Q (Japan)(1984)(Taito).rom" size="16384" crc="5506bf9b"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -3678,7 +3810,7 @@
 	<game name="choroqa" cloneof="choroq" romof="choroq" sourcefile="msx/d_msx.cpp">
 		<description>Choro Q (Japan, Alt)</description>
 		<year>1984</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Choro Q (Japan)(Alt)(1984)(Taito).rom" size="16384" crc="65b34072"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -3875,11 +4007,11 @@
 		<driver status="good"/>
 	</game>
 	<game name="cocoamsx" romof="msx" sourcefile="msx/d_msx.cpp">
-		<comment>Homebrew</comment>
+		<comment>Homebrew, DSK2ROM conversion</comment>
 		<description>Cocoa and the Time Machine (HB)</description>
 		<year>2020</year>
 		<manufacturer>Minilop</manufacturer>
-		<rom name="cocoa and the time machine (2020)(minilop).rom" size="753664" crc="22d55a91"/>
+		<rom name="Cocoa and the Time Machine (2020)(Minilop).rom" size="753664" crc="22d55a91"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -4141,7 +4273,43 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
-	<game name="cornitfzs" romof="msx" sourcefile="msx/d_msx.cpp">
+	<game name="cornitfze" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Cornelius in the Forbidden Zone (English) (HB)</description>
+		<year>2023</year>
+		<manufacturer>Physical Dreams</manufacturer>
+		<rom name="Cornelius in the Forbidden Zone EN (2023)(Physical Dreams).rom" size="49152" crc="a0e98b45"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="cornitfzf" cloneof="cornitfze" romof="cornitfze" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Cornelius in the Forbidden Zone (French) (HB)</description>
+		<year>2023</year>
+		<manufacturer>Physical Dreams</manufacturer>
+		<rom name="Cornelius in the Forbidden Zone FR (2023)(Physical Dreams).rom" size="49152" crc="68d06be5"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="cornitfzi" cloneof="cornitfze" romof="cornitfze" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Cornelius in the Forbidden Zone (Italian) (HB)</description>
+		<year>2023</year>
+		<manufacturer>Physical Dreams</manufacturer>
+		<rom name="Cornelius in the Forbidden Zone IT (2023)(Physical Dreams).rom" size="49152" crc="d8571230"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="cornitfzs" cloneof="cornitfze" romof="cornitfze" sourcefile="msx/d_msx.cpp">
 		<comment>Homebrew</comment>
 		<description>Cornelius in the Forbidden Zone (Spanish) (HB)</description>
 		<year>2023</year>
@@ -4460,7 +4628,7 @@
 		<driver status="good"/>
 	</game>
 	<game name="rabenstein" romof="msx" sourcefile="msx/d_msx.cpp">
-		<comment>Homebrew</comment>
+		<comment>Homebrew, DSK2ROM conversion</comment>
 		<description>Curse of Rabenstein, The (HB)</description>
 		<year>2022</year>
 		<manufacturer>Puddle Software</manufacturer>
@@ -4812,8 +4980,8 @@
 		<comment>Homebrew</comment>
 		<description>Defence (HB, v1.2)</description>
 		<year>2022</year>
-		<manufacturer>GameCast Entertainment</manufacturer>
-		<rom name="Defence v1.2 (2022)(GameCast Ent.).rom" size="32768" crc="c39b5168"/>
+		<manufacturer>Gamecast</manufacturer>
+		<rom name="Defence v1.2 (2022)(Gamecast).rom" size="32768" crc="c39b5168"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -4821,11 +4989,11 @@
 		<driver status="good"/>
 	</game>
 	<game name="defusen" romof="msx" sourcefile="msx/d_msx.cpp">
-		<comment>Homebrew</comment>
+		<comment>Homebrew, DSK2ROM conversion</comment>
 		<description>Defuse (English) (HB)</description>
 		<year>2023</year>
-		<manufacturer>Gamecast Entertainment</manufacturer>
-		<rom name="Defuse EN (2023)(Gamecast Ent).rom" size="753664" crc="3e120ad9"/>
+		<manufacturer>Gamecast</manufacturer>
+		<rom name="Defuse EN (2023)(Gamecast).rom" size="753664" crc="3e120ad9"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -4833,11 +5001,11 @@
 		<driver status="good"/>
 	</game>
 	<game name="defusit" cloneof="defusen" romof="defusen" sourcefile="msx/d_msx.cpp">
-		<comment>Homebrew</comment>
+		<comment>Homebrew, DSK2ROM conversion</comment>
 		<description>Defuse (Italian) (HB)</description>
 		<year>2023</year>
-		<manufacturer>Gamecast Entertainment</manufacturer>
-		<rom name="Defuse IT (2023)(Gamecast Ent).rom" size="753664" crc="90edfe42"/>
+		<manufacturer>Gamecast</manufacturer>
+		<rom name="Defuse IT (2023)(Gamecast).rom" size="753664" crc="90edfe42"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -5000,6 +5168,18 @@
 		<year>1984</year>
 		<manufacturer>Namcot</manufacturer>
 		<rom name="dig dug (japan) (alt 1).rom" size="32768" crc="7c3d7dea"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="megamite" cloneof="megamit" romof="megamit" sourcefile="msx/d_msx.cpp">
+		<comment>Hack</comment>
+		<description>Digital Devil Monogatari - Megami Tensei (Hack, English)</description>
+		<year>2024</year>
+		<manufacturer>Kaisaan</manufacturer>
+		<rom name="Digital Devil Monogatari Megami Tensei T-Eng (2024)(Kaisaan).rom" size="139264" crc="91987fb2"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -5191,6 +5371,18 @@
 		<year>1983</year>
 		<manufacturer>Colpax</manufacturer>
 		<rom name="Donpan (1983)(Colpax).rom" size="16384" crc="a4983dcc"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="doomlings" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Doomlings (HB)</description>
+		<year>2025</year>
+		<manufacturer>Totta</manufacturer>
+		<rom name="Doomlings (2025)(Totta).rom" size="262144" crc="90e25aa9"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -5473,6 +5665,18 @@
 		<year>1987</year>
 		<manufacturer>Eaglesoft</manufacturer>
 		<rom name="Drome (1987)(Eaglesoft)(nl)[run'cas-'].cas" size="65600" crc="5d3d2237"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="dropabucymbel" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew, Redefine Keys to use controller</comment>
+		<description>Drop of Abu-Cymbel, The (English) (HB)</description>
+		<year>2024</year>
+		<manufacturer>joesg</manufacturer>
+		<rom name="Drop of Abu-Cymbel, The (2024)(joesg).rom" size="32768" crc="1b20ae22"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -6499,7 +6703,7 @@
 		<driver status="good"/>
 	</game>
 	<game name="forg" romof="msx" sourcefile="msx/d_msx.cpp">
-		<comment>Homebrew</comment>
+		<comment>Homebrew, DSK2ROM conversion</comment>
 		<description>Forg Wants Love (HB)</description>
 		<year>2021</year>
 		<manufacturer>Beebush Games</manufacturer>
@@ -6626,7 +6830,7 @@
 	<game name="frontlin" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Front Line (Japan)</description>
 		<year>1984</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Front Line (Japan)(1984)(Taito).rom" size="16384" crc="b9d03f7b"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -6637,7 +6841,7 @@
 	<game name="frontlinb" cloneof="frontlin" romof="frontlin" sourcefile="msx/d_msx.cpp">
 		<description>Front Line (Japan, Alt 2)</description>
 		<year>1984</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Front Line (Japan)(Alt 2)(1984)(Taito).rom" size="16384" crc="5958f98c"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -6648,7 +6852,7 @@
 	<game name="frontlina" cloneof="frontlin" romof="frontlin" sourcefile="msx/d_msx.cpp">
 		<description>Front Line (Japan, Alt)</description>
 		<year>1984</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Front Line (Japan)(Alt 1)(1984)(Taito).rom" size="16384" crc="8d632577"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -7123,6 +7327,18 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="godzillaballs" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Godzilla Balls (HB)</description>
+		<year>2024</year>
+		<manufacturer>Paxanga Soft</manufacturer>
+		<rom name="Godzilla Balls (2024)(Paxanga Software).rom" size="65536" crc="8c3e2b27"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="godzikun" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Godzilla-kun (Japan)</description>
 		<year>1985</year>
@@ -7206,7 +7422,7 @@
 		<comment>Homebrew</comment>
 		<description>Gommy - Medieval Defender (English) (HB)</description>
 		<year>2013</year>
-		<manufacturer>Retroworks/Dimension Z/Nenefranz</manufacturer>
+		<manufacturer>Retroworks, Dimension Z, Nenefranz</manufacturer>
 		<rom name="Gommy - Medieval Defender EN (2013)(Retroworks).rom" size="16384" crc="66b27261"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -7218,7 +7434,7 @@
 		<comment>Homebrew</comment>
 		<description>Gommy - Medieval Defender (Spanish) (HB)</description>
 		<year>2013</year>
-		<manufacturer>Retroworks/Dimension Z/Nenefranz</manufacturer>
+		<manufacturer>Retroworks, Dimension Z, Nenefranz</manufacturer>
 		<rom name="Gommy - Medieval Defender ES (2013)(Retroworks).rom" size="16384" crc="cb628d7a"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -7315,6 +7531,18 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="gotaabucymbel" cloneof="dropabucymbel" romof="dropabucymbel" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew, Redefine Keys to use controller</comment>
+		<description>Gota de Abu-Cymbel, La (Spanish) (HB)</description>
+		<year>2024</year>
+		<manufacturer>joesg</manufacturer>
+		<rom name="Gota de Abu-Cymbel, La (2024)(joesg).rom" size="32768" crc="51c192e6"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="gpworld" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>GP World (Japan)</description>
 		<year>1985</year>
@@ -7332,6 +7560,30 @@
 		<year>2018</year>
 		<manufacturer>Yusuke Miyauchi</manufacturer>
 		<rom name="Gravitica v1.1 (2018)(Yusuke Miyauchi).rom" size="32768" crc="67a49f2b"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="grazers" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Grazers (HB, v1.2)</description>
+		<year>2024</year>
+		<manufacturer>Arturs Grebstelis</manufacturer>
+		<rom name="Grazers v1.2 (2024)(Arturs Grebstelis).rom" size="32768" crc="5670651f"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="greatnworld" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Great New World, A (HB)</description>
+		<year>2025</year>
+		<manufacturer>Phaze101</manufacturer>
+		<rom name="Great New World, A (2025)(Phaze101).rom" size="49152" crc="a5759b68"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -8007,11 +8259,11 @@
 		<driver status="good"/>
 	</game>
 	<game name="hopperboy" romof="msx" sourcefile="msx/d_msx.cpp">
-		<comment>Homebrew</comment>
+		<comment>Homebrew, DSK2ROM conversion</comment>
 		<description>HopperBoy (HB, v1.2)</description>
 		<year>2023</year>
-		<manufacturer>Gamecast Entertainment</manufacturer>
-		<rom name="HopperBoy v1.2 (2023)(Gamecast Entertainment).rom" size="753664" crc="2d0535cd"/>
+		<manufacturer>Gamecast</manufacturer>
+		<rom name="HopperBoy v1.2 (2023)(Gamecast).rom" size="753664" crc="2d0535cd"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -8321,6 +8573,18 @@
 		<year>1985</year>
 		<manufacturer>Kuma Computers</manufacturer>
 		<rom name="Hyper Viper (Euro)(1985)(Kuma Computers)[cursorkeys].rom" size="65536" crc="a88ecd5d"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="ilogic" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>I-Logic (HB)</description>
+		<year>2024</year>
+		<manufacturer>Platty Soft</manufacturer>
+		<rom name="I-Logic (2024)(Platty Soft).rom" size="49152" crc="142db92f"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -8973,7 +9237,7 @@
 	<game name="legkage" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Kage no Densetsu - Legend of Kage, The (Japan)</description>
 		<year>1986</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Kage no Densetsu - Legend of Kage, The (Japan)(1986)(Taito).rom" size="32768" crc="69367e10"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -9040,8 +9304,8 @@
 		<comment>Homebrew</comment>
 		<description>Kill Mice (HB)</description>
 		<year>2011</year>
-		<manufacturer>GameCast Entertainment</manufacturer>
-		<rom name="Kill Mice (2011)(GameCast Ent.).rom" size="65536" crc="783afacb"/>
+		<manufacturer>Gamecast</manufacturer>
+		<rom name="Kill Mice (2011)(Gamecast).rom" size="65536" crc="783afacb"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -9340,7 +9604,7 @@
 		<description>Knightmare II - The Maze of Galious (Korea) (Unl)</description>
 		<year>1987</year>
 		<manufacturer>Zemina</manufacturer>
-		<rom name="knightmare II - The Maze of Galious (Korea)(1987)(Zemina).rom" size="131072" crc="d7f35938"/>
+		<rom name="Knightmare II - The Maze of Galious (Korea)(1987)(Zemina).rom" size="131072" crc="d7f35938"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -9375,7 +9639,7 @@
 		<description>Knightmare III - Shalom (Japan)</description>
 		<year>1987</year>
 		<manufacturer>Konami</manufacturer>
-		<rom name="knightmare iii - shalom (japan).rom" size="262144" crc="cf60fa7d"/>
+		<rom name="Knightmare III - Shalom (Japan)(1987)(Konami).rom" size="262144" crc="cf60fa7d"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -9386,7 +9650,7 @@
 		<description>Knither Special (Japan)</description>
 		<year>1987</year>
 		<manufacturer>Dempa</manufacturer>
-		<rom name="knither special (japan).rom" size="131072" crc="a3b2fe71"/>
+		<rom name="Knither Special (Japan)(1987)(Dempa).rom" size="131072" crc="a3b2fe71"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -9397,7 +9661,7 @@
 		<description>Knuckle Joe (Korea)</description>
 		<year>1989</year>
 		<manufacturer>Prosoft</manufacturer>
-		<rom name="knuckle joe.rom" size="32768" crc="33be6192"/>
+		<rom name="Knuckle Joe (Korea)(1989)(Prosoft).rom" size="32768" crc="33be6192"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -9420,7 +9684,7 @@
 		<description>Koedoli (Korea)</description>
 		<year>1988</year>
 		<manufacturer>Aproman</manufacturer>
-		<rom name="koedoli (mickey soft, 1988).rom" size="32768" crc="cb345bcc"/>
+		<rom name="Koedoli (Korea)(1988)(Aproman).rom" size="32768" crc="cb345bcc"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -9431,7 +9695,7 @@
 		<description>Konami's Baseball (Japan)</description>
 		<year>1985</year>
 		<manufacturer>Konami</manufacturer>
-		<rom name="konami's baseball (japan).rom" size="16384" crc="b660494b"/>
+		<rom name="Konami's Baseball (Japan)(1985)(Konami).rom" size="16384" crc="b660494b"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -9442,7 +9706,7 @@
 		<description>Konami's Baseball (Japan, Alt)</description>
 		<year>1985</year>
 		<manufacturer>Konami</manufacturer>
-		<rom name="konami's baseball (japan) (alt 1).rom" size="16384" crc="6a8e56e1"/>
+		<rom name="Konami's Baseball (Japan)(Alt 1)(1985)(Konami).rom" size="16384" crc="6a8e56e1"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -9453,7 +9717,7 @@
 		<description>Konami's Billiards (Euro)</description>
 		<year>1984</year>
 		<manufacturer>Konami</manufacturer>
-		<rom name="konami's billiards (europe).rom" size="8192" crc="0b65fe4d"/>
+		<rom name="Konami's Billiards (Euro)(1984)(Konami).rom" size="8192" crc="0b65fe4d"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -9464,7 +9728,7 @@
 		<description>Konami's Boxing (Japan)</description>
 		<year>1985</year>
 		<manufacturer>Konami</manufacturer>
-		<rom name="konami's boxing (japan).rom" size="32768" crc="3a442408"/>
+		<rom name="Konami's Boxing (Japan)(1985)(Konami).rom" size="32768" crc="3a442408"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -9475,7 +9739,7 @@
 		<description>Konami's Boxing (Japan, Alt 2)</description>
 		<year>1985</year>
 		<manufacturer>Konami</manufacturer>
-		<rom name="konami's boxing (japan) (alt 2).rom" size="32768" crc="0d94e7b2"/>
+		<rom name="Konami's Boxing (Japan)(Alt 2)(1985)(Konami).rom" size="32768" crc="0d94e7b2"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -9486,7 +9750,7 @@
 		<description>Konami's Boxing (Japan, Alt)</description>
 		<year>1985</year>
 		<manufacturer>Konami</manufacturer>
-		<rom name="konami's boxing (japan) (alt 1).rom" size="32768" crc="19ccbce1"/>
+		<rom name="Konami's Boxing (Japan)(Alt 1)(1985)(Konami).rom" size="32768" crc="19ccbce1"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -10453,6 +10717,18 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="mandarin2" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Mandarin 2, The - Limoncello's Revenge (HB)</description>
+		<year>2024</year>
+		<manufacturer>Mananuk</manufacturer>
+		<rom name="Mandarin 2, The - Limoncello's Revenge (2024)(Mananuk).rom" size="49152" crc="7b2419a5"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="manes" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Manes (Japan)</description>
 		<year>1984</year>
@@ -10714,7 +10990,7 @@
 		<description>Mazy (HB)</description>
 		<year>2021</year>
 		<manufacturer>Inufuto</manufacturer>
-		<rom name="Mazy (Inufuto)(2021).rom" size="8192" crc="7bd27e36"/>
+		<rom name="Mazy (2021)(Inufuto).rom" size="8192" crc="7bd27e36"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -10920,7 +11196,7 @@
 		<description>Midnight Building (Japan)</description>
 		<year>1983</year>
 		<manufacturer>ASCII Corp.</manufacturer>
-		<rom name="midnight building (japan).rom" size="16384" crc="7b5282e4"/>
+		<rom name="Midnight Building (Japan)(1983)(ASCII).rom" size="16384" crc="7b5282e4"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -10931,7 +11207,19 @@
 		<description>Midway (Japan)</description>
 		<year>1983</year>
 		<manufacturer>Magicsoft</manufacturer>
-		<rom name="midway (japan).rom" size="16384" crc="40e2f32a"/>
+		<rom name="Midway (Japan)(1983)(Magicsoft).rom" size="16384" crc="40e2f32a"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="mieyen" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Mieyen (HB)</description>
+		<year>2025</year>
+		<manufacturer>Inufuto</manufacturer>
+		<rom name="Mieyen (2025)(Inufuto).cas" size="8302" crc="42a03ea4"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -10954,7 +11242,7 @@
 		<description>Mikie - Shinnyuushain Tooru-Kun (Japan)</description>
 		<year>1985</year>
 		<manufacturer>Konami - Sega</manufacturer>
-		<rom name="mikie.rom" size="32768" crc="f4567a08"/>
+		<rom name="Mikie - Shinnyuushain Tooru-Kun (Japan)(1985)(Konami - Sega).rom" size="32768" crc="f4567a08"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -11025,7 +11313,7 @@
 		<description>Mirai (Japan)</description>
 		<year>1987</year>
 		<manufacturer>Xain Soft</manufacturer>
-		<rom name="rp231024d" size="131072" crc="72eb9d0e"/>
+		<rom name="Mirai (Japan)(1987)(Xain Soft).rom" size="131072" crc="72eb9d0e"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -11083,7 +11371,7 @@
 		<description>Mitsume Ga Tooru - The Three-Eyed One Comes Here (Japan)</description>
 		<year>1989</year>
 		<manufacturer>Natsume</manufacturer>
-		<rom name="mitsumega toohru - three-eyed one comes here, the (japan).rom" size="131072" crc="4faccae0"/>
+		<rom name="Mitsume Ga Tooru - The Three-Eyed One Comes Here (Japan)(1989)(Natsume).rom" size="131072" crc="4faccae0"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -11183,7 +11471,7 @@
 		<description>Mokari Makka? Bochibochi Denna! (Japan)</description>
 		<year>1986</year>
 		<manufacturer>Leben Pro</manufacturer>
-		<rom name="Mokari Makka? Bochibochi Denna! (Japan)(1986)(Leben Pro).rom" size="32768" crc="d40f481d"/>
+		<rom name="Mokari Makka Bochibochi Denna! (Japan)(1986)(Leben Pro).rom" size="32768" crc="d40f481d"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -11240,6 +11528,30 @@
 		<year>1986</year>
 		<manufacturer>Mastertronic</manufacturer>
 		<rom name="Molecule Man (Euro)(1986)(Mastertronic)[run'cas-'].cas" size="43687" crc="4c3ebaee"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="molotoven" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew, Select '2.Redefine' to set and use controller</comment>
+		<description>Molotov (English) (HB)</description>
+		<year>2025</year>
+		<manufacturer>joesg</manufacturer>
+		<rom name="Molotov EN (2025)(joesg).rom" size="32768" crc="7a1e30ec"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="molotoves" cloneof="molotoven" romof="molotoven" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew, Select '2.Redefine' to set and use controller</comment>
+		<description>Molotov (Spanish) (HB)</description>
+		<year>2025</year>
+		<manufacturer>joesg</manufacturer>
+		<rom name="Molotov ES (2025)(joesg).rom" size="32768" crc="fc4d1d90"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -11892,7 +12204,7 @@
 		<driver status="good"/>
 	</game>
 	<game name="muhmourn3" romof="msx" sourcefile="msx/d_msx.cpp">
-		<comment>Homebrew</comment>
+		<comment>Homebrew, DSK2ROM conversion</comment>
 		<description>MuhonMourn 3 (HB, v1.1)</description>
 		<year>2022</year>
 		<manufacturer>hoge1e3</manufacturer>
@@ -12205,7 +12517,7 @@
 		<description>Neuras (HB)</description>
 		<year>2021</year>
 		<manufacturer>Inufuto</manufacturer>
-		<rom name="Neuras (2021)(mxb03523).rom" size="8760" crc="27b5df15"/>
+		<rom name="Neuras (2021)(Inufuto).rom" size="8760" crc="27b5df15"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -12251,8 +12563,8 @@
 		<comment>Homebrew</comment>
 		<description>Night Knight (HB, v1.0.3)</description>
 		<year>2019</year>
-		<manufacturer>Juan J. Martinez / usebox.net</manufacturer>
-		<rom name="nightk.rom" size="32768" crc="3a7965de"/>
+		<manufacturer>Juan J. Martinez - usebox.net</manufacturer>
+		<rom name="Night Knight v1.0.3 (2019)(usebox.net).rom" size="32768" crc="3a7965de"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -12433,7 +12745,7 @@
 		<description>Nogalious Demo (HB)</description>
 		<year>2018</year>
 		<manufacturer>LuegoLu3go</manufacturer>
-		<rom name="nogalious demo (2018)(luegolu3go).rom" size="524288" crc="8728e3e9"/>
+		<rom name="Nogalious Demo (2018)(LuegoLu3go).rom" size="524288" crc="8728e3e9"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -13112,7 +13424,7 @@
 		<driver status="good"/>
 	</game>
 	<game name="pengcatch" romof="msx" sourcefile="msx/d_msx.cpp">
-		<comment>Homebrew</comment>
+		<comment>Homebrew, DSK2ROM conversion</comment>
 		<description>Penguin Catcher (HB, v1.1)</description>
 		<year>2022</year>
 		<manufacturer>_NetNomad</manufacturer>
@@ -13423,7 +13735,7 @@
 		<comment>Homebrew</comment>
 		<description>Pippo La Scopa Ficcanaso (HB)</description>
 		<year>2021</year>
-		<manufacturer>GameCast Entertainment</manufacturer>
+		<manufacturer>Gamecast</manufacturer>
 		<rom name="Pippo La Scopa Ficcanaso (2021)(Gamecast).rom" size="16384" crc="ee9b213d"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -13619,6 +13931,17 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="policedog" romof="msx" sourcefile="msx/d_msx.cpp">
+		<description>Police Dog (Japan)</description>
+		<year>1983</year>
+		<manufacturer>Hudson Soft</manufacturer>
+		<rom name="Police Dog (Japan)(1983)(Hudson Soft)[BLOAD'CAS-',R].cas" size="12646" crc="c03d100b"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="ponpon" romof="msx" sourcefile="msx/d_msx.cpp">
 		<comment>Homebrew</comment>
 		<description>Pon Pon (HB, v1.51)</description>
@@ -13692,7 +14015,7 @@
 		<description>Pretty Kingdom (HB)</description>
 		<year>2014</year>
 		<manufacturer>Nerlaska Studio</manufacturer>
-		<rom name="NLKMSX006EN_PRETTYKINGDOM.rom" size="32768" crc="cb2d148c"/>
+		<rom name="Pretty Kingdom (2014)(Nerlaska Studio).rom" size="32768" crc="cb2d148c"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -13715,7 +14038,7 @@
 		<description>Princess Quest (HB)</description>
 		<year>2012</year>
 		<manufacturer>Oscar Toledo G.</manufacturer>
-		<rom name="princess_quest_msx.rom" size="65536" crc="aa31ac36"/>
+		<rom name="Princess Quest (2012)(Oscar Toledo G.).rom" size="65536" crc="aa31ac36"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -13805,8 +14128,8 @@
 		<comment>Homebrew</comment>
 		<description>PuzzyBox (HB)</description>
 		<year>2021</year>
-		<manufacturer>GameCast Entertainment</manufacturer>
-		<rom name="PuzzyBox (2021)(Gamecast Ent.).rom" size="65536" crc="454381e4"/>
+		<manufacturer>Gamecast</manufacturer>
+		<rom name="PuzzyBox (2021)(Gamecast).rom" size="65536" crc="454381e4"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -13819,6 +14142,18 @@
 		<year>2009</year>
 		<manufacturer>Metal Soft</manufacturer>
 		<rom name="PWND (2009)(Metal Soft).rom" size="16384" crc="51f201b3"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="pyjamarama" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Pyjamarama (HB)</description>
+		<year>2024</year>
+		<manufacturer>Fregarni</manufacturer>
+		<rom name="Pyjamarama (2024)(Fregarni).rom" size="131072" crc="b6ec9180"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -13886,7 +14221,7 @@
 		<description>QBIQS (HB, v1.2)</description>
 		<year>2010</year>
 		<manufacturer>Z80st Software</manufacturer>
-		<rom name="qbiqs (2010)(z80st-software).rom" size="49152" crc="11d4e90e"/>
+		<rom name="QBIQS (2010)(Z80st Software).rom" size="49152" crc="11d4e90e"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -13898,7 +14233,7 @@
 		<description>Quartet (HB, v1.2)</description>
 		<year>2019</year>
 		<manufacturer>Ilkke and bitsofbas</manufacturer>
-		<rom name="quartet v12.rom" size="32768" crc="eeb24910"/>
+		<rom name="Quartet v1.2 (2019)(Ilkke and bitsofbas).rom" size="32768" crc="eeb24910"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -14200,7 +14535,7 @@
 		<description>Relic, The (English) (HB)</description>
 		<year>2020</year>
 		<manufacturer>Roolandoo</manufacturer>
-		<rom name="the relic (2020)(roolandoo).rom" size="32768" crc="4ff53c97"/>
+		<rom name="Relic, The (2020)(Roolandoo).rom" size="32768" crc="4ff53c97"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -14223,7 +14558,7 @@
 		<description>Reliquia, La (Spanish) (HB)</description>
 		<year>2020</year>
 		<manufacturer>Roolandoo</manufacturer>
-		<rom name="la reliquia (2020)(roolando).rom" size="32768" crc="8a251dba"/>
+		<rom name="Reliquia, La (2020)(Roolando).rom" size="32768" crc="8a251dba"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -14257,7 +14592,7 @@
 		<description>Retaliot (HB)</description>
 		<year>2009</year>
 		<manufacturer>Video Hazard</manufacturer>
-		<rom name="Retaliot (2009)(video Hazard).rom" size="131072" crc="e63a6c39"/>
+		<rom name="Retaliot (2009)(Video Hazard).rom" size="131072" crc="e63a6c39"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -14337,6 +14672,18 @@
 		<year>1985</year>
 		<manufacturer>Konami</manufacturer>
 		<rom name="Road Fighter (Japan)(Alt)(1985)(Konami).rom" size="16384" crc="cb82d8c9"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="roborace" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Robo Race (HB)</description>
+		<year>2024-25</year>
+		<manufacturer>Maximilian Wohrl</manufacturer>
+		<rom name="Robo Race (2024)(Maximilian Wohrl).rom" size="45583" crc="a3bf7688"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -14535,6 +14882,18 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="room5" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Room 5 (HB, v1.2)</description>
+		<year>2025</year>
+		<manufacturer>MO5.com</manufacturer>
+		<rom name="Room 5 v1.2 (2025)(MO5.com).rom" size="49152" crc="41660ba5"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="rotors" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Rotors (Japan)</description>
 		<year>1984</year>
@@ -14679,6 +15038,18 @@
 		<year>1988</year>
 		<manufacturer>Zemina</manufacturer>
 		<rom name="Salamander - Operation X (Korea)(1988)(Zemina).rom" size="131072" crc="40d19bf6"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="sampr" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Sam.Pr (HB, v1.1)</description>
+		<year>2024</year>
+		<manufacturer>Fausto Pracek</manufacturer>
+		<rom name="Sam.Pr v1.1 (2024)(Fausto Pracek).rom" size="32768" crc="2b06bad8"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -14866,7 +15237,7 @@
 		<driver status="good"/>
 	</game>
 	<game name="sekaikei" romof="msx" sourcefile="msx/d_msx.cpp">
-		<comment>Homebrew</comment>
+		<comment>Homebrew, DSK2ROM conversion</comment>
 		<description>Sekaikei Girl (HB)</description>
 		<year>2020</year>
 		<manufacturer>Tensei Kobo</manufacturer>
@@ -15383,6 +15754,18 @@
 		<year>1989</year>
 		<manufacturer>Animagic</manufacturer>
 		<rom name="Soldier of Light (Euro, ES)(1989)(Animagic).rom" size="131072" crc="cab9cea9"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="sorkidadv" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Sorcerer Kid Adventure (HB, v1.02)</description>
+		<year>2024</year>
+		<manufacturer>VidaExtraRetro</manufacturer>
+		<rom name="Sorcerer Kid Adventure v1.02 (2024)(VidaExtraRetro).rom" size="49152" crc="52747abb"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -16032,7 +16415,7 @@
 		<driver status="good"/>
 	</game>
 	<game name="stormrescue" romof="msx" sourcefile="msx/d_msx.cpp">
-		<comment>Homebrew</comment>
+		<comment>Homebrew, DSK2ROM conversion</comment>
 		<description>Storm Rescue (HB)</description>
 		<year>2022</year>
 		<manufacturer>Renato Murta</manufacturer>
@@ -16459,7 +16842,7 @@
 	<game name="sweetacr" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Sweet Acorn (Japan)</description>
 		<year>1984</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Sweet Acorn (Japan)(1984)(Taito).rom" size="16384" crc="58670a22"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -16470,7 +16853,7 @@
 	<game name="sweetacra" cloneof="sweetacr" romof="sweetacr" sourcefile="msx/d_msx.cpp">
 		<description>Sweet Acorn (Japan, Alt)</description>
 		<year>1984</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Sweet Acorn (Japan)(Alt)(1984)(Taito).rom" size="16384" crc="54a8bf3c"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -16505,7 +16888,7 @@
 		<description>T-Virus (HB)</description>
 		<year>2004</year>
 		<manufacturer>Dioniso (Alfonso D.C.)</manufacturer>
-		<rom name="tvirus.rom" size="8192" crc="72b26927"/>
+		<rom name="T-Virus (2004)(Dioniso).rom" size="8192" crc="72b26927"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -17385,7 +17768,7 @@
 		<description>Traffic Jam (HB)</description>
 		<year>2006</year>
 		<manufacturer>Imanok</manufacturer>
-		<rom name="traffic jam (2006)(imanok).rom" size="32768" crc="0c7929be"/>
+		<rom name="Traffic Jam (2006)(Imanok).rom" size="32768" crc="0c7929be"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -17408,7 +17791,7 @@
 		<description>Transball (HB, v1.3.2)</description>
 		<year>2016</year>
 		<manufacturer>Brain Games</manufacturer>
-		<rom name="transball-en.rom" size="32768" crc="cbcf03c5"/>
+		<rom name="Transball v1.3.2 (2016)(Brain Games).rom" size="32768" crc="cbcf03c5"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -17442,6 +17825,30 @@
 		<year>1986</year>
 		<manufacturer>Sein Soft</manufacturer>
 		<rom name="Tritorn (Japan)(1986)(Sein Soft).rom" size="32768" crc="c0a81a48"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="trucho" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Trucho (HB)</description>
+		<year>2024</year>
+		<manufacturer>Kamino</manufacturer>
+		<rom name="Trucho (2024)(Kamino).rom" size="49152" crc="fc5a0042"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
+	<game name="trun" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>TRUN (HB)</description>
+		<year>2016</year>
+		<manufacturer>The Pets Mode</manufacturer>
+		<rom name="TRUN (2016)(The Pets Mode).rom" size="49152" crc="7c48ae05"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -17537,6 +17944,18 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="tuttut" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Tut Tut (HB)</description>
+		<year>2024</year>
+		<manufacturer>Shieladixon</manufacturer>
+		<rom name="Tut Tut (2024)(Shieladixon).rom" size="32768" crc="bc7329b6"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="twinbee" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Twin Bee (Japan)</description>
 		<year>1986</year>
@@ -17597,7 +18016,7 @@
 		<description>Twinlight (HB)</description>
 		<year>2019</year>
 		<manufacturer>RetroSouls</manufacturer>
-		<rom name="twinlight.rom" size="32768" crc="3b76ceef"/>
+		<rom name="Twinlight (2019)(RetroSouls).rom" size="32768" crc="3b76ceef"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -17644,7 +18063,7 @@
 		<description>Uchusen Gamma (HB)</description>
 		<year>2019</year>
 		<manufacturer>usebox.net</manufacturer>
-		<rom name="uchusen gamma.rom" size="49152" crc="06a85e42"/>
+		<rom name="Uchusen Gamma (2019)(usebox.net).rom" size="49152" crc="06a85e42"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -17689,7 +18108,7 @@
 		<description>Universe Unknown (HB)</description>
 		<year>2005</year>
 		<manufacturer>Infinite</manufacturer>
-		<rom name="UniverseUnknown.rom" size="49152" crc="a017f389"/>
+		<rom name="Universe Unknown (2005)(Infinite).rom" size="49152" crc="a017f389"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -17701,7 +18120,7 @@
 		<description>Uridium (HB)</description>
 		<year>2014</year>
 		<manufacturer>Trilobyte</manufacturer>
-		<rom name="URDIUM48.rom" size="49152" crc="c62d92da"/>
+		<rom name="Uridium (2014)(Trilobyte).rom" size="49152" crc="c62d92da"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -18095,6 +18514,18 @@
 		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
 		<driver status="good"/>
 	</game>
+	<game name="wsbyrons" romof="msx" sourcefile="msx/d_msx.cpp">
+		<comment>Homebrew</comment>
+		<description>Whack 'Em Smack 'Em Byrons (HB)</description>
+		<year>2024</year>
+		<manufacturer>Jess Creations</manufacturer>
+		<rom name="Whack 'Em Smack 'Em Byrons (2024)(Jess Creations).rom" size="32768" crc="cd5534d3"/>
+		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
+		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
+		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
+		<video type="raster" orientation="horizontal" width="272" height="228" aspectx="4" aspecty="3"/>
+		<driver status="good"/>
+	</game>
 	<game name="whereisit" romof="msx" sourcefile="msx/d_msx.cpp">
 		<comment>Homebrew</comment>
 		<description>Where Is it - The Quest For the 10th Island (HB)</description>
@@ -18222,11 +18653,11 @@
 		<driver status="good"/>
 	</game>
 	<game name="woodsrat" romof="msx" sourcefile="msx/d_msx.cpp">
-		<comment>Homebrew</comment>
+		<comment>Homebrew, DSK2ROM conversion</comment>
 		<description>Woods Rat (HB, v1.4)</description>
 		<year>2023</year>
-		<manufacturer>Gamecast Entertainment</manufacturer>
-		<rom name="Woods Rat v1.4 (2023)(Gamecast Entertainment).rom" size="753664" crc="c4958458"/>
+		<manufacturer>Gamecast</manufacturer>
+		<rom name="Woods Rat v1.4 (2023)(Gamecast).rom" size="753664" crc="c4958458"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
 		<rom name="kanji.rom" merge="kanji.rom" size="262144" crc="1f6406fb"/>
@@ -18363,7 +18794,7 @@
 	<game name="xyzolog" romof="msx" sourcefile="msx/d_msx.cpp">
 		<description>Xyzolog (Japan)</description>
 		<year>1984</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Xyxolog (Japan)(1984)(Taito).rom" size="16384" crc="c7303910"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>
@@ -18374,7 +18805,7 @@
 	<game name="xyzologa" cloneof="xyzolog" romof="xyzolog" sourcefile="msx/d_msx.cpp">
 		<description>Xyzolog (Japan, Alt)</description>
 		<year>1984</year>
-		<manufacturer>Taito</manufacturer>
+		<manufacturer>Taito Corp.</manufacturer>
 		<rom name="Xyxolog (Japan)(Alt)(1984)(Taito).rom" size="16384" crc="c9074b91"/>
 		<rom name="msx.rom" merge="msx.rom" size="32768" crc="a317e6b4"/>
 		<rom name="msxj.rom" merge="msxj.rom" size="32768" crc="071135e0"/>

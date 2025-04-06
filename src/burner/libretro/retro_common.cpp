@@ -19,22 +19,22 @@ struct RomBiosInfo neogeo_bioses[] = {
 	{"sp1-j3.bin",        0xfbc6d469, 0x0e, "MVS Japan (J3, alt)"            , NEOGEO_MVS | NEOGEO_JAP, 0 },
 	{"neo-epo.bin",       0xd27a71f1, 0x10, "AES Asia"                       , NEOGEO_AES | NEOGEO_EUR, 0 },
 	{"neo-po.bin",        0x16d0c132, 0x0f, "AES Japan"                      , NEOGEO_AES | NEOGEO_JAP, 0 },
-	{"uni-bios_4_0.rom",  0xa7aab458, 0x13, "Universe BIOS ver. 4.0"         , NEOGEO_UNI, 0 },
-	{"uni-bios_3_3.rom",  0x24858466, 0x14, "Universe BIOS ver. 3.3"         , NEOGEO_UNI, 0 },
-	{"uni-bios_3_2.rom",  0xa4e8b9b3, 0x15, "Universe BIOS ver. 3.2"         , NEOGEO_UNI, 0 },
-	{"uni-bios_3_1.rom",  0x0c58093f, 0x16, "Universe BIOS ver. 3.1"         , NEOGEO_UNI, 0 },
-	{"uni-bios_3_0.rom",  0xa97c89a9, 0x17, "Universe BIOS ver. 3.0"         , NEOGEO_UNI, 0 },
-	{"uni-bios_2_3.rom",  0x27664eb5, 0x18, "Universe BIOS ver. 2.3"         , NEOGEO_UNI, 0 },
-	{"uni-bios_2_3o.rom", 0x601720ae, 0x19, "Universe BIOS ver. 2.3 (alt)"   , NEOGEO_UNI, 0 },
-	{"uni-bios_2_2.rom",  0x2d50996a, 0x1a, "Universe BIOS ver. 2.2"         , NEOGEO_UNI, 0 },
-	{"uni-bios_2_1.rom",  0x8dabf76b, 0x1b, "Universe BIOS ver. 2.1"         , NEOGEO_UNI, 0 },
-	{"uni-bios_2_0.rom",  0x0c12c2ad, 0x1c, "Universe BIOS ver. 2.0"         , NEOGEO_UNI, 0 },
-	{"uni-bios_1_3.rom",  0xb24b44a0, 0x1d, "Universe BIOS ver. 1.3"         , NEOGEO_UNI, 0 },
-	{"uni-bios_1_2.rom",  0x4fa698e9, 0x1e, "Universe BIOS ver. 1.2"         , NEOGEO_UNI, 0 },
-	{"uni-bios_1_2o.rom", 0xe19d3ce9, 0x1f, "Universe BIOS ver. 1.2 (alt)"   , NEOGEO_UNI, 0 },
-	{"uni-bios_1_1.rom",  0x5dda0d84, 0x20, "Universe BIOS ver. 1.1"         , NEOGEO_UNI, 0 },
-	{"uni-bios_1_0.rom",  0x0ce453a0, 0x21, "Universe BIOS ver. 1.0"         , NEOGEO_UNI, 0 },
-	{NULL, 0, 0, NULL, 0 }
+	{"uni-bios_4_0.rom",  0xa7aab458, 0x13, "Universe BIOS ver. 4.0"         , NEOGEO_UNI,              0 },
+	{"uni-bios_3_3.rom",  0x24858466, 0x14, "Universe BIOS ver. 3.3"         , NEOGEO_UNI,              0 },
+	{"uni-bios_3_2.rom",  0xa4e8b9b3, 0x15, "Universe BIOS ver. 3.2"         , NEOGEO_UNI,              0 },
+	{"uni-bios_3_1.rom",  0x0c58093f, 0x16, "Universe BIOS ver. 3.1"         , NEOGEO_UNI,              0 },
+	{"uni-bios_3_0.rom",  0xa97c89a9, 0x17, "Universe BIOS ver. 3.0"         , NEOGEO_UNI,              0 },
+	{"uni-bios_2_3.rom",  0x27664eb5, 0x18, "Universe BIOS ver. 2.3"         , NEOGEO_UNI,              0 },
+	{"uni-bios_2_3o.rom", 0x601720ae, 0x19, "Universe BIOS ver. 2.3 (alt)"   , NEOGEO_UNI,              0 },
+	{"uni-bios_2_2.rom",  0x2d50996a, 0x1a, "Universe BIOS ver. 2.2"         , NEOGEO_UNI,              0 },
+	{"uni-bios_2_1.rom",  0x8dabf76b, 0x1b, "Universe BIOS ver. 2.1"         , NEOGEO_UNI,              0 },
+	{"uni-bios_2_0.rom",  0x0c12c2ad, 0x1c, "Universe BIOS ver. 2.0"         , NEOGEO_UNI,              0 },
+	{"uni-bios_1_3.rom",  0xb24b44a0, 0x1d, "Universe BIOS ver. 1.3"         , NEOGEO_UNI,              0 },
+	{"uni-bios_1_2.rom",  0x4fa698e9, 0x1e, "Universe BIOS ver. 1.2"         , NEOGEO_UNI,              0 },
+	{"uni-bios_1_2o.rom", 0xe19d3ce9, 0x1f, "Universe BIOS ver. 1.2 (alt)"   , NEOGEO_UNI,              0 },
+	{"uni-bios_1_1.rom",  0x5dda0d84, 0x20, "Universe BIOS ver. 1.1"         , NEOGEO_UNI,              0 },
+	{"uni-bios_1_0.rom",  0x0ce453a0, 0x21, "Universe BIOS ver. 1.0"         , NEOGEO_UNI,              0 },
+	{NULL,                0,          0,    NULL,                                                       0 }
 };
 
 std::vector<dipswitch_core_option> dipswitch_core_options;
@@ -42,38 +42,38 @@ struct GameInp *pgi_reset;
 struct GameInp *pgi_diag;
 struct GameInp *pgi_debug_dip_1;
 struct GameInp *pgi_debug_dip_2;
-bool bIsNeogeoCartGame = false;
-bool allow_neogeo_mode = true;
+bool bIsNeogeoCartGame                = false;
+bool allow_neogeo_mode                = true;
 bool neogeo_use_specific_default_bios = false;
-bool bAllowDepth32 = false;
-bool bPatchedRomsetsEnabled = true;
+bool bAllowDepth32                    = false;
+bool bPatchedRomsetsEnabled           = true;
 bool bLibretroSupportsAudioBuffStatus = false;
-bool bLowPassFilterEnabled = false;
-UINT32 nVerticalMode = 0;
-UINT32 nFrameskip = 1;
-INT32 g_audio_samplerate = 48000;
-UINT32 nMemcardMode = 0;
-UINT32 nLightgunCrosshairEmulation = 0;
+bool bLowPassFilterEnabled            = false;
+UINT32 nVerticalMode                  = 0;
+UINT32 nFrameskip                     = 1;
+INT32 g_audio_samplerate              = 48000;
+UINT32 nMemcardMode                   = 0;
+UINT32 nLightgunCrosshairEmulation    = 0;
 UINT8 *diag_input;
-uint32_t g_opt_neo_geo_mode = 0;
+uint32_t g_opt_neo_geo_mode           = 0;
 
 #ifdef USE_CYCLONE
 // 0 - c68k, 1 - m68k
 // we don't use cyclone by default because it breaks savestates cross-platform compatibility (including netplay)
 int nSekCpuCore = 1;
-static bool bCycloneEnabled = false;
+static bool bCycloneEnabled = true;
 #endif
 
-static UINT8 diag_input_start[] =       {RETRO_DEVICE_ID_JOYPAD_START,  RETRO_DEVICE_ID_JOYPAD_EMPTY };
-static UINT8 diag_input_start_a_b[] =   {RETRO_DEVICE_ID_JOYPAD_START,  RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_EMPTY };
-static UINT8 diag_input_start_l_r[] =   {RETRO_DEVICE_ID_JOYPAD_START,  RETRO_DEVICE_ID_JOYPAD_L, RETRO_DEVICE_ID_JOYPAD_R, RETRO_DEVICE_ID_JOYPAD_EMPTY };
-static UINT8 diag_input_select[] =      {RETRO_DEVICE_ID_JOYPAD_SELECT, RETRO_DEVICE_ID_JOYPAD_EMPTY };
-static UINT8 diag_input_select_a_b[] =  {RETRO_DEVICE_ID_JOYPAD_SELECT, RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_EMPTY };
-static UINT8 diag_input_select_l_r[] =  {RETRO_DEVICE_ID_JOYPAD_SELECT, RETRO_DEVICE_ID_JOYPAD_L, RETRO_DEVICE_ID_JOYPAD_R, RETRO_DEVICE_ID_JOYPAD_EMPTY };
+static UINT8 diag_input_start[]      = { RETRO_DEVICE_ID_JOYPAD_START,  RETRO_DEVICE_ID_JOYPAD_EMPTY };
+static UINT8 diag_input_start_a_b[]  = { RETRO_DEVICE_ID_JOYPAD_START,  RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_EMPTY };
+static UINT8 diag_input_start_l_r[]  = { RETRO_DEVICE_ID_JOYPAD_START,  RETRO_DEVICE_ID_JOYPAD_L, RETRO_DEVICE_ID_JOYPAD_R, RETRO_DEVICE_ID_JOYPAD_EMPTY };
+static UINT8 diag_input_select[]     = { RETRO_DEVICE_ID_JOYPAD_SELECT, RETRO_DEVICE_ID_JOYPAD_EMPTY };
+static UINT8 diag_input_select_a_b[] = { RETRO_DEVICE_ID_JOYPAD_SELECT, RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_EMPTY };
+static UINT8 diag_input_select_l_r[] = { RETRO_DEVICE_ID_JOYPAD_SELECT, RETRO_DEVICE_ID_JOYPAD_L, RETRO_DEVICE_ID_JOYPAD_R, RETRO_DEVICE_ID_JOYPAD_EMPTY };
 
 // Global core options
 static const struct retro_core_option_v2_definition var_empty = { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL };
-static const struct retro_core_option_v2_definition var_fbneo_allow_depth_32 = {
+static struct retro_core_option_v2_definition var_fbneo_allow_depth_32 = {
 	"fbneo-allow-depth-32",
 	"Use 32-bits color depth when available",
 	NULL,
@@ -82,12 +82,12 @@ static const struct retro_core_option_v2_definition var_fbneo_allow_depth_32 = {
 	NULL,
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_vertical_mode = {
+static struct retro_core_option_v2_definition var_fbneo_vertical_mode = {
 	"fbneo-vertical-mode",
 	"Vertical mode",
 	NULL,
@@ -95,16 +95,16 @@ static const struct retro_core_option_v2_definition var_fbneo_vertical_mode = {
 	NULL,
 	NULL,
 	{
-		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ "alternate", NULL },
-		{ "TATE", NULL },
+		{ "disabled",       NULL },
+		{ "enabled",        NULL },
+		{ "alternate",      NULL },
+		{ "TATE",           NULL },
 		{ "TATE alternate", NULL },
-		{ NULL, NULL },
+		{ NULL,             NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_force_60hz = {
+static struct retro_core_option_v2_definition var_fbneo_force_60hz = {
 	"fbneo-force-60hz",
 	"Force 60Hz",
 	NULL,
@@ -113,35 +113,30 @@ static const struct retro_core_option_v2_definition var_fbneo_force_60hz = {
 	NULL,
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_fixed_frameskip = {
+static struct retro_core_option_v2_definition var_fbneo_fixed_frameskip = {
 	"fbneo-fixed-frameskip",
-	"Xtreme TurboBoost",
+	"Fixed Frameskip",
 	NULL,
-	"Xtreme TurboBoost helps flesh out a more optimal differential between performance/speed on Lower Spec Hardwares, such as the Mini Classics.  To further enhance things, desynch Audio in RetroArch, Settings, Audio.",
+	"When 'Frameskip' is set to 'Fixed', or if the frontend doesn't support the alternative 'Frameskip' mode, skip rendering at a fixed rate of X frames out of X+1",
 	NULL,
 	"frameskip",
 	{
-		{ "0", "Off" },
-		{ "X1", "X Factor 1" },
-		{ "X2", "X Factor 2" },
-		{ "X3", "X Factor 3" },
-		{ "X4", "X Factor 4" },
-		{ "X5", "X Factor 5" },
-		{ "X6", "X Factor 6" },
-		{ "X7", "X Factor 7" },
-		{ "X8", "X Factor 8" },
-		{ "X9", "X Factor 9" },
-		{ "XX", "X Factor 10" },
-		{ NULL, NULL },
+		{ "0",  "No skipping"                         },
+		{ "1",  "Skip rendering of 1 frames out of 2" },
+		{ "2",  "Skip rendering of 2 frames out of 3" },
+		{ "3",  "Skip rendering of 3 frames out of 4" },
+		{ "4",  "Skip rendering of 4 frames out of 5" },
+		{ "5",  "Skip rendering of 5 frames out of 6" },
+		{ NULL, NULL                                  },
 	},
-	"X1"
+	"0"
 };
-static const struct retro_core_option_v2_definition var_fbneo_frameskip_type = {
+static struct retro_core_option_v2_definition var_fbneo_frameskip_type = {
 	"fbneo-frameskip-type",
 	"Frameskip",
 	NULL,
@@ -150,14 +145,14 @@ static const struct retro_core_option_v2_definition var_fbneo_frameskip_type = {
 	"frameskip",
 	{
 		{ "disabled", NULL },
-		{ "Fixed", NULL },
-		{ "Auto", NULL },
-		{ "Manual", NULL },
-		{ NULL, NULL },
+		{ "Fixed",    NULL },
+		{ "Auto",     NULL },
+		{ "Manual",   NULL },
+		{ NULL,       NULL },
 	},
-	"Fixed"
+	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_frameskip_manual_threshold = {
+static struct retro_core_option_v2_definition var_fbneo_frameskip_manual_threshold = {
 	"fbneo-frameskip-manual-threshold",
 	"Frameskip Threshold (%)",
 	NULL,
@@ -185,9 +180,9 @@ static const struct retro_core_option_v2_definition var_fbneo_frameskip_manual_t
 	},
 	"33"
 };
-static const struct retro_core_option_v2_definition var_fbneo_cpu_speed_adjust = {
+static struct retro_core_option_v2_definition var_fbneo_cpu_speed_adjust = {
 	"fbneo-cpu-speed-adjust",
-        "Xtreme Reverse OverClock",
+	"CPU clock",
 	NULL,
 	"Change emulated cpu frequency for various systems, by increasing you can fix native slowdowns in some games, by decreasing you can help performance on low-end devices",
 	NULL,
@@ -264,7 +259,7 @@ static const struct retro_core_option_v2_definition var_fbneo_cpu_speed_adjust =
 	},
 	"100%"
 };
-static const struct retro_core_option_v2_definition var_fbneo_diagnostic_input = {
+static struct retro_core_option_v2_definition var_fbneo_diagnostic_input = {
 	"fbneo-diagnostic-input",
 	"Diagnostic Input",
 	NULL,
@@ -272,22 +267,22 @@ static const struct retro_core_option_v2_definition var_fbneo_diagnostic_input =
 	NULL,
 	NULL,
 	{
-		{ "None", NULL },
-		{ "Hold Start", NULL },
-		{ "Start + A + B", NULL },
-		{ "Hold Start + A + B", NULL },
-		{ "Start + L + R", NULL },
-		{ "Hold Start + L + R", NULL },
-		{ "Hold Select", NULL },
-		{ "Select + A + B", NULL },
+		{ "None",                NULL },
+		{ "Hold Start",          NULL },
+		{ "Start + A + B",       NULL },
+		{ "Hold Start + A + B",  NULL },
+		{ "Start + L + R",       NULL },
+		{ "Hold Start + L + R",  NULL },
+		{ "Hold Select",         NULL },
+		{ "Select + A + B",      NULL },
 		{ "Hold Select + A + B", NULL },
-		{ "Select + L + R", NULL },
+		{ "Select + L + R",      NULL },
 		{ "Hold Select + L + R", NULL },
-		{ NULL, NULL },
+		{ NULL,                  NULL },
 	},
 	"Hold Start"
 };
-static const struct retro_core_option_v2_definition var_fbneo_hiscores = {
+static struct retro_core_option_v2_definition var_fbneo_hiscores = {
 	"fbneo-hiscores",
 	"Hiscores",
 	NULL,
@@ -296,12 +291,12 @@ static const struct retro_core_option_v2_definition var_fbneo_hiscores = {
 	NULL,
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_allow_patched_romsets = {
+static struct retro_core_option_v2_definition var_fbneo_allow_patched_romsets = {
 	"fbneo-allow-patched-romsets",
 	"Allow patched romsets",
 	NULL,
@@ -310,12 +305,12 @@ static const struct retro_core_option_v2_definition var_fbneo_allow_patched_roms
 	NULL,
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_samplerate = {
+static struct retro_core_option_v2_definition var_fbneo_samplerate = {
 	"fbneo-samplerate",
 	"Samplerate",
 	NULL,
@@ -325,14 +320,14 @@ static const struct retro_core_option_v2_definition var_fbneo_samplerate = {
 	{
 		{ "8000", NULL },
 		{ "18500", NULL },
-		{ "22500", NULL },
+		{ "22500", NULL },		
 		{ "44100", NULL },
 		{ "48000", NULL },
-		{ NULL, NULL },
+		{ NULL,    NULL },
 	},
 	"48000"
 };
-static const struct retro_core_option_v2_definition var_fbneo_sample_interpolation = {
+static struct retro_core_option_v2_definition var_fbneo_sample_interpolation = {
 	"fbneo-sample-interpolation",
 	"Sample Interpolation",
 	NULL,
@@ -340,14 +335,14 @@ static const struct retro_core_option_v2_definition var_fbneo_sample_interpolati
 	NULL,
 	"audio",
 	{
-		{ "disabled", NULL },
+		{ "disabled",          NULL },
 		{ "2-point 1st order", NULL },
 		{ "4-point 3rd order", NULL },
-		{ NULL, NULL },
+		{ NULL,                NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_fm_interpolation = {
+static struct retro_core_option_v2_definition var_fbneo_fm_interpolation = {
 	"fbneo-fm-interpolation",
 	"FM Interpolation",
 	NULL,
@@ -355,13 +350,13 @@ static const struct retro_core_option_v2_definition var_fbneo_fm_interpolation =
 	NULL,
 	"audio",
 	{
-		{ "disabled", NULL },
+		{ "disabled",          NULL },
 		{ "4-point 3rd order", NULL },
-		{ NULL, NULL },
+		{ NULL,                NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_lowpass_filter = {
+static struct retro_core_option_v2_definition var_fbneo_lowpass_filter = {
 	"fbneo-lowpass-filter",
 	"LowPass Filter",
 	NULL,
@@ -370,12 +365,12 @@ static const struct retro_core_option_v2_definition var_fbneo_lowpass_filter = {
 	"audio",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_analog_speed = {
+static struct retro_core_option_v2_definition var_fbneo_analog_speed = {
 	"fbneo-analog-speed",
 	"Analog Speed",
 	NULL,
@@ -387,40 +382,40 @@ static const struct retro_core_option_v2_definition var_fbneo_analog_speed = {
 	},
 	"100%"
 };
-static const struct retro_core_option_v2_definition var_fbneo_lightgun_crosshair_emulation = {
+static struct retro_core_option_v2_definition var_fbneo_lightgun_crosshair_emulation = {
 	"fbneo-lightgun-crosshair-emulation",
 	"Crosshair emulation",
 	NULL,
-	"Change emulated crosshair behavior",
+	"Change emulated crosshair behavior, \"hide with lightgun device\" will also hide it on touchscreen device",
 	NULL,
 	NULL,
 	{
 		{ "hide with lightgun device", NULL },
-		{ "always hide", NULL },
-		{ "always show", NULL },
-		{ NULL, NULL },
+		{ "always hide",               NULL },
+		{ "always show",               NULL },
+		{ NULL,                        NULL },
 	},
 	"hide with lightgun device"
 };
 #ifdef USE_CYCLONE
-static const struct retro_core_option_v2_definition var_fbneo_cyclone = {
+static struct retro_core_option_v2_definition var_fbneo_cyclone = {
 	"fbneo-cyclone",
-	"Ultra Cyclone",
+	"Enable cyclone",
 	NULL,
 	"Use at your own risk, it could improve performance on some emulated systems for low-end devices, but there are known side effects : savestates won't be compatible with normal interpreter, and some systems won't work",
 	NULL,
 	NULL,
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
 #endif
 
 // Neo Geo core options
-static const struct retro_core_option_v2_definition var_fbneo_neogeo_mode = {
+static struct retro_core_option_v2_definition var_fbneo_neogeo_mode = {
 	"fbneo-neogeo-mode",
 	"Neo-Geo mode",
 	NULL,
@@ -429,17 +424,17 @@ static const struct retro_core_option_v2_definition var_fbneo_neogeo_mode = {
 	"neogeo",
 	{
 		{ "DIPSWITCH", "Use bios set in BIOS dipswitch" },
-		{ "MVS_EUR", "MVS Europe/Asia (English)" },
-		{ "MVS_USA", "MVS USA (English - Censored)" },
-		{ "MVS_JAP", "MVS Japan (Japanese)" },
-		{ "AES_EUR", "AES Europe/Asia (English)" },
-		{ "AES_JAP", "AES Japan (Japanese)" },
-		{ "UNIBIOS", "UNIBIOS" },
-		{ NULL, NULL },
+		{ "MVS_EUR",   "MVS Europe/Asia (English)"      },
+		{ "MVS_USA",   "MVS USA (English - Censored)"   },
+		{ "MVS_JAP",   "MVS Japan (Japanese)"           },
+		{ "AES_EUR",   "AES Europe/Asia (English)"      },
+		{ "AES_JAP",   "AES Japan (Japanese)"           },
+		{ "UNIBIOS",   "UNIBIOS"                        },
+		{ NULL, NULL                                    },
 	},
 	"DIPSWITCH"
 };
-static const struct retro_core_option_v2_definition var_fbneo_memcard_mode = {
+static struct retro_core_option_v2_definition var_fbneo_memcard_mode = {
 	"fbneo-memcard-mode",
 	"Memory card mode",
 	NULL,
@@ -448,13 +443,13 @@ static const struct retro_core_option_v2_definition var_fbneo_memcard_mode = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "shared", NULL },
+		{ "shared",   NULL },
 		{ "per-game", NULL },
-		{ NULL, NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_1 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_1_1 = {
 	"fbneo-debug-dip-1-1",
 	"Debug Dip 1_1",
 	NULL,
@@ -463,12 +458,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_1 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_2 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_1_2 = {
 	"fbneo-debug-dip-1-2",
 	"Debug Dip 1_2",
 	NULL,
@@ -477,12 +472,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_2 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_3 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_1_3 = {
 	"fbneo-debug-dip-1-3",
 	"Debug Dip 1_3",
 	NULL,
@@ -491,12 +486,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_3 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_4 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_1_4 = {
 	"fbneo-debug-dip-1-4",
 	"Debug Dip 1_4",
 	NULL,
@@ -505,12 +500,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_4 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_5 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_1_5 = {
 	"fbneo-debug-dip-1-5",
 	"Debug Dip 1_5",
 	NULL,
@@ -519,12 +514,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_5 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_6 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_1_6 = {
 	"fbneo-debug-dip-1-6",
 	"Debug Dip 1_6",
 	NULL,
@@ -533,12 +528,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_6 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_7 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_1_7 = {
 	"fbneo-debug-dip-1-7",
 	"Debug Dip 1_7",
 	NULL,
@@ -547,12 +542,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_7 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_8 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_1_8 = {
 	"fbneo-debug-dip-1-8",
 	"Debug Dip 1_8",
 	NULL,
@@ -561,12 +556,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_1_8 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_1 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_2_1 = {
 	"fbneo-debug-dip-2-1",
 	"Debug Dip 2_1",
 	NULL,
@@ -575,12 +570,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_1 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_2 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_2_2 = {
 	"fbneo-debug-dip-2-2",
 	"Debug Dip 2_2",
 	NULL,
@@ -589,12 +584,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_2 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_3 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_2_3 = {
 	"fbneo-debug-dip-2-3",
 	"Debug Dip 2_3",
 	NULL,
@@ -603,12 +598,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_3 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_4 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_2_4 = {
 	"fbneo-debug-dip-2-4",
 	"Debug Dip 2_4",
 	NULL,
@@ -617,12 +612,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_4 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_5 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_2_5 = {
 	"fbneo-debug-dip-2-5",
 	"Debug Dip 2_5",
 	NULL,
@@ -631,12 +626,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_5 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_6 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_2_6 = {
 	"fbneo-debug-dip-2-6",
 	"Debug Dip 2_6",
 	NULL,
@@ -645,12 +640,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_6 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_7 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_2_7 = {
 	"fbneo-debug-dip-2-7",
 	"Debug Dip 2_7",
 	NULL,
@@ -659,12 +654,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_7 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_8 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_dip_2_8 = {
 	"fbneo-debug-dip-2-8",
 	"Debug Dip 2_8",
 	NULL,
@@ -673,14 +668,14 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_dip_2_8 = {
 	"neogeo",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"disabled"
 };
 
 #ifdef FBNEO_DEBUG
-static const struct retro_core_option_v2_definition var_fbneo_debug_layer_1 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_layer_1 = {
 	"fbneo-debug-layer-1",
 	"Layer 1",
 	NULL,
@@ -689,12 +684,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_layer_1 = {
 	"debug",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_layer_2 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_layer_2 = {
 	"fbneo-debug-layer-2",
 	"Layer 2",
 	NULL,
@@ -703,12 +698,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_layer_2 = {
 	"debug",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_layer_3 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_layer_3 = {
 	"fbneo-debug-layer-3",
 	"Layer 3",
 	NULL,
@@ -717,12 +712,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_layer_3 = {
 	"debug",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_layer_4 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_layer_4 = {
 	"fbneo-debug-layer-4",
 	"Layer 4",
 	NULL,
@@ -731,12 +726,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_layer_4 = {
 	"debug",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_1 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_sprite_1 = {
 	"fbneo-debug-sprite-1",
 	"Sprite 1",
 	NULL,
@@ -745,12 +740,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_1 = {
 	"debug",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_2 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_sprite_2 = {
 	"fbneo-debug-sprite-2",
 	"Sprite 2",
 	NULL,
@@ -759,12 +754,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_2 = {
 	"debug",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_3 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_sprite_3 = {
 	"fbneo-debug-sprite-3",
 	"Sprite 3",
 	NULL,
@@ -773,12 +768,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_3 = {
 	"debug",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_4 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_sprite_4 = {
 	"fbneo-debug-sprite-4",
 	"Sprite 4",
 	NULL,
@@ -787,12 +782,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_4 = {
 	"debug",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_5 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_sprite_5 = {
 	"fbneo-debug-sprite-5",
 	"Sprite 5",
 	NULL,
@@ -801,12 +796,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_5 = {
 	"debug",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_6 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_sprite_6 = {
 	"fbneo-debug-sprite-6",
 	"Sprite 6",
 	NULL,
@@ -815,12 +810,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_6 = {
 	"debug",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_7 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_sprite_7 = {
 	"fbneo-debug-sprite-7",
 	"Sprite 7",
 	NULL,
@@ -829,12 +824,12 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_7 = {
 	"debug",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
-static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_8 = {
+static struct retro_core_option_v2_definition var_fbneo_debug_sprite_8 = {
 	"fbneo-debug-sprite-8",
 	"Sprite 8",
 	NULL,
@@ -843,8 +838,8 @@ static const struct retro_core_option_v2_definition var_fbneo_debug_sprite_8 = {
 	"debug",
 	{
 		{ "disabled", NULL },
-		{ "enabled", NULL },
-		{ NULL, NULL },
+		{ "enabled",  NULL },
+		{ NULL,       NULL },
 	},
 	"enabled"
 };
@@ -889,6 +884,7 @@ static RomBiosInfo* find_neogeo_bios(uint32_t categories)
 
 void set_neo_system_bios()
 {
+#ifndef NO_NEOGEO
 	if (g_opt_neo_geo_mode == 0)
 	{
 		// Nothing to do in DIPSWITCH mode because the NeoSystem variable is changed by the DIP Switch core option
@@ -908,6 +904,7 @@ void set_neo_system_bios()
 			log_cb(RETRO_LOG_INFO, "No bios found for requested mode, falling back to DIPSWITCH => NeoSystem: 0x%02x.\n", NeoSystem);
 		}
 	}
+#endif
 }
 
 void evaluate_neogeo_bios_mode(const char* drvname)
@@ -959,7 +956,7 @@ void set_environment()
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
 	#ifndef FORCE_USE_VFS
 	#define FORCE_USE_VFS
-    #endif
+	#endif
 #endif
 #endif
 
@@ -968,48 +965,150 @@ void set_environment()
 #endif
 
 	// Add the Global core options
+	var_fbneo_allow_depth_32.desc                          = RETRO_DEPTH32_CAT_DESC;
+	var_fbneo_allow_depth_32.info                          = RETRO_DEPTH32_CAT_INFO;
 	vars_systems.push_back(&var_fbneo_allow_depth_32);
+
+	var_fbneo_vertical_mode.desc                           = RETRO_VERTICAL_CAT_DESC;
+	var_fbneo_vertical_mode.info                           = RETRO_VERTICAL_CAT_INFO;
+	var_fbneo_vertical_mode.values[2].value                = RETRO_VERTICAL_VALUE_2;
+	var_fbneo_vertical_mode.values[4].value                = RETRO_VERTICAL_VALUE_4;
 	vars_systems.push_back(&var_fbneo_vertical_mode);
+
+	var_fbneo_force_60hz.desc                              = RETRO_FORCE60_CAT_DESC;
+	var_fbneo_force_60hz.info                              = RETRO_FORCE60_CAT_INFO;
 	vars_systems.push_back(&var_fbneo_force_60hz);
+
+	var_fbneo_allow_patched_romsets.desc                   = RETRO_PATCHED_CAT_DESC;
+	var_fbneo_allow_patched_romsets.info                   = RETRO_PATCHED_CAT_INFO;
 	vars_systems.push_back(&var_fbneo_allow_patched_romsets);
+
+	var_fbneo_analog_speed.desc                            = RETRO_ANALOG_CAT_DESC;
+	var_fbneo_analog_speed.info                            = RETRO_ANALOG_CAT_INFO;
 	vars_systems.push_back(&var_fbneo_analog_speed);
+
+	var_fbneo_lightgun_crosshair_emulation.desc            = RETRO_CROSSHAIR_CAT_DESC;
+	var_fbneo_lightgun_crosshair_emulation.info            = RETRO_CROSSHAIR_CAT_INFO;
+	var_fbneo_lightgun_crosshair_emulation.values[0].value = RETRO_CROSSHAIR_VALUE_0;
+	var_fbneo_lightgun_crosshair_emulation.values[1].value = RETRO_CROSSHAIR_VALUE_1;
+	var_fbneo_lightgun_crosshair_emulation.values[2].value = RETRO_CROSSHAIR_VALUE_2;
+	var_fbneo_lightgun_crosshair_emulation.default_value   = RETRO_CROSSHAIR_VALUE_0;
 	vars_systems.push_back(&var_fbneo_lightgun_crosshair_emulation);
+
+	var_fbneo_cpu_speed_adjust.desc                        = RETRO_CPUSPEED_CAT_DESC;
+	var_fbneo_cpu_speed_adjust.info                        = RETRO_CPUSPEED_CAT_INFO;
 	vars_systems.push_back(&var_fbneo_cpu_speed_adjust);
+
 #ifdef USE_CYCLONE
+	var_fbneo_cyclone.desc = RETRO_CYCLONE_CAT_DESC;
+	var_fbneo_cyclone.info = RETRO_CYCLONE_CAT_INFO;
 	vars_systems.push_back(&var_fbneo_cyclone);
 #endif
 	if (BurnDrvGetFlags() & BDF_HISCORE_SUPPORTED)
+	{
+		var_fbneo_hiscores.desc = RETRO_HISCORES_CAT_DESC;
+		var_fbneo_hiscores.info = RETRO_HISCORES_CAT_INFO;
 		vars_systems.push_back(&var_fbneo_hiscores);
+	}
 
 	if (pgi_diag)
+	{
+		var_fbneo_diagnostic_input.desc             = RETRO_DIAGNOSTIC_CAT_DESC;
+		var_fbneo_diagnostic_input.info             = RETRO_DIAGNOSTIC_CAT_INFO;
+		var_fbneo_diagnostic_input.values[ 0].value = RETRO_DIAGNOSTIC_VALUE_0;
+		var_fbneo_diagnostic_input.values[ 1].value = RETRO_DIAGNOSTIC_VALUE_1;
+		var_fbneo_diagnostic_input.values[ 3].value = RETRO_DIAGNOSTIC_VALUE_3;
+		var_fbneo_diagnostic_input.values[ 5].value = RETRO_DIAGNOSTIC_VALUE_5;
+		var_fbneo_diagnostic_input.values[ 6].value = RETRO_DIAGNOSTIC_VALUE_6;
+		var_fbneo_diagnostic_input.values[ 8].value = RETRO_DIAGNOSTIC_VALUE_8;
+		var_fbneo_diagnostic_input.values[10].value = RETRO_DIAGNOSTIC_VALUE_10;
+		var_fbneo_diagnostic_input.default_value    = RETRO_DIAGNOSTIC_VALUE_1;
 		vars_systems.push_back(&var_fbneo_diagnostic_input);
+	}
 
 	if (bIsNeogeoCartGame)
 	{
 		// Add the Neo Geo core options
 		if (allow_neogeo_mode)
+		{
+			var_fbneo_neogeo_mode.desc            = RETRO_NGMODE_DEF_DESC;
+			var_fbneo_neogeo_mode.info            = RETRO_NGMODE_DEF_INFO;
+			var_fbneo_neogeo_mode.values[0].label = RETRO_NGMODE_LABEL_0;
 			vars_systems.push_back(&var_fbneo_neogeo_mode);
+		}
+
+		var_fbneo_memcard_mode.desc            = RETRO_MEMCARD_DEF_DESC;
+		var_fbneo_memcard_mode.info            = RETRO_MEMCARD_DEF_INFO;
+		var_fbneo_memcard_mode.values[1].value = RETRO_MEMCARD_VALUE_1;
+		var_fbneo_memcard_mode.values[2].value = RETRO_MEMCARD_VALUE_2;
 		vars_systems.push_back(&var_fbneo_memcard_mode);
+
 		if (pgi_debug_dip_1)
 		{
+			var_fbneo_debug_dip_1_1.desc = RETRO_DEBUG11_DEF_DESC;
+			var_fbneo_debug_dip_1_1.info = RETRO_DEBUG11_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_1_1);
+
+			var_fbneo_debug_dip_1_2.desc = RETRO_DEBUG12_DEF_DESC;
+			var_fbneo_debug_dip_1_2.info = RETRO_DEBUG12_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_1_2);
+
+			var_fbneo_debug_dip_1_3.desc = RETRO_DEBUG13_DEF_DESC;
+			var_fbneo_debug_dip_1_3.info = RETRO_DEBUG13_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_1_3);
+
+			var_fbneo_debug_dip_1_4.desc = RETRO_DEBUG14_DEF_DESC;
+			var_fbneo_debug_dip_1_4.info = RETRO_DEBUG14_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_1_4);
+
+			var_fbneo_debug_dip_1_5.desc = RETRO_DEBUG15_DEF_DESC;
+			var_fbneo_debug_dip_1_5.info = RETRO_DEBUG15_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_1_5);
+
+			var_fbneo_debug_dip_1_6.desc = RETRO_DEBUG16_DEF_DESC;
+			var_fbneo_debug_dip_1_6.info = RETRO_DEBUG16_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_1_6);
+
+			var_fbneo_debug_dip_1_7.desc = RETRO_DEBUG17_DEF_DESC;
+			var_fbneo_debug_dip_1_7.info = RETRO_DEBUG17_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_1_7);
+
+			var_fbneo_debug_dip_1_8.desc = RETRO_DEBUG18_DEF_DESC;
+			var_fbneo_debug_dip_1_8.info = RETRO_DEBUG18_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_1_8);
 		}
 		if (pgi_debug_dip_2)
 		{
+			var_fbneo_debug_dip_2_1.desc = RETRO_DEBUG21_DEF_DESC;
+			var_fbneo_debug_dip_2_1.info = RETRO_DEBUG21_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_2_1);
+
+			var_fbneo_debug_dip_2_2.desc = RETRO_DEBUG22_DEF_DESC;
+			var_fbneo_debug_dip_2_2.info = RETRO_DEBUG22_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_2_2);
+
+			var_fbneo_debug_dip_2_3.desc = RETRO_DEBUG23_DEF_DESC;
+			var_fbneo_debug_dip_2_3.info = RETRO_DEBUG23_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_2_3);
+
+			var_fbneo_debug_dip_2_4.desc = RETRO_DEBUG24_DEF_DESC;
+			var_fbneo_debug_dip_2_4.info = RETRO_DEBUG24_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_2_4);
+
+			var_fbneo_debug_dip_2_5.desc = RETRO_DEBUG25_DEF_DESC;
+			var_fbneo_debug_dip_2_5.info = RETRO_DEBUG25_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_2_5);
+
+			var_fbneo_debug_dip_2_6.desc = RETRO_DEBUG26_DEF_DESC;
+			var_fbneo_debug_dip_2_6.info = RETRO_DEBUG26_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_2_6);
+
+			var_fbneo_debug_dip_2_7.desc = RETRO_DEBUG27_DEF_DESC;
+			var_fbneo_debug_dip_2_7.info = RETRO_DEBUG27_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_2_7);
+
+			var_fbneo_debug_dip_2_8.desc = RETRO_DEBUG28_DEF_DESC;
+			var_fbneo_debug_dip_2_8.info = RETRO_DEBUG28_DEF_INFO;
 			vars_systems.push_back(&var_fbneo_debug_dip_2_8);
 		}
 	}
@@ -1017,43 +1116,114 @@ void set_environment()
 	// Frameskip settings
 	if (bLibretroSupportsAudioBuffStatus)
 	{
+		var_fbneo_frameskip_type.desc             = RETRO_FRAMESKIP_DEF_DESC;
+		var_fbneo_frameskip_type.info             = RETRO_FRAMESKIP_DEF_INFO;
+		var_fbneo_frameskip_type.values[1].value  = RETRO_FRAMESKIP_VALUE_1;
+		var_fbneo_frameskip_type.values[2].value  = RETRO_FRAMESKIP_VALUE_2;
+		var_fbneo_frameskip_type.values[3].value  = RETRO_FRAMESKIP_VALUE_3;
 		vars_systems.push_back(&var_fbneo_frameskip_type);
+
+		var_fbneo_frameskip_manual_threshold.desc = RETRO_FSTHRESHOLD_DEF_DESC;
+		var_fbneo_frameskip_manual_threshold.info = RETRO_FSTHRESHOLD_DEF_INFO;
 		vars_systems.push_back(&var_fbneo_frameskip_manual_threshold);
 	}
+
+	var_fbneo_fixed_frameskip.desc            = RETRO_FSFIXED_DEF_DESC;
+	var_fbneo_fixed_frameskip.info            = RETRO_FSFIXED_DEF_INFO;
+	var_fbneo_fixed_frameskip.values[0].label = RETRO_FSFIXED_LABEL_0;
+	var_fbneo_fixed_frameskip.values[1].label = RETRO_FSFIXED_LABEL_1;
+	var_fbneo_fixed_frameskip.values[2].label = RETRO_FSFIXED_LABEL_2;
+	var_fbneo_fixed_frameskip.values[3].label = RETRO_FSFIXED_LABEL_3;
+	var_fbneo_fixed_frameskip.values[4].label = RETRO_FSFIXED_LABEL_4;
+	var_fbneo_fixed_frameskip.values[5].label = RETRO_FSFIXED_LABEL_5;
 	vars_systems.push_back(&var_fbneo_fixed_frameskip);
 
 	// Audio settings
 	if (nGameType != RETRO_GAME_TYPE_NEOCD)
+	{
+		var_fbneo_samplerate.desc = RETRO_SAMPLERATE_DEF_DESC;
+		var_fbneo_samplerate.info = RETRO_SAMPLERATE_DEF_INFO;
 		vars_systems.push_back(&var_fbneo_samplerate);
+	}
+	var_fbneo_sample_interpolation.desc            = RETRO_SAMPLE_INTERPOLATION_DEF_DESC;
+	var_fbneo_sample_interpolation.info            = RETRO_SAMPLE_INTERPOLATION_DEF_INFO;
+	var_fbneo_sample_interpolation.values[1].value = RETRO_SAMPLE_INTERPOLATION_VALUE_1;
+	var_fbneo_sample_interpolation.values[2].value = RETRO_SAMPLE_INTERPOLATION_VALUE_2;
+	var_fbneo_sample_interpolation.default_value   = RETRO_SAMPLE_INTERPOLATION_VALUE_2;
 	vars_systems.push_back(&var_fbneo_sample_interpolation);
+
+	var_fbneo_fm_interpolation.desc                = RETRO_FM_INTERPOLATION_DEF_DESC;
+	var_fbneo_fm_interpolation.info                = RETRO_FM_INTERPOLATION_DEF_INFO;
+	var_fbneo_fm_interpolation.values[1].value     = RETRO_FM_INTERPOLATION_VALUE_1;
+	var_fbneo_fm_interpolation.default_value       = RETRO_FM_INTERPOLATION_VALUE_1;
 	vars_systems.push_back(&var_fbneo_fm_interpolation);
+
+	var_fbneo_lowpass_filter.desc                  = RETRO_LOWPASS_FILTER_DEF_DESC;
+	var_fbneo_lowpass_filter.info                  = RETRO_LOWPASS_FILTER_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_lowpass_filter);
 
 #ifdef FBNEO_DEBUG
 	// Debug settings
+	var_fbneo_debug_layer_1.desc  = RETRO_DEBUG_LAYER_1_DEF_DESC;
+	var_fbneo_debug_layer_1.info  = RETRO_DEBUG_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_debug_layer_1);
+
+	var_fbneo_debug_layer_2.desc  = RETRO_DEBUG_LAYER_2_DEF_DESC;
+	var_fbneo_debug_layer_2.info  = RETRO_DEBUG_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_debug_layer_2);
+
+	var_fbneo_debug_layer_3.desc  = RETRO_DEBUG_LAYER_3_DEF_DESC;
+	var_fbneo_debug_layer_3.info  = RETRO_DEBUG_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_debug_layer_3);
+
+	var_fbneo_debug_layer_4.desc  = RETRO_DEBUG_LAYER_4_DEF_DESC;
+	var_fbneo_debug_layer_4.info  = RETRO_DEBUG_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_debug_layer_4);
+
+	var_fbneo_debug_sprite_1.desc = RETRO_DEBUG_SPRITE_1_DEF_DESC;
+	var_fbneo_debug_sprite_1.info = RETRO_DEBUG_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_debug_sprite_1);
+
+	var_fbneo_debug_sprite_2.desc = RETRO_DEBUG_SPRITE_2_DEF_DESC;
+	var_fbneo_debug_sprite_2.info = RETRO_DEBUG_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_debug_sprite_2);
+
+	var_fbneo_debug_sprite_3.desc = RETRO_DEBUG_SPRITE_3_DEF_DESC;
+	var_fbneo_debug_sprite_3.info = RETRO_DEBUG_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_debug_sprite_3);
+
+	var_fbneo_debug_sprite_4.desc = RETRO_DEBUG_SPRITE_4_DEF_DESC;
+	var_fbneo_debug_sprite_4.info = RETRO_DEBUG_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_debug_sprite_4);
+
+	var_fbneo_debug_sprite_5.desc = RETRO_DEBUG_SPRITE_5_DEF_DESC;
+	var_fbneo_debug_sprite_5.info = RETRO_DEBUG_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_debug_sprite_5);
+
+	var_fbneo_debug_sprite_6.desc = RETRO_DEBUG_SPRITE_6_DEF_DESC;
+	var_fbneo_debug_sprite_6.info = RETRO_DEBUG_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_debug_sprite_6);
+
+	var_fbneo_debug_sprite_7.desc = RETRO_DEBUG_SPRITE_7_DEF_DESC;
+	var_fbneo_debug_sprite_7.info = RETRO_DEBUG_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_debug_sprite_7);
+
+	var_fbneo_debug_sprite_8.desc = RETRO_DEBUG_SPRITE_8_DEF_DESC;
+	var_fbneo_debug_sprite_8.info = RETRO_DEBUG_DEF_INFO;
 	vars_systems.push_back(&var_fbneo_debug_sprite_8);
 #endif
 
-	int nbr_vars = vars_systems.size();
-	int nbr_dips = dipswitch_core_options.size();
-	int nbr_cheats = cheat_core_options.size();
+	int nbr_vars     = vars_systems.size();
+	int nbr_dips     = dipswitch_core_options.size();
+	int nbr_cheats   = cheat_core_options.size();
+	int nbr_ipses    = ips_core_options.size();
+	int nbr_romdatas = romdata_core_options.size();
 
 #if 0
 	log_cb(RETRO_LOG_INFO, "set_environment: SYSTEM: %d, DIPSWITCH: %d\n", nbr_vars, nbr_dips);
 #endif
 
-	option_defs_us = (struct retro_core_option_v2_definition*)calloc(nbr_vars + nbr_dips + nbr_cheats + 1, sizeof(struct retro_core_option_v2_definition));
+	option_defs_us = (struct retro_core_option_v2_definition*)calloc(nbr_vars + nbr_dips + nbr_cheats + nbr_ipses + nbr_romdatas + 1, sizeof(struct retro_core_option_v2_definition));
 
 	int idx_var = 0;
 
@@ -1073,9 +1243,9 @@ void set_environment()
 		option_defs_us[idx_var].default_value    = dipswitch_core_options[dip_idx].default_bdi.szText;
 		// Instead of filtering out the dips, make the description a warning if it's a neogeo game using a different default bios
 		if (neogeo_use_specific_default_bios && bIsNeogeoCartGame && dipswitch_core_options[dip_idx].friendly_name.compare("[Dipswitch] BIOS") == 0)
-			option_defs_us[idx_var].info         = "THIS NEOGEO GAME USES A DIFFERENT DEFAULT BIOS, CHANGE IT AT YOUR OWN RISK";
+			option_defs_us[idx_var].info         = RETRO_NGBIOS_DEF_INFO_0;
 		else
-			option_defs_us[idx_var].info         = "Dipswitch setting, setting is specific to the running romset. Some dipswitches require a restart to work properly.";
+			option_defs_us[idx_var].info         = RETRO_NGBIOS_DEF_INFO_1;
 		for (int dip_value_idx = 0; dip_value_idx < dipswitch_core_options[dip_idx].values.size(); dip_value_idx++)
 		{
 			option_defs_us[idx_var].values[dip_value_idx].value = dipswitch_core_options[dip_idx].values[dip_value_idx].friendly_name.c_str();
@@ -1093,12 +1263,40 @@ void set_environment()
 		option_defs_us[idx_var].desc             = cheat_core_options[cheat_idx].friendly_name.c_str();
 		option_defs_us[idx_var].desc_categorized = cheat_core_options[cheat_idx].friendly_name_categorized.c_str();
 		option_defs_us[idx_var].default_value    = cheat_core_options[cheat_idx].default_value.c_str();
-		option_defs_us[idx_var].info             = "Specific to the running romset and your cheat database";
+		option_defs_us[idx_var].info             = RETRO_CHEAT_DEF_INFO;
 		for (int cheat_value_idx = 0; cheat_value_idx < cheat_core_options[cheat_idx].values.size(); cheat_value_idx++)
 		{
 			option_defs_us[idx_var].values[cheat_value_idx].value = cheat_core_options[cheat_idx].values[cheat_value_idx].friendly_name.c_str();
 		}
 		option_defs_us[idx_var].values[cheat_core_options[cheat_idx].values.size()].value = NULL;
+		idx_var++;
+	}
+
+	// Add the ipses core options
+	for (int ips_idx = 0; ips_idx < nbr_ipses; ips_idx++)
+	{
+		option_defs_us[idx_var].key              = ips_core_options[ips_idx].option_name.c_str();
+		option_defs_us[idx_var].desc             = ips_core_options[ips_idx].friendly_name.c_str();
+		option_defs_us[idx_var].info             = ips_core_options[ips_idx].friendly_name_categorized.c_str();
+		option_defs_us[idx_var].category_key     = "ips";
+		option_defs_us[idx_var].values[0].value  = "disabled";
+		option_defs_us[idx_var].values[1].value  = "enabled";
+		option_defs_us[idx_var].values[2].value  = NULL;
+		option_defs_us[idx_var].default_value    = "disabled";
+		idx_var++;
+	}
+
+	// Add the romdatas core options
+	for (int romdata_idx = 0; romdata_idx < nbr_romdatas; romdata_idx++)
+	{
+		option_defs_us[idx_var].key             = romdata_core_options[romdata_idx].option_name.c_str();
+		option_defs_us[idx_var].desc            = romdata_core_options[romdata_idx].friendly_name.c_str();
+		option_defs_us[idx_var].info            = RETRO_ROMDATA_DEF_INFO;
+		option_defs_us[idx_var].category_key    = "romdata";
+		option_defs_us[idx_var].values[0].value = "disabled";
+		option_defs_us[idx_var].values[1].value = "enabled";
+		option_defs_us[idx_var].values[2].value = NULL;
+		option_defs_us[idx_var].default_value   = "disabled";
 		idx_var++;
 	}
 
@@ -1108,34 +1306,44 @@ void set_environment()
 	{
 		{
 			"neogeo",
-			"Neo-Geo Settings",
-			"Configure Neo-Geo Settings"
+			RETRO_NEOGEO_CAT_DESC,
+			RETRO_NEOGEO_CAT_INFO
 		},
 		{
 			"frameskip",
-			"Frameskip Settings",
-			"Configure Frameskip Settings"
+			RETRO_FRAME_CAT_DESC,
+			RETRO_FRAME_CAT_INFO
 		},
 		{
 			"audio",
-			"Audio Settings",
-			"Configure Audio Settings"
+			RETRO_AUDIO_CAT_DESC,
+			RETRO_AUDIO_CAT_INFO
 		},
 		{
 			"dipswitch",
-			"DIP Switches",
-			"Configure DIP Switches"
+			RETRO_DIP_CAT_DESC,
+			RETRO_DIP_CAT_INFO
 		},
 		{
 			"cheat",
-			"Cheat",
-			"Enable Cheats"
+			RETRO_CHEAT_CAT_DESC,
+			RETRO_CHEAT_CAT_INFO
+		},
+		{
+			"ips",
+			RETRO_IPS_CAT_DESC,
+			RETRO_IPS_CAT_INFO
+		},
+		{
+			"romdata",
+			"RomData",
+			RETRO_ROMDATA_CAT_INFO
 		},
 #ifdef FBNEO_DEBUG
 		{
 			"debug",
-			"Debug",
-			"Configure Debug Features"
+			RETRO_DEBUG_CAT_DESC,
+			RETRO_DEBUG_CAT_INFO
 		},
 #endif
 		{ NULL, NULL, NULL },
@@ -1361,13 +1569,13 @@ void check_variables(void)
 	var.key = var_fbneo_vertical_mode.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled") == 0)
 			nVerticalMode = 1;
-		else if (strcmp(var.value, "alternate") == 0)
+		else if (strcmp(var.value, RETRO_VERTICAL_VALUE_2) == 0)
 			nVerticalMode = 2;
 		else if (strcmp(var.value, "TATE") == 0)
 			nVerticalMode = 3;
-		else if (strcmp(var.value, "TATE alternate") == 0)
+		else if (strcmp(var.value, RETRO_VERTICAL_VALUE_4) == 0)
 			nVerticalMode = 4;
 		else
 			nVerticalMode = 0;
@@ -1381,7 +1589,7 @@ void check_variables(void)
 			bForce60Hz = true;
 			float refresh_rate;
 			if (environ_cb(RETRO_ENVIRONMENT_GET_TARGET_REFRESH_RATE, &refresh_rate)) {
-				if (refresh_rate > 59.00 || refresh_rate < 61.00)
+				if (refresh_rate > 59.00 && refresh_rate < 61.00)
 					dForcedFrameRate = (double)refresh_rate;
 			}
 		}
@@ -1394,13 +1602,13 @@ void check_variables(void)
 		var.key = var_fbneo_frameskip_type.key;
 		if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 		{
-			if (strcmp(var.value, "disabled") == 0)
+			if (     strcmp(var.value, "disabled") == 0)
 				nFrameskipType = 0;
-			else if (strcmp(var.value, "Fixed") == 0)
+			else if (strcmp(var.value, RETRO_FRAMESKIP_VALUE_1) == 0)
 				nFrameskipType = 1;
-			else if (strcmp(var.value, "Auto") == 0)
+			else if (strcmp(var.value, RETRO_FRAMESKIP_VALUE_2) == 0)
 				nFrameskipType = 2;
-			else if (strcmp(var.value, "Manual") == 0)
+			else if (strcmp(var.value, RETRO_FRAMESKIP_VALUE_3) == 0)
 				nFrameskipType = 3;
 		}
 
@@ -1412,28 +1620,18 @@ void check_variables(void)
 	var.key = var_fbneo_fixed_frameskip.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "0") == 0)
+		if (     strcmp(var.value, "0") == 0)
 			nFrameskip = 1;
-		else if (strcmp(var.value, "X1") == 0)
+		else if (strcmp(var.value, "1") == 0)
 			nFrameskip = 2;
-		else if (strcmp(var.value, "X2") == 0)
+		else if (strcmp(var.value, "2") == 0)
 			nFrameskip = 3;
-		else if (strcmp(var.value, "X3") == 0)
+		else if (strcmp(var.value, "3") == 0)
 			nFrameskip = 4;
-		else if (strcmp(var.value, "X4") == 0)
+		else if (strcmp(var.value, "4") == 0)
 			nFrameskip = 5;
-		else if (strcmp(var.value, "X5") == 0)
+		else if (strcmp(var.value, "5") == 0)
 			nFrameskip = 6;
-		else if (strcmp(var.value, "X6") == 0)
-			nFrameskip = 7;
-		else if (strcmp(var.value, "X7") == 0)
-			nFrameskip = 8;
-		else if (strcmp(var.value, "X8") == 0)
-			nFrameskip = 9;
-		else if (strcmp(var.value, "X9") == 0)
-			nFrameskip = 10;
-		else if (strcmp(var.value, "XX") == 0)
-			nFrameskip = 11;
 	}
 
 	if (pgi_diag)
@@ -1441,7 +1639,7 @@ void check_variables(void)
 		var.key = var_fbneo_diagnostic_input.key;
 		if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 		{
-			if (strcmp(var.value, "Hold Start") == 0)
+			if (    strcmp(var.value, RETRO_DIAGNOSTIC_VALUE_1) == 0)
 			{
 				diag_input = diag_input_start;
 				SetDiagInpHoldFrameDelay(60);
@@ -1451,7 +1649,7 @@ void check_variables(void)
 				diag_input = diag_input_start_a_b;
 				SetDiagInpHoldFrameDelay(0);
 			}
-			else if(strcmp(var.value, "Hold Start + A + B") == 0)
+			else if(strcmp(var.value, RETRO_DIAGNOSTIC_VALUE_3) == 0)
 			{
 				diag_input = diag_input_start_a_b;
 				SetDiagInpHoldFrameDelay(60);
@@ -1461,12 +1659,12 @@ void check_variables(void)
 				diag_input = diag_input_start_l_r;
 				SetDiagInpHoldFrameDelay(0);
 			}
-			else if(strcmp(var.value, "Hold Start + L + R") == 0)
+			else if(strcmp(var.value, RETRO_DIAGNOSTIC_VALUE_5) == 0)
 			{
 				diag_input = diag_input_start_l_r;
 				SetDiagInpHoldFrameDelay(60);
 			}
-			else if(strcmp(var.value, "Hold Select") == 0)
+			else if(strcmp(var.value, RETRO_DIAGNOSTIC_VALUE_6) == 0)
 			{
 				diag_input = diag_input_select;
 				SetDiagInpHoldFrameDelay(60);
@@ -1476,7 +1674,7 @@ void check_variables(void)
 				diag_input = diag_input_select_a_b;
 				SetDiagInpHoldFrameDelay(0);
 			}
-			else if(strcmp(var.value, "Hold Select + A + B") == 0)
+			else if(strcmp(var.value, RETRO_DIAGNOSTIC_VALUE_8) == 0)
 			{
 				diag_input = diag_input_select_a_b;
 				SetDiagInpHoldFrameDelay(60);
@@ -1486,7 +1684,7 @@ void check_variables(void)
 				diag_input = diag_input_select_l_r;
 				SetDiagInpHoldFrameDelay(0);
 			}
-			else if(strcmp(var.value, "Hold Select + L + R") == 0)
+			else if(strcmp(var.value, RETRO_DIAGNOSTIC_VALUE_10) == 0)
 			{
 				diag_input = diag_input_select_l_r;
 				SetDiagInpHoldFrameDelay(60);
@@ -1506,7 +1704,7 @@ void check_variables(void)
 			var.key = var_fbneo_neogeo_mode.key;
 			if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 			{
-				if (strcmp(var.value, "MVS_EUR") == 0)
+				if (     strcmp(var.value, "MVS_EUR") == 0)
 					g_opt_neo_geo_mode = NEOGEO_MVS | NEOGEO_EUR;
 				else if (strcmp(var.value, "MVS_USA") == 0)
 					g_opt_neo_geo_mode = NEOGEO_MVS | NEOGEO_USA;
@@ -1525,11 +1723,11 @@ void check_variables(void)
 		var.key = var_fbneo_memcard_mode.key;
 		if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 		{
-			if (strcmp(var.value, "disabled") == 0)
+			if (     strcmp(var.value, "disabled") == 0)
 				nMemcardMode = 0;
-			else if (strcmp(var.value, "shared") == 0)
+			else if (strcmp(var.value, RETRO_MEMCARD_VALUE_1) == 0)
 				nMemcardMode = 1;
-			else if (strcmp(var.value, "per-game") == 0)
+			else if (strcmp(var.value, RETRO_MEMCARD_VALUE_2) == 0)
 				nMemcardMode = 2;
 		}
 		if (pgi_debug_dip_1)
@@ -1704,7 +1902,7 @@ void check_variables(void)
 		var.key = var_fbneo_samplerate.key;
 		if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 		{
-			if (strcmp(var.value, "48000") == 0)
+			if (     strcmp(var.value, "48000") == 0)
 				g_audio_samplerate = 48000;
 			else if (strcmp(var.value, "44100") == 0)
 				g_audio_samplerate = 44100;
@@ -1721,9 +1919,9 @@ void check_variables(void)
 	var.key = var_fbneo_sample_interpolation.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "4-point 3rd order") == 0)
+		if (     strcmp(var.value, RETRO_SAMPLE_INTERPOLATION_VALUE_2) == 0)
 			nInterpolation = 3;
-		else if (strcmp(var.value, "2-point 1st order") == 0)
+		else if (strcmp(var.value, RETRO_SAMPLE_INTERPOLATION_VALUE_1) == 0)
 			nInterpolation = 1;
 		else if (strcmp(var.value, "disabled") == 0)
 			nInterpolation = 0;
@@ -1734,7 +1932,7 @@ void check_variables(void)
 	var.key = var_fbneo_fm_interpolation.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "4-point 3rd order") == 0)
+		if (     strcmp(var.value, RETRO_FM_INTERPOLATION_VALUE_1) == 0)
 			nFMInterpolation = 3;
 		else if (strcmp(var.value, "disabled") == 0)
 			nFMInterpolation = 0;
@@ -1760,11 +1958,11 @@ void check_variables(void)
 	var.key = var_fbneo_lightgun_crosshair_emulation.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "hide with lightgun device") == 0)
+		if (     strcmp(var.value, RETRO_CROSSHAIR_VALUE_0) == 0)
 			nLightgunCrosshairEmulation = 0;
-		else if (strcmp(var.value, "always hide") == 0)
+		else if (strcmp(var.value, RETRO_CROSSHAIR_VALUE_1) == 0)
 			nLightgunCrosshairEmulation = 1;
-		else if (strcmp(var.value, "always show") == 0)
+		else if (strcmp(var.value, RETRO_CROSSHAIR_VALUE_2) == 0)
 			nLightgunCrosshairEmulation = 2;
 		RefreshLightgunCrosshair();
 	}
@@ -1773,7 +1971,7 @@ void check_variables(void)
 	var.key = var_fbneo_cyclone.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled" ) == 0)
 			bCycloneEnabled = true;
 		else if (strcmp(var.value, "disabled") == 0)
 			bCycloneEnabled = false;
@@ -1784,7 +1982,7 @@ void check_variables(void)
 	var.key = var_fbneo_debug_layer_1.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled" ) == 0)
 			nBurnLayer |= 1;
 		else if (strcmp(var.value, "disabled") == 0)
 			nBurnLayer &= ~1;
@@ -1793,7 +1991,7 @@ void check_variables(void)
 	var.key = var_fbneo_debug_layer_2.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled" ) == 0)
 			nBurnLayer |= 2;
 		else if (strcmp(var.value, "disabled") == 0)
 			nBurnLayer &= ~2;
@@ -1802,7 +2000,7 @@ void check_variables(void)
 	var.key = var_fbneo_debug_layer_3.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled" ) == 0)
 			nBurnLayer |= 4;
 		else if (strcmp(var.value, "disabled") == 0)
 			nBurnLayer &= ~4;
@@ -1811,7 +2009,7 @@ void check_variables(void)
 	var.key = var_fbneo_debug_layer_4.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled")  == 0)
 			nBurnLayer |= 8;
 		else if (strcmp(var.value, "disabled") == 0)
 			nBurnLayer &= ~8;
@@ -1820,7 +2018,7 @@ void check_variables(void)
 	var.key = var_fbneo_debug_sprite_1.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled" ) == 0)
 			nSpriteEnable |= 0x01;
 		else if (strcmp(var.value, "disabled") == 0)
 			nSpriteEnable &= ~0x01;
@@ -1829,7 +2027,7 @@ void check_variables(void)
 	var.key = var_fbneo_debug_sprite_2.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled" ) == 0)
 			nSpriteEnable |= 0x02;
 		else if (strcmp(var.value, "disabled") == 0)
 			nSpriteEnable &= ~0x02;
@@ -1838,7 +2036,7 @@ void check_variables(void)
 	var.key = var_fbneo_debug_sprite_3.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled" ) == 0)
 			nSpriteEnable |= 0x04;
 		else if (strcmp(var.value, "disabled") == 0)
 			nSpriteEnable &= ~0x04;
@@ -1847,7 +2045,7 @@ void check_variables(void)
 	var.key = var_fbneo_debug_sprite_4.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled" ) == 0)
 			nSpriteEnable |= 0x08;
 		else if (strcmp(var.value, "disabled") == 0)
 			nSpriteEnable &= ~0x08;
@@ -1856,7 +2054,7 @@ void check_variables(void)
 	var.key = var_fbneo_debug_sprite_5.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled" ) == 0)
 			nSpriteEnable |= 0x10;
 		else if (strcmp(var.value, "disabled") == 0)
 			nSpriteEnable &= ~0x10;
@@ -1865,7 +2063,7 @@ void check_variables(void)
 	var.key = var_fbneo_debug_sprite_6.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled" ) == 0)
 			nSpriteEnable |= 0x20;
 		else if (strcmp(var.value, "disabled") == 0)
 			nSpriteEnable &= ~0x20;
@@ -1874,7 +2072,7 @@ void check_variables(void)
 	var.key = var_fbneo_debug_sprite_7.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled" ) == 0)
 			nSpriteEnable |= 0x40;
 		else if (strcmp(var.value, "disabled") == 0)
 			nSpriteEnable &= ~0x40;
@@ -1883,7 +2081,7 @@ void check_variables(void)
 	var.key = var_fbneo_debug_sprite_8.key;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
+		if (     strcmp(var.value, "enabled" ) == 0)
 			nSpriteEnable |= 0x80;
 		else if (strcmp(var.value, "disabled") == 0)
 			nSpriteEnable &= ~0x80;

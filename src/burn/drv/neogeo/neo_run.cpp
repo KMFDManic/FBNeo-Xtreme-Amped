@@ -133,12 +133,15 @@ UINT8 NeoDiag[2]	 = { 0, 0 };
 UINT8 NeoDebugDip[2] = { 0, 0 };
 UINT8 NeoReset = 0, NeoSystem = 0;
 UINT8 NeoCDBios = 0;
+UINT8 NeoUniHW = 0;
 static ClearOpposite<2, UINT8> clear_opposite;
 
 static UINT8 OldDebugDip[2] = { 0, 0 };
 
 // Which 68K BIOS to use
 INT32 nBIOS;
+
+#define AES_BIOS (nBIOS == 15 || nBIOS == 16 || nBIOS == 17 || ((NeoUniHW & 1) && (nBIOS == 19 || nBIOS == 20 || nBIOS == 21 || nBIOS == 22 || nBIOS == 23 || nBIOS == 24 || nBIOS == 25 || nBIOS == 26 || nBIOS == 27)))
 
 #if defined CYCLE_LOG
 // for debugging -dink (will be removed later)
@@ -256,7 +259,9 @@ UINT8 *Neo68KBIOS, *NeoZ80BIOS;
 static UINT8 *Neo68KRAM, *NeoZ80RAM, *NeoNVRAM, *NeoNVRAM2, *NeoMemoryCard;
 
 static UINT32 nSpriteSize[MAX_SLOT] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-static UINT32 nCodeSize[MAX_SLOT] = { 0, 0, 0, 0, 0, 0, 0, 0 }, nAllCodeSize = 0;
+static UINT32 nCodeSize[MAX_SLOT]   = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+UINT32 nAllCodeSize = 0;
 
 UINT8* NeoGraphicsRAM;
 
@@ -429,7 +434,7 @@ static void NeoSetSystemType()
 	}
 
 	// See if we're emulating MVS or AES hardware
-	if (nBIOS == -1 || nBIOS == 15 || nBIOS == 16 || nBIOS == 17 || ((NeoSystem & 0x74) == 0x20)) {
+	if (nBIOS == -1 || AES_BIOS || ((NeoSystem & 0x74) == 0x20)) {
 		nNeoSystemType = NEO_SYS_CART | NEO_SYS_AES;
 		return;
 	}
@@ -694,6 +699,17 @@ static INT32 LoadRoms()
 
 //	bprintf(PRINT_NORMAL, _T("%x\n"), nYM2610ADPCMASize[nNeoActiveSlot]);
 
+	NeoZ80ROM[nNeoActiveSlot] = (UINT8*)BurnMalloc(0x080000);	// Z80 cartridge ROM
+	if (NeoZ80ROM[nNeoActiveSlot] == NULL) {
+		return 1;
+	}
+	NeoZ80ROMActive = NeoZ80ROM[nNeoActiveSlot];
+
+	BurnLoadRom(NeoZ80ROMActive, pInfo->nSoundOffset, 1);
+	if (BurnDrvGetHardwareCode() & HARDWARE_SNK_ENCRYPTED_M1) {
+		neogeo_cmc50_m1_decrypt();
+	}
+
 	// The kof2k3 PCB has 96MB of graphics ROM, however the last 16MB are unused, and the protection/decryption hardware does not see them
 //	if (nSpriteSize[nNeoActiveSlot] > 0x4000000) {
 //		nSpriteSize[nNeoActiveSlot] = 0x5000000;
@@ -786,17 +802,6 @@ static INT32 LoadRoms()
 		NeoLoadCode(pInfo->nCodeOffset + 1, pInfo->nCodeNum - 1, Neo68KROMActive + 0x100000);
 	} else {
 		NeoLoadCode(pInfo->nCodeOffset, pInfo->nCodeNum, Neo68KROMActive);
-	}
-
-	NeoZ80ROM[nNeoActiveSlot] = (UINT8*)BurnMalloc(0x080000);	// Z80 cartridge ROM
-	if (NeoZ80ROM[nNeoActiveSlot] == NULL) {
-		return 1;
-	}
-	NeoZ80ROMActive = NeoZ80ROM[nNeoActiveSlot];
-
-	BurnLoadRom(NeoZ80ROMActive, pInfo->nSoundOffset, 1);
-	if (BurnDrvGetHardwareCode() & HARDWARE_SNK_ENCRYPTED_M1) {
-		neogeo_cmc50_m1_decrypt();
 	}
 
 	if (NeoCallbackActive && NeoCallbackActive->pInitialise) {
@@ -1126,7 +1131,7 @@ static UINT8 __fastcall vliner_timing(UINT32 sekAddress)
 
 		case 0x320001: {
 //			if (!bAESBIOS) {
-			if (nBIOS != 14 && nBIOS != 16 && nBIOS != 17) {
+			if (!AES_BIOS) {
 				return 0x3F | (uPD4990ARead() << 6);
 			}
 
@@ -2016,6 +2021,13 @@ static UINT16 __fastcall neogeoReadWord(UINT32 sekAddress)
 	}
 
 	return ~0;
+}
+
+static UINT16 __fastcall neogeoUnmappedReadWord(UINT32)
+{
+	/* unmapped memory returns the last word on the data bus, which is almost always the opcode
+	   of the next instruction due to prefetch */
+	return neogeoReadWord(SekGetPC(-1));
 }
 
 static void WriteIO1(INT32 nOffset, UINT8 byteValue)
@@ -3652,6 +3664,10 @@ static UINT8 __fastcall neogeoCDReadByte68KProgram(UINT32 sekAddress)
 
 static INT32 neogeoReset()
 {
+	if (NeoCallbackActive && NeoCallbackActive->pResetCallback) {
+		NeoCallbackActive->pResetCallback();
+	}
+
 	if (nNeoSystemType & NEO_SYS_CART) {
 		NeoLoad68KBIOS(NeoSystem & 0x3f);
 
@@ -3777,7 +3793,8 @@ static INT32 neogeoReset()
 			}
 			SekMapHandler(1,			0xD00000, 0xDFFFFF, MAP_WRITE);	//
 		} else {
-			SekMapHandler(0,			0xD00000, 0xDFFFFF, MAP_RAM);	// AES/NeoCD don't have the SRAM
+			// AES/NeoCD don't have the SRAM
+			SekMapHandler(8,			0xD00000, 0xDFFFFF, MAP_READ);
 		}
 
 		if (nNeoSystemType & NEO_SYS_CART) {
@@ -3974,6 +3991,8 @@ static INT32 NeoInitCommon()
 		SekSetWriteWordHandler(3, NeoPalWriteWord);
 		SekSetWriteByteHandler(3, NeoPalWriteByte);
 
+		SekSetReadWordHandler(8, neogeoUnmappedReadWord);
+
 		// Set up mirrors
 		for (INT32 a = 0x420000; a < 0x800000; a += 0x2000) {
 			SekMapMemory(NeoPalSrc[0], a, a + 0x1FFF, MAP_ROM);
@@ -4007,7 +4026,6 @@ static INT32 NeoInitCommon()
 
 			SekSetReadByteHandler(2, neoCDReadByteMemoryCard);
 			SekSetWriteByteHandler(2, neoCDWriteByteMemoryCard);
-
 		}
 	}
 
@@ -4476,6 +4494,7 @@ INT32 NeoExit()
 	fatfury2mode = 0;
 	vlinermode = 0;
 
+	nNeoProtectionXor = -1;
 	nNeoSystemType = 0;
 
 	return 0;
