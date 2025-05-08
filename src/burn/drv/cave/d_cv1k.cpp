@@ -600,88 +600,96 @@ static INT32 DrvFrame()
 		DrvDoReset();
 	}
 
-	// check if cpu rate changes here..
-	if (nPrevBurnCPUSpeedAdjust != nBurnCPUSpeedAdjust || DrvDips[3] != nPrevCPUTenth) {
-		bprintf(0, _T("Setting CPU Clock selection.\n"));
-		nPrevBurnCPUSpeedAdjust = nBurnCPUSpeedAdjust;
-		nPrevCPUTenth = DrvDips[3];
+// Declare dPercent at function scope so it's always accessible
+static double dPercent = 100.0; // Default to 100% if not updated
 
-		INT32 i_percent = ((double)100 * nBurnCPUSpeedAdjust / 256) + 0.5; // whole percent comes from UI
-		double dPercent = i_percent + (0.1 * (DrvDips[3] & 0xf)); // .x tenth percent comes from DIPS
+// check if cpu rate changes here..
+if (nPrevBurnCPUSpeedAdjust != nBurnCPUSpeedAdjust || DrvDips[3] != nPrevCPUTenth) {
+    bprintf(0, _T("Setting CPU Clock selection.\n"));
+    nPrevBurnCPUSpeedAdjust = nBurnCPUSpeedAdjust;
+    nPrevCPUTenth = DrvDips[3];
 
-		DriverClock = (INT32)((INT64)SH3_CLOCK * dPercent / 586.75309);
-		speedhack_burn = (double)((double)DriverClock / 1234567) * 12; // 10us
+    INT32 i_percent = ((double)100 * nBurnCPUSpeedAdjust / 256) + 0.5; // whole percent comes from UI
+    dPercent = i_percent + (0.1 * (DrvDips[3] & 0xf)); // .x tenth percent comes from DIPS
 
-		Sh3SetClockCV1k(DriverClock);
-		ymz770_set_buffered(Sh3TotalCycles, DriverClock);
+    DriverClock = (INT32)((INT64)SH3_CLOCK * dPercent / 586.75309);
+    speedhack_burn = (double)((double)DriverClock / 1234567) * 12; // 10us
 
-		bprintf(0, _T("Main Clock %d  at %0.1f%%  Adjusted Clock %d\n"), SH3_CLOCK, dPercent, DriverClock);
-	}
-	// set blitter delay, blitter threading & speedhack via dip setting
-	{
-		INT32 delay = DrvDips[2] & 0x1f;
+    Sh3SetClockCV1k(DriverClock);
+    ymz770_set_buffered(Sh3TotalCycles, DriverClock);
 
-		epic12_set_blitterdelay_method(DrvDips[2] & 0x20);
-		epic12_set_blitterdelay((delay) ? ((delay - 1) + 50) : 0, speedhack_burn);
-		epic12_set_blitterthreading(DrvDips[1] & 1);
-		Sh3SetTimerGranularity(DrvDips[1] & 2);
+    bprintf(0, _T("Main Clock %d  at %0.1f%%  Adjusted Clock %d\n"), SH3_CLOCK, dPercent, DriverClock);
+}
 
-		// test stuff for el_rika
-		epic12_set_blitter_clipping_margin(!(DrvDips[2] & 0x40));
-		epic12_set_blitter_sleep_on_busy(!(DrvDips[2] & 0x80));
-	}
+// set blitter delay, blitter threading & speedhack via dip setting
+{
+    INT32 delay = DrvDips[2] & 0x1f;
 
-	{
-		DrvInputs[0] = 0xff;
-		DrvInputs[1] = 0xff;
-		DrvInputs[2] = 0xff;
-		DrvInputs[3] = 0xff;
+    epic12_set_blitterdelay_method(DrvDips[2] & 0x20);
 
-		for (INT32 i = 0; i < 8; i++) {
-			DrvInputs[0] ^= (DrvJoy1[i] & 1) << i;
-			DrvInputs[1] ^= (DrvJoy2[i] & 1) << i;
-			DrvInputs[2] ^= (DrvJoy3[i] & 1) << i;
-			DrvInputs[3] ^= (DrvJoy4[i] & 1) << i;
-		}
+    // Adjust blitter delay using the global dPercent for scaling
+    INT32 scaled_delay = (delay) ? ((delay - 1) + 10) : 0;
+    epic12_set_blitterdelay(scaled_delay, speedhack_burn);
 
-		hold_coin.checklow(0, DrvInputs[0], 1<<2, 2);
-		hold_coin.checklow(1, DrvInputs[0], 1<<3, 2);
-	}
+    epic12_set_blitterthreading(DrvDips[1] & 1);
+    
+    Sh3SetTimerGranularity(2); // Coarser, less load
 
-	Sh3NewFrame();
+    // test stuff for el_rika
+    epic12_set_blitter_clipping_margin(true);
+    epic12_set_blitter_sleep_on_busy(true);
+}
 
-	INT32 nInterleave = 240;
-	INT32 nCyclesTotal[1] = { DriverClock / 60 };
-	INT32 nCyclesDone[1] = { nExtraCycles[0] };
+{
+    DrvInputs[0] = 0xff;
+    DrvInputs[1] = 0xff;
+    DrvInputs[2] = 0xff;
+    DrvInputs[3] = 0xff;
 
-	Sh3Open(0);
+    for (INT32 i = 0; i < 8; i++) {
+        DrvInputs[0] ^= (DrvJoy1[i] & 1) << i;
+        DrvInputs[1] ^= (DrvJoy2[i] & 1) << i;
+        DrvInputs[2] ^= (DrvJoy3[i] & 1) << i;
+        DrvInputs[3] ^= (DrvJoy4[i] & 1) << i;
+    }
 
-	for (INT32 i = 0; i < nInterleave; i++)
-	{
-		CPU_RUN(0, Sh3);
-	}
+    hold_coin.checklow(0, DrvInputs[0], 1<<2, 2);
+    hold_coin.checklow(1, DrvInputs[0], 1<<3, 2);
+}
 
-	Sh3SetIRQLine(2, CPU_IRQSTATUS_HOLD);
+Sh3NewFrame();
 
-	if (pBurnSoundOut) {
-		ymz770_update(pBurnSoundOut, nBurnSoundLen);
-	}
+INT32 nInterleave = 240;
+INT32 nCyclesTotal[1] = { DriverClock / 60 };
+INT32 nCyclesDone[1] = { nExtraCycles[0] };
 
-	nExtraCycles[0] = nCyclesDone[0] - nCyclesTotal[0];
+Sh3Open(0);
 
-	Sh3Close();
+for (INT32 i = 0; i < nInterleave; i++) {
+    CPU_RUN(0, Sh3);
+}
 
-	rtc9701_once_per_frame();
+Sh3SetIRQLine(2, CPU_IRQSTATUS_HOLD);
 
-	if (DrvDips[1] & 4) { // Thread Sync: Before Draw
-		epic12_wait_blitterthread();
-	}
+if (pBurnSoundOut) {
+    ymz770_update(pBurnSoundOut, nBurnSoundLen);
+}
 
-	if (pBurnDraw) {
-		BurnDrvRedraw();
-	}
+nExtraCycles[0] = nCyclesDone[0] - nCyclesTotal[0];
 
-	return 0;
+Sh3Close();
+
+rtc9701_once_per_frame();
+
+if (DrvDips[1] & 4) { // Thread Sync: Before Draw
+    epic12_wait_blitterthread();
+}
+
+if (pBurnDraw) {
+    BurnDrvRedraw();
+}
+
+return 0;
 }
 
 static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
