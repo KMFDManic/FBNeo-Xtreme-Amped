@@ -1,4 +1,4 @@
-// FB Neo Samurai Nihon-Ichi driver module
+// FB Alpha Samurai Nihon-Ichi driver module
 // Based on MAME driver by Phil Stroffolino
 
 // vsgongf - player is black (normal!)
@@ -810,7 +810,12 @@ static INT32 DrvInit(INT32 game)
 {
 	game_select = 1;
 
-	BurnAllocMemIndex();
+	AllMem = NULL;
+	MemIndex();
+	INT32 nLen = MemEnd - (UINT8 *)0;
+	if ((AllMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(AllMem, 0, nLen);
+	MemIndex();
 
 	{
 		if (game == 0) {
@@ -946,7 +951,12 @@ static INT32 m660CommonInit(INT32 game)
 {
 	game_select = 2;
 
-	BurnAllocMemIndex();
+	AllMem = NULL;
+	MemIndex();
+	INT32 nLen = MemEnd - (UINT8 *)0;
+	if ((AllMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(AllMem, 0, nLen);
+	MemIndex();
 
 	{
 		if (game == 0)
@@ -1067,7 +1077,12 @@ static INT32 VsgongfCommonInit(INT32 game)
 {
 	game_select = 3;
 
-	BurnAllocMemIndex();
+	AllMem = NULL;
+	MemIndex();
+	INT32 nLen = MemEnd - (UINT8 *)0;
+	if ((AllMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(AllMem, 0, nLen);
+	MemIndex();
 
 	{
 		if (game == 0)
@@ -1158,7 +1173,7 @@ static INT32 DrvExit()
 
 	the26thz = 0;
 
-	BurnFreeMemIndex();
+	BurnFree(AllMem);
 
 	return 0;
 }
@@ -1389,7 +1404,7 @@ static INT32 DrvScan(INT32 nAction,INT32 *pnMin)
 }
 
 
-// Samurai Nihon-Ichi (rev 1)
+// Samurai Nihon-Ichi (set 1)
 // there's a protection device labeled B5 at location l3 on the main board
 
 static struct BurnRomInfo tsamuraiRomDesc[] = {
@@ -1429,7 +1444,7 @@ static INT32 tsamuraiInit()
 
 struct BurnDriver BurnDrvTsamurai = {
 	"tsamurai", NULL, NULL, NULL, "1985",
-	"Samurai Nihon-Ichi (rev 1)\0", NULL, "Kaneko / Taito", "Miscellaneous",
+	"Samurai Nihon-Ichi (set 1)\0", NULL, "Kaneko / Taito", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, tsamuraiRomInfo, tsamuraiRomName, NULL, NULL, NULL, NULL, TsamuraiInputInfo, TsamuraiDIPInfo,
@@ -1438,9 +1453,9 @@ struct BurnDriver BurnDrvTsamurai = {
 };
 
 
-// Samurai Nihon-Ichi
+// Samurai Nihon-Ichi (set 2)
 
-static struct BurnRomInfo tsamuraiaRomDesc[] = {
+static struct BurnRomInfo tsamurai2RomDesc[] = {
 	{ "a35-01.3r",		0x4000, 0x282d96ad, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
 	{ "a35-02.3t",		0x4000, 0xe3fa0cfa, 1 | BRF_PRG | BRF_ESS }, //  1
 	{ "a35-03.3v",		0x4000, 0x2fff1e0a, 1 | BRF_PRG | BRF_ESS }, //  2
@@ -1467,15 +1482,15 @@ static struct BurnRomInfo tsamuraiaRomDesc[] = {
 	{ "a35-18.2m",		0x0100, 0x918e4732, 7 | BRF_GRA },           // 17
 };
 
-STD_ROM_PICK(tsamuraia)
-STD_ROM_FN(tsamuraia)
+STD_ROM_PICK(tsamurai2)
+STD_ROM_FN(tsamurai2)
 
-struct BurnDriver BurnDrvTsamuraia = {
-	"tsamuraia", "tsamurai", NULL, NULL, "1985",
-	"Samurai Nihon-Ichi\0", NULL, "Kaneko / Taito", "Miscellaneous",
+struct BurnDriver BurnDrvTsamurai2 = {
+	"tsamurai2", "tsamurai", NULL, NULL, "1985",
+	"Samurai Nihon-Ichi (set 2)\0", NULL, "Kaneko / Taito", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
-	NULL, tsamuraiaRomInfo, tsamuraiaRomName, NULL, NULL, NULL, NULL, TsamuraiInputInfo, TsamuraiDIPInfo,
+	NULL, tsamurai2RomInfo, tsamurai2RomName, NULL, NULL, NULL, NULL, TsamuraiInputInfo, TsamuraiDIPInfo,
 	tsamuraiInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
 };
@@ -1524,7 +1539,7 @@ struct BurnDriver BurnDrvTsamuraih = {
 };
 
 
-// Lady Master of Kung Fu (rev 1)
+// Lady Master of Kung Fu (set 1, newer)
 // there's a protection device labeled 6 at location l3 on the main board
 
 static struct BurnRomInfo ladymstrRomDesc[] = {
@@ -1559,7 +1574,7 @@ STD_ROM_FN(ladymstr)
 
 struct BurnDriver BurnDrvLadymstr = {
 	"ladymstr", NULL, NULL, NULL, "1985",
-	"Lady Master of Kung Fu (rev 1)\0", NULL, "Kaneko / Taito", "Miscellaneous",
+	"Lady Master of Kung Fu (set 1, newer)\0", NULL, "Kaneko / Taito", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, ladymstrRomInfo, ladymstrRomName, NULL, NULL, NULL, NULL, TsamuraiInputInfo, LadymstrDIPInfo,
@@ -1568,10 +1583,10 @@ struct BurnDriver BurnDrvLadymstr = {
 };
 
 
-// Lady Master of Kung Fu
+// Lady Master of Kung Fu (set 2, older)
 // there's a protection device labeled 6 at location l3 on the main board
 
-static struct BurnRomInfo ladymstraRomDesc[] = {
+static struct BurnRomInfo ladymstr2RomDesc[] = {
 	{ "a49-01.3r",		0x4000, 0x8729e50e, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code // believed to be newer because of the -01 suffix
 	{ "a49-02.3t",		0x4000, 0xb0a9020b, 1 | BRF_PRG | BRF_ESS }, //  1
 	{ "a49-03.3v",		0x4000, 0x641c94ed, 1 | BRF_PRG | BRF_ESS }, //  2
@@ -1598,15 +1613,15 @@ static struct BurnRomInfo ladymstraRomDesc[] = {
 	{ "a49-18.2m",		0x0100, 0xf5ce3c45, 7 | BRF_GRA },           // 17
 };
 
-STD_ROM_PICK(ladymstra)
-STD_ROM_FN(ladymstra)
+STD_ROM_PICK(ladymstr2)
+STD_ROM_FN(ladymstr2)
 
-struct BurnDriver BurnDrvLadymstra = {
-	"ladymstra", "ladymstr", NULL, NULL, "1985",
-	"Lady Master of Kung Fu\0", NULL, "Kaneko / Taito", "Miscellaneous",
+struct BurnDriver BurnDrvLadymstr2 = {
+	"ladymstr2", "ladymstr", NULL, NULL, "1985",
+	"Lady Master of Kung Fu (set 2, older)\0", NULL, "Kaneko / Taito", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
-	NULL, ladymstraRomInfo, ladymstraRomName, NULL, NULL, NULL, NULL, TsamuraiInputInfo, LadymstrDIPInfo,
+	NULL, ladymstr2RomInfo, ladymstr2RomName, NULL, NULL, NULL, NULL, TsamuraiInputInfo, LadymstrDIPInfo,
 	tsamuraiInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
 };
@@ -1885,10 +1900,10 @@ STD_ROM_PICK(alphaxz)
 STD_ROM_FN(alphaxz)
 
 struct BurnDriver BurnDrvAlphaxz = {
-	"alphaxz", NULL, NULL, NULL, "1986",
+	"alphaxz", "m660", NULL, NULL, "1986",
 	"The Alphax Z (Japan)\0", NULL, "Ed Co., Ltd. (Wood Place Co., Ltd. license)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, alphaxzRomInfo, alphaxzRomName, NULL, NULL, NULL, NULL, TsamuraiInputInfo, M660DIPInfo,
 	m660Init, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -1936,7 +1951,7 @@ static INT32 the26thzInit()
 }
 
 struct BurnDriver BurnDrvThe26thz = {
-	"the26thz", "alphaxz", NULL, NULL, "1986",
+	"the26thz", "m660", NULL, NULL, "1986",
 	"The 26th Z (Japan, location test)\0", NULL, "Ed Co., Ltd. (Taito license)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_PROTOTYPE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
@@ -1991,7 +2006,7 @@ struct BurnDriver BurnDrvVsgongf = {
 };
 
 
-// Ring Fighter (rev 1)
+// Ring Fighter (set 1)
 
 static struct BurnRomInfo ringfgtRomDesc[] = {
 	{ "rft_04-1.5a",	0x2000, 0x11030866, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
@@ -2025,7 +2040,7 @@ static INT32 RingfgtInit()
 
 struct BurnDriver BurnDrvRingfgt = {
 	"ringfgt", "vsgongf", NULL, NULL, "1984",
-	"Ring Fighter (rev 1)\0", NULL, "Kaneko (Taito license)", "Miscellaneous",
+	"Ring Fighter (set 1)\0", NULL, "Kaneko (Taito license)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_SPORTSMISC, 0,
 	NULL, ringfgtRomInfo, ringfgtRomName, NULL, NULL, NULL, NULL, TsamuraiInputInfo, VsgongfDIPInfo,
@@ -2034,9 +2049,9 @@ struct BurnDriver BurnDrvRingfgt = {
 };
 
 
-// Ring Fighter
+// Ring Fighter (set 2)
 
-static struct BurnRomInfo ringfgtaRomDesc[] = {
+static struct BurnRomInfo ringfgt2RomDesc[] = {
 	{ "rft_04.5a",		0x2000, 0x6b9b3f3d, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
 	{ "rft_03.5c",		0x2000, 0x1821974b, 1 | BRF_PRG | BRF_ESS }, //  1
 
@@ -2056,22 +2071,22 @@ static struct BurnRomInfo ringfgtaRomDesc[] = {
 	{ "rft-13.6p",		0x0100, 0x0e4fd17a, 5 | BRF_GRA },           // 12
 };
 
-STD_ROM_PICK(ringfgta)
-STD_ROM_FN(ringfgta)
+STD_ROM_PICK(ringfgt2)
+STD_ROM_FN(ringfgt2)
 
-static INT32 RingfgtaInit()
+static INT32 Ringfgt2Init()
 {
 	vsgongf_protval = 0x6ac0;
 
 	return VsgongfCommonInit(1);
 }
 
-struct BurnDriver BurnDrvRingfgta = {
-	"ringfgta", "vsgongf", NULL, NULL, "1984",
-	"Ring Fighter\0", NULL, "Kaneko (Taito license)", "Miscellaneous",
+struct BurnDriver BurnDrvRingfgt2 = {
+	"ringfgt2", "vsgongf", NULL, NULL, "1984",
+	"Ring Fighter (set 2)\0", NULL, "Kaneko (Taito license)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_SPORTSMISC, 0,
-	NULL, ringfgtaRomInfo, ringfgtaRomName, NULL, NULL, NULL, NULL, TsamuraiInputInfo, VsgongfDIPInfo,
-	RingfgtaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x100,
+	NULL, ringfgt2RomInfo, ringfgt2RomName, NULL, NULL, NULL, NULL, TsamuraiInputInfo, VsgongfDIPInfo,
+	Ringfgt2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
 };

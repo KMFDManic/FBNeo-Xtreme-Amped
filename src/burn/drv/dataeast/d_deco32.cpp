@@ -57,7 +57,7 @@ static UINT32 lightgun_port;
 
 static UINT16 color_base[3];
 
-static INT32 nExtraCycles[3];
+static INT32 nExtraCycles;
 
 static UINT8 DrvJoy1[16];
 static UINT8 DrvJoy2[16];
@@ -549,8 +549,8 @@ void deco32_z80_sound_init(UINT8 *rom, UINT8 *ram)
 	BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.40, BURN_SND_ROUTE_RIGHT);
 	BurnTimerAttachZet(3580000);
 
-	MSM6295Init(0, (32220000 / 32) / MSM6295_PIN7_HIGH, 1);
-	MSM6295Init(1, (32220000 / 16) / MSM6295_PIN7_HIGH, 1);
+	MSM6295Init(0, (32220000 / 32) / 132, 1);
+	MSM6295Init(1, (32220000 / 16) / 132, 1);
 	MSM6295SetRoute(0, 1.00, BURN_SND_ROUTE_BOTH);
 	MSM6295SetRoute(1, 0.25, BURN_SND_ROUTE_BOTH);
 }
@@ -1476,7 +1476,7 @@ static INT32 DrvDoReset()
 	raster_irq_scanline = 0;
 	lightgun_latch = 0;
 
-	nExtraCycles[0] = nExtraCycles[1] = nExtraCycles[2] = 0;
+	nExtraCycles = 0;
 
 	HiscoreReset();
 
@@ -1577,8 +1577,6 @@ static INT32 FghthistCommonInit(INT32 z80_sound, UINT32 speedhack)
 	game_select = 1;
 	speedhack_address = speedhack;
 
-	BurnSetRefreshRate(57.79965);
-
 	gfxlen[0] = 0x200000;
 	gfxlen[1] = 0x200000;
 	gfxlen[2] = 0x200000;
@@ -1659,7 +1657,7 @@ static INT32 FghthistCommonInit(INT32 z80_sound, UINT32 speedhack)
 	else
 	{
 		use_z80 = 0;
-		deco16SoundInit(DrvHucROM, DrvHucRAM, 4027500, 0, DrvYM2151WritePort, 0.42, 1006875, 1.00, 2013750, 0.35);
+		deco16SoundInit(DrvHucROM, DrvHucRAM, 3580000, 0, DrvYM2151WritePort, 0.42, 1006875, 1.00, 2013750, 0.35);
 		BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.80, BURN_SND_ROUTE_LEFT);
 		BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.80, BURN_SND_ROUTE_RIGHT);
 	}
@@ -1712,8 +1710,6 @@ static INT32 CaptavenCommonInit(INT32 has_z80, UINT32 speedhack)
 {
 	game_select = 0;
 	speedhack_address = speedhack;
-
-	BurnSetRefreshRate(57.79965);
 
 	gfxlen[0] = 0x100000;
 	gfxlen[1] = 0x100000;
@@ -1844,9 +1840,6 @@ static INT32 NslasherCommonInit(INT32 has_z80, UINT32 speedhack)
 	game_select = 2;
 	has_ace = 1;
 	speedhack_address = speedhack;
-
-	BurnSetRefreshRate(58.464346);
-
 	GenericTilesInit(); // for allocating memory for pTempDraw;
 
 	gfxlen[0] = 0x400000;
@@ -1961,7 +1954,7 @@ static INT32 NslasherCommonInit(INT32 has_z80, UINT32 speedhack)
 	}
 	else
 	{
-		deco16SoundInit(DrvHucROM, DrvHucRAM, 4027500, 0, DrvYM2151WritePort, 0.42, 1006875, 1.00, 2013750, 0.25);
+		deco16SoundInit(DrvHucROM, DrvHucRAM, 3580000, 0, DrvYM2151WritePort, 0.42, 1006875, 1.00, 2013750, 0.25);
 		BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_1, 0.80, BURN_SND_ROUTE_LEFT);
 		BurnYM2151SetRoute(BURN_SND_YM2151_YM2151_ROUTE_2, 0.80, BURN_SND_ROUTE_RIGHT);
 	}
@@ -2164,8 +2157,6 @@ static INT32 DragngunCommonInit(INT32 has_z80, UINT32 speedhack)
 {
 	game_select = 4;
 	speedhack_address = speedhack;
-
-	BurnSetRefreshRate(57.79965);
 
 	GenericTilesInit(); // for allocating memory for pTempSprite
 
@@ -3587,11 +3578,8 @@ static INT32 DrvFrame()
 
 	INT32 nInterleave = 274;
 	INT32 nCyclesTotal[2] = { (INT32)((double)7000000 / 57.799650), (INT32)((double)deco16_sound_cpuclock / 57.799650) };
-	if (game_select == 2) { // nslasher
-		nCyclesTotal[0] = (INT32)((double)7080500 / 58.464346);
-		nCyclesTotal[1] = (INT32)((double)deco16_sound_cpuclock / 58.464346);
-	}
-	INT32 nCyclesDone[2] = { nExtraCycles[0], nExtraCycles[1] };
+	if (game_select == 2) nCyclesTotal[0] = 7080500 / 60; // nslasher
+	INT32 nCyclesDone[2] = { nExtraCycles, 0 };
 
 	ArmOpen(0);
 	h6280Open(0);
@@ -3632,8 +3620,7 @@ static INT32 DrvFrame()
 	h6280Close();
 	ArmClose();
 
-	nExtraCycles[0] = nCyclesDone[0] - nCyclesTotal[0];
-	nExtraCycles[1] = nCyclesDone[1] - nCyclesTotal[1];
+	nExtraCycles = nCyclesDone[0] - nCyclesTotal[0];
 
 	if (pBurnDraw && pDrawScanline == NULL) {
 		BurnDrvRedraw();
@@ -3670,12 +3657,9 @@ static INT32 DrvZ80Frame()
 	}
 
 	INT32 nInterleave = 274;
-	INT32 nCyclesTotal[2] = { (INT32)((double)7000000 / 57.799650), (INT32)((double)3580000 / 57.799650) };
-	if (game_select == 2) { // nslasher
-		nCyclesTotal[0] = (INT32)((double)7080500 / 58.464346);
-		nCyclesTotal[1] = (INT32)((double)3580000 / 58.464346);
-	}
-	INT32 nCyclesDone[2] = { nExtraCycles[0], nExtraCycles[1] };
+	INT32 nCyclesTotal[2] = { 7000000 / 60, 3580000 / 60 };
+	if (game_select == 2) nCyclesTotal[0] = 7080500 / 60; // nslasher
+	INT32 nCyclesDone[2] = { nExtraCycles, 0 };
 
 	ArmOpen(0);
 	ZetOpen(0);
@@ -3700,8 +3684,7 @@ static INT32 DrvZ80Frame()
 	ZetClose();
 	ArmClose();
 
-	nExtraCycles[0] = nCyclesDone[0] - nCyclesTotal[0];
-	nExtraCycles[1] = nCyclesDone[1] - nCyclesTotal[1];
+	nExtraCycles = nCyclesDone[0] - nCyclesTotal[0];
 
 	if (pBurnSoundOut) {
 		deco32_z80_sound_update(pBurnSoundOut, nBurnSoundLen);
@@ -3736,7 +3719,7 @@ static INT32 DrvBSMTFrame()
 
 	INT32 nInterleave = 274;
 	INT32 nCyclesTotal[3] = { 7000000 / 58, 1789790 / 58, 24000000/4 / 58 };
-	INT32 nCyclesDone[3] = { nExtraCycles[0], nExtraCycles[1], nExtraCycles[2] };
+	INT32 nCyclesDone[3] = { nExtraCycles, 0, 0 };
 
 	ArmOpen(0);
 	deco16_vblank = 1;
@@ -3774,9 +3757,7 @@ static INT32 DrvBSMTFrame()
 
 	ArmClose();
 
-	nExtraCycles[0] = nCyclesDone[0] - nCyclesTotal[0];
-	nExtraCycles[1] = nCyclesDone[1] - nCyclesTotal[1];
-	nExtraCycles[2] = nCyclesDone[2] - nCyclesTotal[2];
+	nExtraCycles = nCyclesDone[0] - nCyclesTotal[0];
 
 	if (pBurnDraw) {
 		BurnDrvRedraw();
@@ -4879,7 +4860,7 @@ static struct BurnRomInfo tattassRomDesc[] = {
 	{ "pp44.cpu",		0x80000, 0xc3ca5b49, 1 | BRF_PRG | BRF_ESS }, //  0 ARM Code
 	{ "pp45.cpu",		0x80000, 0xd3f30de0, 1 | BRF_PRG | BRF_ESS }, //  1
 
-	{ "u7.snd",			0x10000, 0xa7228077, 2 | BRF_PRG | BRF_ESS }, //  2 M6809 Code
+	{ "u7.snd",		0x10000, 0x6947be8a, 2 | BRF_PRG | BRF_ESS }, //  2 M6809 Code
 
 	{ "abak_b01.s02",	0x80000, 0xbc805680, 3 | BRF_GRA },           //  3 Tilemap 0&1 Tiles & Characters (Encrypted)
 	{ "abak_b01.s13",	0x80000, 0x350effcd, 3 | BRF_GRA },           //  4
@@ -4929,10 +4910,10 @@ static struct BurnRomInfo tattassRomDesc[] = {
 	{ "ob2_c2.b3",		0x80000, 0x90fe5f4f, 6 | BRF_GRA },           // 45
 	{ "ob2_c3.b3",		0x80000, 0xe3517e6e, 6 | BRF_GRA },           // 46
 
-	{ "u17.snd",		0x80000, 0x49303539, 7 | BRF_GRA },           // 47 BSMT Samples
-	{ "u21.snd",		0x80000, 0x0ad8bc18, 7 | BRF_GRA },           // 48
-	{ "u36.snd",		0x80000, 0xf558947b, 7 | BRF_GRA },           // 49
-	{ "u37.snd",		0x80000, 0x7a3190bc, 7 | BRF_GRA },           // 50
+	{ "u17.snd",		0x80000, 0xb945c18d, 7 | BRF_GRA },           // 47 BSMT Samples
+	{ "u21.snd",		0x80000, 0x10b2110c, 7 | BRF_GRA },           // 48
+	{ "u36.snd",		0x80000, 0x3b73abe2, 7 | BRF_GRA },           // 49
+	{ "u37.snd",		0x80000, 0x986066b5, 7 | BRF_GRA },           // 50
 
 	{ "eeprom-tattass.bin",	0x00400, 0x7140f40c, 8 | BRF_PRG | BRF_ESS }, // 51 Default Settings
 
@@ -4966,7 +4947,7 @@ static struct BurnRomInfo tattassaRomDesc[] = {
 	{ "rev232a.000",	0x80000, 0x1a357112, 1 | BRF_PRG | BRF_ESS }, //  0 ARM Code
 	{ "rev232a.001",	0x80000, 0x550245d4, 1 | BRF_PRG | BRF_ESS }, //  1
 
-	{ "u7.snd",			0x10000, 0xa7228077, 2 | BRF_PRG | BRF_ESS }, //  2 M6809 Code
+	{ "u7.snd",		0x10000, 0x6947be8a, 2 | BRF_PRG | BRF_ESS }, //  2 M6809 Code
 
 	{ "abak_b01.s02",	0x80000, 0xbc805680, 3 | BRF_GRA },           //  3 Tilemap 0&1 Tiles & Characters (Encrypted)
 	{ "abak_b01.s13",	0x80000, 0x350effcd, 3 | BRF_GRA },           //  4
@@ -5016,10 +4997,10 @@ static struct BurnRomInfo tattassaRomDesc[] = {
 	{ "ob2_c2.b3",		0x80000, 0x90fe5f4f, 6 | BRF_GRA },           // 45
 	{ "ob2_c3.b3",		0x80000, 0xe3517e6e, 6 | BRF_GRA },           // 46
 
-	{ "u17.snd",		0x80000, 0x49303539, 7 | BRF_GRA },           // 47 BSMT Samples
-	{ "u21.snd",		0x80000, 0x0ad8bc18, 7 | BRF_GRA },           // 48
-	{ "u36.snd",		0x80000, 0xf558947b, 7 | BRF_GRA },           // 49
-	{ "u37.snd",		0x80000, 0x7a3190bc, 7 | BRF_GRA },           // 50
+	{ "u17.snd",		0x80000, 0xb945c18d, 7 | BRF_GRA },           // 47 BSMT Samples
+	{ "u21.snd",		0x80000, 0x10b2110c, 7 | BRF_GRA },           // 48
+	{ "u36.snd",		0x80000, 0x3b73abe2, 7 | BRF_GRA },           // 49
+	{ "u37.snd",		0x80000, 0x986066b5, 7 | BRF_GRA },           // 50
 
 	{ "eeprom-tattass.bin",	0x00400, 0x7140f40c, 8 | BRF_PRG | BRF_ESS }, // 51 Default Settings
 

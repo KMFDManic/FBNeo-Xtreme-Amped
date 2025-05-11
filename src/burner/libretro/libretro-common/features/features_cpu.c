@@ -45,7 +45,7 @@
 
 #if defined(_XBOX360)
 #include <PPCIntrinsics.h>
-#elif !defined(__MACH__) && !defined(__FreeBSD__) && (defined(__POWERPC__) || defined(__powerpc__) || defined(__ppc__) || defined(__PPC64__) || defined(__powerpc64__))
+#elif !defined(__MACH__) && (defined(__POWERPC__) || defined(__powerpc__) || defined(__ppc__) || defined(__PPC64__) || defined(__powerpc64__))
 #ifndef _PPU_INTRINSICS_H
 #include <ppu_intrinsics.h>
 #endif
@@ -123,7 +123,6 @@
 /**
  * TODO/FIXME: clock_gettime function is part of iOS 10 now
  **/
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 100000
 static int ra_clock_gettime(int clk_ik, struct timespec *t)
 {
    struct timeval now;
@@ -134,7 +133,6 @@ static int ra_clock_gettime(int clk_ik, struct timespec *t)
    t->tv_nsec = now.tv_usec * 1000;
    return 0;
 }
-#endif
 #endif
 
 #if defined(__MACH__) && __IPHONE_OS_VERSION_MIN_REQUIRED < 100000
@@ -152,6 +150,13 @@ static int ra_clock_gettime(int clk_ik, struct timespec *t)
 
 #include <string.h>
 
+/**
+ * cpu_features_get_perf_counter:
+ *
+ * Gets performance counter.
+ *
+ * @return Performance counter.
+ **/
 retro_perf_tick_t cpu_features_get_perf_counter(void)
 {
    retro_perf_tick_t time_ticks = 0;
@@ -176,7 +181,7 @@ retro_perf_tick_t cpu_features_get_perf_counter(void)
    time_ticks = (1000000 * tv_sec + tv_usec);
 #elif defined(GEKKO)
    time_ticks = gettime();
-#elif !defined(__MACH__) && !defined(__FreeBSD__) && (defined(_XBOX360) || defined(__powerpc__) || defined(__ppc__) || defined(__POWERPC__) || defined(__PSL1GHT__) || defined(__PPC64__) || defined(__powerpc64__))
+#elif !defined(__MACH__) && (defined(_XBOX360) || defined(__powerpc__) || defined(__ppc__) || defined(__POWERPC__) || defined(__PSL1GHT__) || defined(__PPC64__) || defined(__powerpc64__))
    time_ticks = __mftb();
 #elif (defined(_POSIX_MONOTONIC_CLOCK) && _POSIX_MONOTONIC_CLOCK > 0) || defined(__QNX__) || defined(ANDROID)
    struct timespec tv;
@@ -213,6 +218,13 @@ retro_perf_tick_t cpu_features_get_perf_counter(void)
    return time_ticks;
 }
 
+/**
+ * cpu_features_get_time_usec:
+ *
+ * Gets time in microseconds.
+ *
+ * @return Time in microseconds.
+ **/
 retro_time_t cpu_features_get_time_usec(void)
 {
 #if defined(_WIN32)
@@ -421,10 +433,10 @@ static const char *parse_decimal(const char* input,
  *             2,4-127,128-143
  *             0-1
  **/
-static void cpulist_parse(CpuList* list, char **buf, ssize_t len)
+static void cpulist_parse(CpuList* list, char **buf, ssize_t length)
 {
    const char* p   = (const char*)buf;
-   const char* end = p + len;
+   const char* end = p + length;
 
    /* NOTE: the input line coming from sysfs typically contains a
     * trailing newline, so take care of it in the code below
@@ -474,15 +486,15 @@ static void cpulist_parse(CpuList* list, char **buf, ssize_t len)
  **/
 static void cpulist_read_from(CpuList* list, const char* filename)
 {
-   ssize_t _len;
+   ssize_t length;
    char *buf  = NULL;
 
    list->mask = 0;
 
-   if (filestream_read_file(filename, (void**)&buf, &_len) != 1)
+   if (filestream_read_file(filename, (void**)&buf, &length) != 1)
       return;
 
-   cpulist_parse(list, &buf, _len);
+   cpulist_parse(list, &buf, length);
    if (buf)
       free(buf);
    buf = NULL;
@@ -491,6 +503,13 @@ static void cpulist_read_from(CpuList* list, const char* filename)
 
 #endif
 
+/**
+ * cpu_features_get_core_amount:
+ *
+ * Gets the amount of available CPU cores.
+ *
+ * @return Amount of CPU cores available.
+ **/
 unsigned cpu_features_get_core_amount(void)
 {
 #if defined(_WIN32) && !defined(_XBOX)
@@ -547,15 +566,15 @@ unsigned cpu_features_get_core_amount(void)
    /* Copypasta from stackoverflow, dunno if it works. */
    int num_cpu = 0;
    int mib[4];
-   size_t _len = sizeof(num_cpu);
+   size_t len = sizeof(num_cpu);
 
    mib[0] = CTL_HW;
    mib[1] = HW_AVAILCPU;
-   sysctl(mib, 2, &num_cpu, &_len, NULL, 0);
+   sysctl(mib, 2, &num_cpu, &len, NULL, 0);
    if (num_cpu < 1)
    {
       mib[1] = HW_NCPU;
-      sysctl(mib, 2, &num_cpu, &_len, NULL, 0);
+      sysctl(mib, 2, &num_cpu, &len, NULL, 0);
       if (num_cpu < 1)
          num_cpu = 1;
    }
@@ -590,6 +609,13 @@ unsigned cpu_features_get_core_amount(void)
 #define VENDOR_INTEL_c  0x6c65746e
 #define VENDOR_INTEL_d  0x49656e69
 
+/**
+ * cpu_features_get:
+ *
+ * Gets CPU features..
+ *
+ * @return Bitmask of all CPU features available.
+ **/
 uint64_t cpu_features_get(void)
 {
    uint64_t cpu        = 0;
@@ -598,53 +624,67 @@ uint64_t cpu_features_get(void)
    const int avx_flags = (1 << 27) | (1 << 28);
 #endif
 #if defined(__MACH__)
-   size_t _len          = sizeof(size_t);
-   if (sysctlbyname("hw.optional.floatingpoint", NULL, &_len, NULL, 0) == 0)
+   size_t len          = sizeof(size_t);
+
+   if (sysctlbyname("hw.optional.floatingpoint", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_CMOV;
 
 #if defined(CPU_X86)
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.mmx", NULL, &_len, NULL, 0) == 0)
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.mmx", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_MMX | RETRO_SIMD_MMXEXT;
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.sse", NULL, &_len, NULL, 0) == 0)
+
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.sse", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_SSE;
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.sse2", NULL, &_len, NULL, 0) == 0)
+
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.sse2", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_SSE2;
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.sse3", NULL, &_len, NULL, 0) == 0)
+
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.sse3", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_SSE3;
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.supplementalsse3", NULL, &_len, NULL, 0) == 0)
+
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.supplementalsse3", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_SSSE3;
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.sse4_1", NULL, &_len, NULL, 0) == 0)
+
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.sse4_1", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_SSE4;
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.sse4_2", NULL, &_len, NULL, 0) == 0)
+
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.sse4_2", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_SSE42;
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.aes", NULL, &_len, NULL, 0) == 0)
+
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.aes", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_AES;
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.avx1_0", NULL, &_len, NULL, 0) == 0)
+
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.avx1_0", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_AVX;
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.avx2_0", NULL, &_len, NULL, 0) == 0)
+
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.avx2_0", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_AVX2;
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.altivec", NULL, &_len, NULL, 0) == 0)
+
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.altivec", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_VMX;
+
 #else
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.neon", NULL, &_len, NULL, 0) == 0)
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.neon", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_NEON;
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.neon_fp16", NULL, &_len, NULL, 0) == 0)
+
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.neon_fp16", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_VFPV3;
-   _len            = sizeof(size_t);
-   if (sysctlbyname("hw.optional.neon_hpfp", NULL, &_len, NULL, 0) == 0)
+
+   len            = sizeof(size_t);
+   if (sysctlbyname("hw.optional.neon_hpfp", NULL, &len, NULL, 0) == 0)
       cpu |= RETRO_SIMD_VFPV4;
 #endif
 #elif defined(_XBOX1)
@@ -789,7 +829,7 @@ uint64_t cpu_features_get(void)
    return cpu;
 }
 
-void cpu_features_get_model_name(char *s, int len)
+void cpu_features_get_model_name(char *name, int len)
 {
 #if defined(CPU_X86) && !defined(__MACH__)
    union {
@@ -801,7 +841,7 @@ void cpu_features_get_model_name(char *s, int len)
    int pos = 0;
    bool start = false;
 
-   if (!s)
+   if (!name)
       return;
 
    x86_cpuid(0x80000000, flags.i);
@@ -825,26 +865,26 @@ void cpu_features_get_model_name(char *s, int len)
          if (pos == len - 1)
          {
             /* truncate if we ran out of room */
-            s[pos] = '\0';
+            name[pos] = '\0';
             goto end;
          }
 
-         s[pos++] = flags.s[j];
+         name[pos++] = flags.s[j];
       }
    }
 end:
    /* terminate our string */
    if (pos < len)
-      s[pos] = '\0';
+      name[pos] = '\0';
 #elif defined(__MACH__)
-   if (!s)
+   if (!name)
       return;
    {
       size_t len_size = len;
-      sysctlbyname("machdep.cpu.brand_string", s, &len_size, NULL, 0);
+      sysctlbyname("machdep.cpu.brand_string", name, &len_size, NULL, 0);
    }
 #elif defined(__linux__)
-   if (!s)
+   if (!name)
       return;
    {
       char *model_name, line[128];
@@ -863,8 +903,8 @@ end:
          if ((model_name = strstr(line + 10, ": ")))
          {
             model_name += 2;
-            strncpy(s, model_name, len);
-            s[len - 1] = '\0';
+            strncpy(name, model_name, len);
+            name[len - 1] = '\0';
          }
 
          break;
@@ -872,5 +912,9 @@ end:
 
       filestream_close(fp);
    }
+#else
+   if (!name)
+      return;
+   return;
 #endif
 }

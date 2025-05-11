@@ -20,6 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -62,7 +63,7 @@ static int file_archive_get_file_list_cb(
       /* Skip if directory. */
       if (last_char == '/' || last_char == '\\' )
          return 1;
-
+      
       string_list_initialize(&ext_list);
       if (string_split_noalloc(&ext_list, valid_exts, "|"))
       {
@@ -336,7 +337,7 @@ bool file_archive_extract_file(
       const char *archive_path,
       const char *valid_exts,
       const char *extraction_directory,
-      char *s, size_t len)
+      char *out_path, size_t len)
 {
    struct archive_extract_userdata userdata;
    bool ret                                 = true;
@@ -377,7 +378,7 @@ bool file_archive_extract_file(
    }
 
    if (!string_is_empty(userdata.first_extracted_file_path))
-      strlcpy(s, userdata.first_extracted_file_path, len);
+      strlcpy(out_path, userdata.first_extracted_file_path, len);
 
 end:
    if (userdata.first_extracted_file_path)
@@ -455,8 +456,8 @@ bool file_archive_perform_mode(const char *path, const char *valid_exts,
       const uint8_t *cdata, unsigned cmode, uint32_t csize, uint32_t size,
       uint32_t crc32, struct archive_extract_userdata *userdata)
 {
-   int ret;
    file_archive_file_handle_t handle;
+   int ret;
 
    if (!userdata->transfer || !userdata->transfer->backend)
       return false;
@@ -530,7 +531,7 @@ int file_archive_compressed_read(
       const char * path, void **buf,
       const char* optional_filename, int64_t *length)
 {
-   const struct
+   const struct 
       file_archive_file_backend *backend = NULL;
    struct string_list *str_list          = NULL;
 

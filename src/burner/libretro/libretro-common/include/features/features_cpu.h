@@ -32,62 +32,42 @@
 RETRO_BEGIN_DECLS
 
 /**
- * Gets the time in ticks since some unspecified epoch.
- * The notion of a "tick" varies per platform.
+ * cpu_features_get_perf_counter:
  *
- * The epoch may change between devices or across reboots.
+ * Gets performance counter.
  *
- * Suitable for use as a default implementation of \c retro_perf_callback::get_perf_counter,
- * (or as a fallback by the core),
- * although a frontend may provide its own implementation.
- *
- * @return The current time, in ticks.
- * @see retro_perf_callback::get_perf_counter
- */
+ * @return Performance counter.
+ **/
 retro_perf_tick_t cpu_features_get_perf_counter(void);
 
 /**
- * Gets the time in microseconds since some unspecified epoch.
+ * cpu_features_get_time_usec:
  *
- * The epoch may change between devices or across reboots.
+ * Gets time in microseconds, from an undefined epoch.
+ * The epoch may change between computers or across reboots.
  *
- * Suitable for use as a default implementation of \c retro_perf_callback::get_time_usec,
- * (or as a fallback by the core),
- * although a frontend may provide its own implementation.
- *
- * @return The current time, in microseconds.
- * @see retro_perf_callback::get_time_usec
- */
+ * @return Time in microseconds
+ **/
 retro_time_t cpu_features_get_time_usec(void);
 
 /**
- * Returns the available features (mostly SIMD extensions)
- * supported by this CPU.
+ * cpu_features_get:
  *
- * Suitable for use as a default implementation of \c retro_perf_callback::get_time_usec,
- * (or as a fallback by the core),
- * although a frontend may provide its own implementation.
+ * Gets CPU features.
  *
  * @return Bitmask of all CPU features available.
- * @see RETRO_SIMD
- * @see retro_perf_callback::get_cpu_features
- */
+ **/
 uint64_t cpu_features_get(void);
 
 /**
- * @return The number of CPU cores available,
- * or 1 if the number of cores could not be determined.
- */
+ * cpu_features_get_core_amount:
+ *
+ * Gets the amount of available CPU cores.
+ *
+ * @return Amount of CPU cores available.
+ **/
 unsigned cpu_features_get_core_amount(void);
 
-/**
- * Returns the name of the CPU model.
- *
- * @param[out] name Pointer to a buffer to store the name.
- * Will be \c NULL-terminated.
- * If \c NULL, this value will not be modified.
- * @param len The amount of space available in \c name.
- */
 void cpu_features_get_model_name(char *name, int len);
 
 RETRO_END_DECLS

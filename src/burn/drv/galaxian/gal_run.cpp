@@ -1389,8 +1389,7 @@ UINT8 __fastcall TheendZ80Read(UINT16 a)
 	}
 	
 	switch (a) {
-		case 0x7000:   // theend
-		case 0x7800: { // atlantis
+		case 0x7000: {
 			// watchdog read
 			return 0xff;
 		}
@@ -1447,12 +1446,7 @@ void __fastcall TheendZ80Write(UINT16 a, UINT8 d)
 			if (!GalStarsEnable) GalStarsScrollPos = -1;
 			return;
 		}
-
-		case 0x6805: {
-			// atlantis - ??
-			return;
-		}
-
+		
 		case 0x6806: {
 			GalFlipScreenX = d & 1;
 			return;

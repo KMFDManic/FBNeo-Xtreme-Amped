@@ -1,8 +1,8 @@
 /* BwtSort.h -- BWT block sorting
-2023-03-03 : Igor Pavlov : Public domain */
+2013-01-18 : Igor Pavlov : Public domain */
 
-#ifndef ZIP7_INC_BWT_SORT_H
-#define ZIP7_INC_BWT_SORT_H
+#ifndef __BWT_SORT_H
+#define __BWT_SORT_H
 
 #include "7zTypes.h"
 

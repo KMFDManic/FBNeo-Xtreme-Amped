@@ -487,7 +487,7 @@ static struct BurnDIPInfo RobokidjDIPList[]=
 	{0x12, 0x01, 0xe0, 0x80, "1 Coin  4 Credits"		},
 };
 
-STDDIPINFO(Robokidj)
+STDDIPINFOEXT(Robokidj, Robokid, Robokidj)
 
 static struct BurnDIPInfo OmegafDIPList[]=
 {

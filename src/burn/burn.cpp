@@ -15,11 +15,11 @@ INT32 (__cdecl *bprintf)(INT32 nStatus, TCHAR* szFormat, ...) = BurnbprintfFille
 #endif
 #endif
 
-INT32 nBurnVer = BURN_VERSION;	// Version number of the library
+INT32 nBurnVer = BURN_VERSION;		// Version number of the library
 
-UINT32 nBurnDrvCount     = 0;	// Count of game drivers
-UINT32 nBurnDrvActive    = ~0U;	// Which game driver is selected
-INT32 nBurnDrvSubActive  = -1;	// Which sub-game driver is selected
+UINT32 nBurnDrvCount = 0;		// Count of game drivers
+UINT32 nBurnDrvActive = ~0U;	// Which game driver is selected
+INT32 nBurnDrvSubActive = -1;	// Which sub-game driver is selected
 UINT32 nBurnDrvSelect[8] = { ~0U, ~0U, ~0U, ~0U, ~0U, ~0U, ~0U, ~0U }; // Which games are selected (i.e. loaded but not necessarily active)
 
 char* pszCustomNameA = NULL;
@@ -28,7 +28,7 @@ TCHAR szBackupNameW[MAX_PATH];
 
 char** szShortNamesExArray = NULL;
 TCHAR** szLongNamesExArray = NULL;
-UINT32 nNamesExArray       = 0;
+UINT32 nNamesExArray = 0;
 
 bool bBurnUseMMX;
 #if defined BUILD_A68K
@@ -52,31 +52,31 @@ bool bBurnUseASMCPUEmulation = false;
  clock_t starttime = 0;
 #endif
 
-UINT32 nCurrentFrame;				// Framecount for emulated game
+UINT32 nCurrentFrame;			// Framecount for emulated game
 
-UINT32 nFramesEmulated;				// Counters for FPS	display
-UINT32 nFramesRendered;
-bool bForce60Hz           = false;
-bool bSpeedLimit60hz      = true;
-double dForcedFrameRate   = 60.00;
-bool bBurnUseBlend        = true;
-INT32 nBurnFPS            = 6000;
+UINT32 nFramesEmulated;		// Counters for FPS	display
+UINT32 nFramesRendered;		//
+bool bForce60Hz = false;
+bool bSpeedLimit60hz = true;
+double dForcedFrameRate = 60.00;
+bool bBurnUseBlend = true;
+INT32 nBurnFPS = 6000;
 INT32 nBurnCPUSpeedAdjust = 0x0100;	// CPU speed adjustment (clock * nBurnCPUSpeedAdjust / 0x0100)
 
 // Burn Draw:
-UINT8* pBurnDraw = NULL;			// Pointer to correctly sized bitmap
-INT32 nBurnPitch = 0;				// Pitch between each line
+UINT8* pBurnDraw = NULL;	// Pointer to correctly sized bitmap
+INT32 nBurnPitch = 0;					// Pitch between each line
 INT32 nBurnBpp;						// Bytes per pixel (2, 3, or 4)
 
-INT32 nBurnSoundRate = 0;			// sample rate of sound or zero for no sound
-INT32 nBurnSoundLen  = 0;			// length in samples per frame
+INT32 nBurnSoundRate = 0;				// sample rate of sound or zero for no sound
+INT32 nBurnSoundLen = 0;				// length in samples per frame
 INT16* pBurnSoundOut = NULL;		// pointer to output buffer
 
-INT32 nInterpolation   = 1;			// Desired interpolation level for ADPCM/PCM sound
+INT32 nInterpolation = 1;				// Desired interpolation level for ADPCM/PCM sound
 INT32 nFMInterpolation = 0;			// Desired interpolation level for FM sound
 
-UINT8 nBurnLayer    = 0xFF;			// Can be used externally to select which layers to show
-UINT8 nSpriteEnable = 0xFF;			// Can be used externally to select which layers to show
+UINT8 nBurnLayer = 0xFF;	// Can be used externally to select which layers to show
+UINT8 nSpriteEnable = 0xFF;	// Can be used externally to select which layers to show
 
 INT32 bRunAhead = 0;
 
@@ -86,8 +86,8 @@ bool bSaveCRoms = 0;
 
 UINT32 *pBurnDrvPalette;
 
-static char** pszShortName = NULL, ** pszFullNameA = NULL;
-static wchar_t** pszFullNameW = NULL;
+static char** pszShortName = NULL;
+static wchar_t** pszFullName = NULL;
 
 bool BurnCheckMMXSupport()
 {
@@ -102,63 +102,37 @@ bool BurnCheckMMXSupport()
 #endif
 }
 
-static void BurnGameListInit()
-{	// Avoid broken references, RomData requires separate string storage
-	if (0 == nBurnDrvCount) return;
-	
-		pszShortName = (char**   )malloc(nBurnDrvCount * sizeof(char*));
-		pszFullNameA = (char**   )malloc(nBurnDrvCount * sizeof(char*));
-		pszFullNameW = (wchar_t**)malloc(nBurnDrvCount * sizeof(wchar_t*));
+extern "C" INT32 BurnLibInit()
+{
+	BurnLibExit();
+	nBurnDrvCount = sizeof(pDriver) / sizeof(pDriver[0]);	// count available drivers
 
-		if ((NULL != pszShortName) && (NULL != pszFullNameA) && (NULL != pszFullNameW)) {
+	// Avoid broken references, rom data requires separate string storage
+	if (nBurnDrvCount > 0) {
+		pszShortName = (char**)malloc(nBurnDrvCount * sizeof(char*));
+		pszFullName = (wchar_t**)malloc(nBurnDrvCount * sizeof(wchar_t*));
+
+		if ((NULL != pszShortName) && (NULL != pszFullName)) {
 			for (UINT32 i = 0; i < nBurnDrvCount; i++) {
-				pszShortName[i] = (char*   )malloc(100      * sizeof(char));
-				pszFullNameA[i] = (char*   )malloc(MAX_PATH * sizeof(char));
-				pszFullNameW[i] = (wchar_t*)malloc(MAX_PATH * sizeof(wchar_t));
+				pszShortName[i] = (char*)malloc(100 * sizeof(char));
+				pszFullName[i] = (wchar_t*)malloc(MAX_PATH * sizeof(wchar_t));
 
-				memset(pszShortName[i], '\0', 100      * sizeof(char));
-				memset(pszFullNameA[i], '\0', MAX_PATH * sizeof(char));
-				memset(pszFullNameW[i], '\0', MAX_PATH * sizeof(wchar_t));
+				memset(pszShortName[i], '\0', 100 * sizeof(char));
+				memset(pszFullName[i], '\0', MAX_PATH * sizeof(wchar_t));
 
 				if (NULL != pszShortName[i]) {
 					strcpy(pszShortName[i], pDriver[i]->szShortName);
 					pDriver[i]->szShortName = pszShortName[i];
 				}
-				if (NULL != pszFullNameA[i]) {
-					strcpy(pszFullNameA[i], pDriver[i]->szFullNameA);
-					pDriver[i]->szFullNameA = pszFullNameA[i];
-				}
 #if defined (_UNICODE)
 				if (NULL != pDriver[i]->szFullNameW) {
-					wmemcpy(pszFullNameW[i], pDriver[i]->szFullNameW, MAX_PATH);	// Include '\0'
+					wmemcpy(pszFullName[i], pDriver[i]->szFullNameW, MAX_PATH);	// Include '\0'
 				}
-				pDriver[i]->szFullNameW = pszFullNameW[i];
+				pDriver[i]->szFullNameW = pszFullName[i];
 #endif
 			}
 		}
-
-}
-
-static void BurnGameListExit()
-{
-	// Release of storage space
-	for (UINT32 i = 0; i < nBurnDrvCount; i++) {
-		if ((NULL != pszShortName) && (NULL != pszShortName[i])) free(pszShortName[i]);
-		if ((NULL != pszFullNameA) && (NULL != pszFullNameA[i])) free(pszFullNameA[i]);
-		if ((NULL != pszFullNameW) && (NULL != pszFullNameW[i])) free(pszFullNameW[i]);
 	}
-	if (NULL != pszShortName) free(pszShortName);
-	if (NULL != pszFullNameA) free(pszFullNameA);
-	if (NULL != pszFullNameW) free(pszFullNameW);
-}
-
-extern "C" INT32 BurnLibInit()
-{
-	BurnLibExit();
-
-	nBurnDrvCount = sizeof(pDriver) / sizeof(pDriver[0]);	// count available drivers
-
-	BurnGameListInit();
 
 	BurnSoundInit();
 
@@ -169,7 +143,23 @@ extern "C" INT32 BurnLibInit()
 
 extern "C" INT32 BurnLibExit()
 {
-	BurnGameListExit();
+	// Release of storage space
+	if (NULL != pszShortName) {
+		for (UINT32 i = 0; i < nBurnDrvCount; i++) {
+			if (NULL != pszShortName[i]) {
+				free(pszShortName[i]);
+			}
+		}
+		free(pszShortName);
+	}
+	if (NULL != pszFullName) {
+		for (UINT32 i = 0; i < nBurnDrvCount; i++) {
+			if (NULL != pszFullName[i]) {
+				free(pszFullName[i]);
+			}
+		}
+		free(pszFullName);
+	}
 
 	nBurnDrvCount = 0;
 
@@ -500,27 +490,21 @@ extern "C" char* BurnDrvGetTextA(UINT32 i)
 	}
 }
 
-static INT32 BurnDrvSetFullNameA(char* szName, UINT32 i = nBurnDrvActive)
+static void BurnDrvSetFullNameA(char* szName)
 {
-	// Preventing the emergence of ~0U
 	// If not NULL, then FullNameA is customized
-	if ((i >= 0) && (NULL != szName)) {
-		memset(pszFullNameA[i], '\0', MAX_PATH * sizeof(char));
-		strcpy(pszFullNameA[i], szName);
+	if (NULL == szName) return;
 
-		return 0;
-	}
-
-	return -1;
+	pDriver[nBurnDrvActive]->szFullNameA = szName;
 }
 
-INT32 BurnDrvSetFullNameW(TCHAR* szName, INT32 i = nBurnDrvActive)
+INT32 BurnDrvSetFullNameW(TCHAR* szName, INT32 i)
 {
 	if ((-1 == i) || (NULL == szName)) return -1;
 
 #if defined (_UNICODE)
-	memset(pszFullNameW[i], '\0', MAX_PATH * sizeof(wchar_t));
-	wcscpy(pszFullNameW[i], szName);
+	memset(pszFullName[i], _T('\0'), MAX_PATH * sizeof(TCHAR));
+	wcscpy(pszFullName[i], szName);
 #endif
 
 	return 0;
@@ -533,8 +517,8 @@ void BurnLocalisationSetName(char* szName, TCHAR* szLongName)
 		nBurnDrvActive = i;
 		if (!strcmp(szName, pDriver[i]->szShortName)) {
 //			pDriver[i]->szFullNameW = szLongName;
-			memset(pszFullNameW[i], '\0', MAX_PATH * sizeof(wchar_t));
-			_tcscpy(pszFullNameW[i], szLongName);
+			memset(pszFullName[i], _T('\0'), MAX_PATH * sizeof(TCHAR));
+			_tcscpy(pszFullName[i], szLongName);
 		}
 	}
 }
@@ -563,7 +547,7 @@ static void BurnLocalisationSetNameEx()
 
 	for (INT32 nIndex = 0; nIndex < nNamesExArray; nIndex++) {
 		if (0 == strcmp(szShortNamesExArray[nIndex], szShortNames)) {
-			BurnDrvSetFullNameW(szLongNamesExArray[nIndex]);
+			BurnDrvSetFullNameW(szLongNamesExArray[nIndex], nBurnDrvActive);
 			return;
 		}
 	}
@@ -924,7 +908,7 @@ extern "C" INT32 BurnDrvExit()
 		const wchar_t* _str1 = L"", * _str2 = BurnDrvGetFullNameW(nBurnDrvActive);
 
 		if (0 != _tcscmp(_str1, _str2)) {
-			BurnDrvSetFullNameW(szBackupNameW);
+			BurnDrvSetFullNameW(szBackupNameW, nBurnDrvActive);
 		}
 #endif
 	}
@@ -1296,7 +1280,7 @@ enum {
 };
 
 struct RewindIndex {
-	INT64 pos;			// data position in RewindBuffer
+	INT32 pos;			// data position in RewindBuffer
 	INT32 len;			// total buffer length (state + extra data)
 	INT32 state_len;	// buffer length of just state data
 	INT32 this_frame;	// frame # (for input recording sync)
@@ -1307,8 +1291,8 @@ struct RewindIndex {
 };
 
 INT32 bRewindEnabled	= 0;		// for UI Integration
-INT64 nRewindMemory		= 1024;		// for UI
-static INT64 nRewindTotalAllocated;
+INT32 nRewindMemory		= 1024;		// for UI
+static INT32 nRewindTotalAllocated;
 static INT32 bRewindStatus;			  // ref. enum above
 static INT32 bRewindCancelLatch;
 static INT32 bRewindSingleStepping;
@@ -1397,9 +1381,8 @@ static INT32 StateRewindGetSize()
 extern int nReplayStatus;
 extern UINT32 nStartFrame;
 extern INT32 nReplayUndoCount;
-INT32 FreezeInputSize();
-INT32 FreezeInput(UINT8** buf, INT32* size);
-INT32 UnfreezeInput(const UINT8* buf, INT32 size);
+int FreezeInput(unsigned char** buf, int* size);
+int UnfreezeInput(const unsigned char* buf, int size);
 #include "inputbuf.h"
 
 // interface.h
@@ -1460,13 +1443,13 @@ static void StateRewindFrame() // called once per frame (see burner/win32/run.cp
 			if (!RewindBuffer) {
 				if (nRewindTotalAllocated <= 128 * 1024 * 1024) break; // going to be too low to do anything decent!
 				// re-try allocation w/smaller amount.
-				bprintf(0, _T("*** Rewind init-notice: allocation failed (%dMB). retrying with %dMB\n"), (int)(nRewindTotalAllocated / (1024 * 1024)), (int)((nRewindTotalAllocated / (1024 * 1024)) - 128));
+				bprintf(0, _T("*** Rewind init-notice: allocation failed (%dMB). retrying with %dMB\n"), nRewindTotalAllocated / (1024 * 1024), (nRewindTotalAllocated / (1024 * 1024)) - 128);
 				nRewindTotalAllocated -= 128 * 1024 * 1024;
 			}
 		} while (RewindBuffer == NULL);
 
 		if (!RewindBuffer) {
-			bprintf(PRINT_ERROR, _T("*** Rewind init-error: allocation failed. size %dMB\n"), (int)(nRewindTotalAllocated / (1024 * 1024)));
+			bprintf(PRINT_ERROR, _T("*** Rewind init-error: allocation failed. size %dMB\n"), nRewindTotalAllocated / (1024 * 1024));
 			goto superfail;
 		}
 
@@ -1497,7 +1480,7 @@ static void StateRewindFrame() // called once per frame (see burner/win32/run.cp
 
 		switch (bRewindStatus) {
 			case REWINDSTATUS_OK:
-				bprintf(0, _T(" ** Rewind initted, %dMB allocated, state size $%x @ ~%d rewinds.\n"), (int)(nRewindTotalAllocated / (1024 * 1024)), nTotalLenRewind, nRewindIndexCount);
+				bprintf(0, _T(" ** Rewind initted, %dMB allocated, state size $%x @ ~%d rewinds.\n"), nRewindTotalAllocated / (1024 * 1024), nTotalLenRewind, nRewindIndexCount);
 				break;
 			case REWINDSTATUS_BROKEN:
 				bprintf(0, _T(" ** Rewind init failed, disabled for this session\n"));
@@ -1506,20 +1489,15 @@ static void StateRewindFrame() // called once per frame (see burner/win32/run.cp
 		}
 	}
 
-	INT32 nStateSize = StateRewindGetSize();
+	if (nRewindFrames > 0 && (pRewindIndex[nRewindFrames-1].pos + pRewindIndex[nRewindFrames-1].len*2) >=
+		nRewindTotalAllocated) {
 
-	if (nRewindFrames > 0 && (pRewindIndex[nRewindFrames-1].pos + pRewindIndex[nRewindFrames-1].len + nStateSize + 1024 + // the 1024 is a safety net
-		((nReplayStatus != 0) ? (4 + inputbuf_freezer_size() + 4 + FreezeInputSize()) : 0) ) >=	nRewindTotalAllocated) {
-
-		// if we've run out of rewind memory, it's time for a culling. We do this in a thread,
-		// so emulation can continue.
-
-		thready.notify(); // (trigger StateRewind_Repack() via thread)
+		thready.notify(); // runs StateRewind_Repack() in a thread
 
 	} else {
 		// Add this frame to rewind
 		pRewindIndex[nRewindFrames].len =
-		pRewindIndex[nRewindFrames].state_len = nStateSize;
+		pRewindIndex[nRewindFrames].state_len =	StateRewindGetSize();
 
 		pRewindIndex[nRewindFrames].pos = (nRewindFrames == 0) ? 0 :
 			(pRewindIndex[nRewindFrames-1].pos + pRewindIndex[nRewindFrames-1].len);
@@ -1609,7 +1587,7 @@ static void StateRewindLoad()
 			// huh?  When we run out of rewind memory, the entries get packed
 			// by deleting every other entry thus freeing up space for future
 			// rewind entries.  If we don't do this, they will play back way
-			// too fast! (compared to freshly added rewind entries)
+			// too fast!
 			if (pRewindIndex[nRewindFrames].gran_counter >= (pRewindIndex[nRewindFrames].granulated)) {
 				pRewindIndex[nRewindFrames].gran_counter = 0;
 				nRewindFrames--;

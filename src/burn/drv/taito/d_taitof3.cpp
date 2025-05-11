@@ -198,65 +198,68 @@ static struct BurnInputInfo KnInputList[] = {
 
 STDINPUTINFO(Kn)
 
-static struct BurnDIPInfo F3GlobalDIPList[]=
-{
-	{0   , 0xfe, 0   , 2   , "Music Tempo (must restart!)" },
-	{0x00, 0x01, 0x02, 0x00, "Normal / Fast" },
-	{0x00, 0x01, 0x02, 0x02, "Slow / Mellow" },
-};
-
 static struct BurnDIPInfo gseekerDIPList[]=
 {
-	DIP_OFFSET(0x2e)
+	{0x2e, 0xff, 0xff, 0x01, NULL },
 
-	{0x00, 0xff, 0xff, 0x01, NULL },
+	{0   , 0xfe, 0   , 2   , "Music Tempo (must restart!)" },
+	{0x2e, 0x01, 0x02, 0x00, "Normal / Fast" },
+	{0x2e, 0x01, 0x02, 0x02, "Slow / Mellow" },
 
 	{0   , 0xfe, 0   , 2   , "Stage 5 Graphic Glitch Fix" },
-	{0x00, 0x01, 0x01, 0x01, "Yes" },
-	{0x00, 0x01, 0x01, 0x00, "No" },
+	{0x2e, 0x01, 0x01, 0x01, "Yes" },
+	{0x2e, 0x01, 0x01, 0x00, "No" },
 };
 
-STDDIPINFOEXT(gseeker, F3Global, gseeker)
+STDDIPINFO(gseeker)
 
 static struct BurnDIPInfo F3DIPList[]=
 {
-	DIP_OFFSET(0x2e)
+	{0x2e, 0xff, 0xff, 0x00, NULL },
 
-	{0x00, 0xff, 0xff, 0x00, NULL },
+	{0   , 0xfe, 0   , 2   , "Music Tempo (must restart!)" },
+	{0x2e, 0x01, 0x02, 0x00, "Normal / Fast" },
+	{0x2e, 0x01, 0x02, 0x02, "Slow / Mellow" },
 };
 
-STDDIPINFOEXT(F3, F3Global, F3)
+STDDIPINFO(F3)
 
 static struct BurnDIPInfo GunlockDIPList[]=
 {
-	DIP_OFFSET(0x2e)
+	{0x2e, 0xff, 0xff, 0x00, NULL },
 
-	{0x00, 0xff, 0xff, 0x00, NULL },
+	{0   , 0xfe, 0   , 2   , "Music Tempo (must restart!)" },
+	{0x2e, 0x01, 0x02, 0x00, "Normal / Fast" },
+	{0x2e, 0x01, 0x02, 0x02, "Slow / Mellow" },
 
 	{0   , 0xfe, 0   , 2   , "GammaBrightness hack" },
-	{0x00, 0x01, 0x04, 0x04, "On" },
-	{0x00, 0x01, 0x04, 0x00, "Off" },
+	{0x2e, 0x01, 0x04, 0x04, "On" },
+	{0x2e, 0x01, 0x04, 0x00, "Off" },
 };
 
-STDDIPINFOEXT(Gunlock, F3Global, Gunlock)
+STDDIPINFO(Gunlock)
 
 static struct BurnDIPInfo F3AnalogDIPList[]=
 {
-	DIP_OFFSET(0x30)
+	{0x30, 0xff, 0xff, 0x00, NULL },
 
-	{0x00, 0xff, 0xff, 0x00, NULL },
+	{0   , 0xfe, 0   , 2   , "Music Tempo (must restart!)" },
+	{0x30, 0x01, 0x02, 0x00, "Normal / Fast" },
+	{0x30, 0x01, 0x02, 0x02, "Slow / Mellow" },
 };
 
-STDDIPINFOEXT(F3Analog, F3Global, F3Analog)
+STDDIPINFO(F3Analog)
 
 static struct BurnDIPInfo KnDIPList[]=
 {
-	DIP_OFFSET(0x1e)
+	{0x1e, 0xff, 0xff, 0x00, NULL },
 
-	{0x00, 0xff, 0xff, 0x00, NULL },
+	{0   , 0xfe, 0   , 2   , "Music Tempo (must restart!)" },
+	{0x1e, 0x01, 0x02, 0x00, "Normal / Fast" },
+	{0x1e, 0x01, 0x02, 0x02, "Slow / Mellow" },
 };
 
-STDDIPINFOEXT(Kn, F3Global, Kn)
+STDDIPINFO(Kn)
 
 static void control_w(INT32 offset, UINT32 d, INT32 b)
 {
@@ -1277,8 +1280,6 @@ static INT32 TaitoF3GetRoms(bool bLoad)
 
 static INT32 DrvInit(INT32 (*pRomLoadCB)(), void (*pPalUpdateCB)(UINT16), INT32 extend, INT32 kludge, INT32 spritelag, UINT32 speedhack_addr)
 {
-	BurnSetRefreshRate(58.943844);
-
 	f3_game = kludge;
 
 	TaitoF3GetRoms(false);
@@ -1554,7 +1555,7 @@ static INT32 DrvFrame()
 	}
 
 	INT32 nInterleave = 256;
-	INT32 nCyclesTotal[1] = { (double)16000000 * 100 / nBurnFPS };
+	INT32 nCyclesTotal[1] = { 16000000 / 60 }; // do not touch!
 	INT32 nCyclesDone[1] = { nCyclesExtra };
 
 	SekNewFrame();
@@ -2998,7 +2999,7 @@ struct BurnDriver BurnDrvLightbr = {
 	"lightbr", NULL, NULL, NULL, "1993",
 	"Light Bringer (Ver 2.2O 1994/04/08)\0", NULL, "Taito Corporation Japan", "Taito F3 System",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 4, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
+	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
 	NULL, lightbrRomInfo, lightbrRomName, NULL, NULL, NULL, NULL, F3InputInfo, F3DIPInfo,
 	lightbrInit, DrvExit, DrvFrame, DrvDraw224A, DrvScan, &TaitoF3PalRecalc, 0x2000,
 	320, 224, 4, 3
@@ -3038,7 +3039,7 @@ struct BurnDriver BurnDrvDungeonm = {
 	"dungeonm", "lightbr", NULL, NULL, "1993",
 	"Dungeon Magic (Ver 2.1O 1994/02/18)\0", NULL, "Taito Corporation Japan", "Taito F3 System",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 4, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
 	NULL, dungeonmRomInfo, dungeonmRomName, NULL, NULL, NULL, NULL, F3InputInfo, F3DIPInfo,
 	lightbrInit, DrvExit, DrvFrame, DrvDraw224A, DrvScan, &TaitoF3PalRecalc, 0x2000,
 	320, 224, 4, 3
@@ -3078,7 +3079,7 @@ struct BurnDriver BurnDrvDungeonmu = {
 	"dungeonmu", "lightbr", NULL, NULL, "1993",
 	"Dungeon Magic (Ver 2.1A 1994/02/18)\0", NULL, "Taito America Corporation", "Taito F3 System",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 4, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
 	NULL, dungeonmuRomInfo, dungeonmuRomName, NULL, NULL, NULL, NULL, F3InputInfo, F3DIPInfo,
 	lightbrInit, DrvExit, DrvFrame, DrvDraw224A, DrvScan, &TaitoF3PalRecalc, 0x2000,
 	320, 224, 4, 3
@@ -3118,7 +3119,7 @@ struct BurnDriver BurnDrvLightbrj = {
 	"lightbrj", "lightbr", NULL, NULL, "1993",
 	"Light Bringer (Ver 2.1J 1994/02/18)\0", NULL, "Taito Corporation", "Taito F3 System",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 4, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
 	NULL, lightbrjRomInfo, lightbrjRomName, NULL, NULL, NULL, NULL, F3InputInfo, F3DIPInfo,
 	lightbrInit, DrvExit, DrvFrame, DrvDraw224A, DrvScan, &TaitoF3PalRecalc, 0x2000,
 	320, 224, 4, 3

@@ -277,7 +277,7 @@ void KonamiBlendCopy(UINT32 *pPalette)
 		{
 			UINT16 *dst = (UINT16*)pBurnDraw;
 			for (INT32 i = 0; i < nScreenWidth * nScreenHeight; i++, dst++, bmp++) {
-				*dst = palette_lut[*bmp & 0xffffff];
+				*dst = palette_lut[*bmp];
 			}
 		}
 		break;

@@ -474,8 +474,6 @@ static INT_PTR CALLBACK WaitProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPar
 
 int CreateROMInfo(HWND hParentWND)
 {
-	SubDirThreadExit();
-
 	hParent = hParentWND;
 	bool bStarting = 0;
 

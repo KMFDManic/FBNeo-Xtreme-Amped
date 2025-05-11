@@ -427,8 +427,9 @@ int huffman_build_tree(struct huffman_decoder* decoder, uint32_t totaldata, uint
 
 #if 0
    fprintf(stderr, "Post-sort:\n");
-   for (int i = 0; i < listitems; i++)
+   for (int i = 0; i < listitems; i++) {
       fprintf(stderr, "weight: %d code: %d\n", list[i]->m_weight, list[i]->m_bits);
+   }
    fprintf(stderr, "===================\n");
 #endif
 

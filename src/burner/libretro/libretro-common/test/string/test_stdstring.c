@@ -268,9 +268,7 @@ START_TEST (test_utf8_util)
    ck_assert_uint_eq(3592, utf8_walk(tptr));
    ck_assert_uint_eq(131108, utf8_walk(tptr));
 
-#if 0
-   ck_assert_uint_eq(1, utf8cpy(out, 64, test1, 1));
-#endif
+   //ck_assert_uint_eq(1, utf8cpy(out, 64, test1, 1));
 }
 END_TEST
 

@@ -255,7 +255,7 @@ static char *config_file_extract_value(char *line)
          return strdup(value);
    }
 
-   /* Note 2: This is an unrolled strldup call
+   /* Note 2: This is an unrolled strldup call 
     * to avoid an unnecessary dependency -
     * call is strldup("", sizeof(""))
     **/
@@ -355,7 +355,12 @@ static void config_file_add_child_list(config_file_t *parent,
 static void config_file_get_realpath(char *s, size_t len,
       char *path, const char *config_path)
 {
-#if !defined(_WIN32) && !defined(__PSL1GHT__) && !defined(__PS3__)
+#ifdef _WIN32
+   if (!string_is_empty(config_path))
+      fill_pathname_resolve_relative(s, config_path,
+            path, len);
+#else
+#if !defined(__PSL1GHT__) && !defined(__PS3__)
    if (*path == '~')
    {
       const char *home = getenv("HOME");
@@ -369,15 +374,13 @@ static void config_file_get_realpath(char *s, size_t len,
    }
    else
 #endif
-   {
       if (!string_is_empty(config_path))
-         fill_pathname_resolve_relative(s, config_path,
-            path, len);
-   }
+         fill_pathname_resolve_relative(s, config_path, path, len);
+#endif
 }
 
 static void config_file_add_sub_conf(config_file_t *conf, char *path,
-      char *s, size_t len, config_file_cb_t *cb)
+      char *real_path, size_t len, config_file_cb_t *cb)
 {
    struct config_include_list *head = conf->includes;
    struct config_include_list *node = (struct config_include_list*)
@@ -400,24 +403,20 @@ static void config_file_add_sub_conf(config_file_t *conf, char *path,
          conf->includes = node;
    }
 
-   config_file_get_realpath(s, len, path,
+   config_file_get_realpath(real_path, len, path,
          conf->path);
 }
 
 size_t config_file_add_reference(config_file_t *conf, char *path)
 {
-   size_t _len;
+   size_t len;
    /* It is expected that the conf has it's path already set */
-   char short_path[NAME_MAX_LENGTH];
+   char short_path[PATH_MAX_LENGTH];
    if (!conf->references)
-   {
-      conf->references       = (struct path_linked_list*)malloc(sizeof(*conf->references));
-      conf->references->next = NULL;
-      conf->references->path = NULL;
-   }
-   _len = fill_pathname_abbreviated_or_relative(short_path, conf->path, path, sizeof(short_path));
+      conf->references = path_linked_list_new();
+   len = fill_pathname_abbreviated_or_relative(short_path, conf->path, path, sizeof(short_path));
    path_linked_list_add_path(conf->references, short_path);
-   return _len;
+   return len;
 }
 
 static int config_file_load_internal(
@@ -465,8 +464,8 @@ static int config_file_load_internal(
          continue;
       }
 
-      if (
-              !string_is_empty(line)
+      if ( 
+              !string_is_empty(line) 
             && config_file_parse_line(conf, list, line, cb))
       {
          if (conf->entries)
@@ -523,7 +522,7 @@ static bool config_file_parse_line(config_file_t *conf,
       bool reference_found     = string_starts_with_size(comment,
             "reference ", STRLEN_CONST("reference "));
 
-      /* All comments except those starting with the include or
+      /* All comments except those starting with the include or 
        * reference directive are ignored */
       if (!include_found && !reference_found)
          return false;
@@ -709,7 +708,7 @@ static int config_file_from_string_internal(
       /* Get next line of config file */
       line = strtok_r(NULL, "\n", &save_ptr);
    }
-
+   
    return 0;
 }
 
@@ -827,7 +826,7 @@ config_file_t *config_file_new_from_string(char *from_string,
       const char *path)
 {
    struct config_file *conf      = config_file_new_alloc();
-   if (     conf
+   if (     conf 
          && config_file_from_string_internal(
             conf, from_string, path) != -1)
       return conf;
@@ -935,7 +934,8 @@ void config_file_initialize(struct config_file *conf)
    conf->references               = NULL;
    conf->includes                 = NULL;
    conf->include_depth            = 0;
-   conf->flags                    = 0;
+   conf->guaranteed_no_duplicates = false;
+   conf->modified                 = false;
 }
 
 config_file_t *config_file_new_alloc(void)
@@ -1160,38 +1160,42 @@ bool config_get_string(config_file_t *conf, const char *key, char **str)
   * Extracts a string to a preallocated buffer.
   * Avoid memory allocation.
   **/
-size_t config_get_config_path(config_file_t *conf, char *s, size_t len)
+bool config_get_config_path(config_file_t *conf, char *s, size_t len)
 {
    if (conf)
       return strlcpy(s, conf->path, len);
-   return 0;
+   return false;
 }
 
-size_t config_get_array(config_file_t *conf, const char *key,
+bool config_get_array(config_file_t *conf, const char *key,
       char *buf, size_t size)
 {
    const struct config_entry_list *entry = config_get_entry(conf, key);
    if (entry)
       return strlcpy(buf, entry->value, size) < size;
-   return 0;
+   return false;
 }
 
-size_t config_get_path(config_file_t *conf, const char *key,
+bool config_get_path(config_file_t *conf, const char *key,
       char *buf, size_t size)
 {
 #if defined(RARCH_CONSOLE) || !defined(RARCH_INTERNAL)
-   return config_get_array(conf, key, buf, size);
+   if (config_get_array(conf, key, buf, size))
+      return true;
 #else
    const struct config_entry_list *entry = config_get_entry(conf, key);
    if (entry)
-      return fill_pathname_expand_special(buf, entry->value, size);
+   {
+      fill_pathname_expand_special(buf, entry->value, size);
+      return true;
+   }
 #endif
-   return 0;
+   return false;
 }
 
 /**
  * config_get_bool:
- *
+ * 
  * Extracts a boolean from config.
  * Valid boolean true are "true" and "1". Valid false are "false" and "0".
  * Other values will be treated as an error.
@@ -1237,7 +1241,7 @@ void config_set_string(config_file_t *conf, const char *key, const char *val)
 
    last                            = conf->entries;
 
-   if (conf->flags & CONF_FILE_FLG_GUARANTEED_NO_DUPLICATES)
+   if (conf->guaranteed_no_duplicates)
    {
       if (conf->last)
          last                      = conf->last;
@@ -1264,7 +1268,7 @@ void config_set_string(config_file_t *conf, const char *key, const char *val)
           *   is no longer considered 'read only' */
          entry->value    = strdup(val);
          entry->readonly = false;
-         conf->flags    |= CONF_FILE_FLG_MODIFIED;
+         conf->modified  = true;
          return;
       }
    }
@@ -1278,7 +1282,7 @@ void config_set_string(config_file_t *conf, const char *key, const char *val)
    entry->key       = strdup(key);
    entry->value     = strdup(val);
    entry->next      = NULL;
-   conf->flags     |= CONF_FILE_FLG_MODIFIED;
+   conf->modified   = true;
 
    if (last)
       last->next    = entry;
@@ -1313,7 +1317,7 @@ void config_unset(config_file_t *conf, const char *key)
 
    entry->key     = NULL;
    entry->value   = NULL;
-   conf->flags   |= CONF_FILE_FLG_MODIFIED;
+   conf->modified = true;
 }
 
 void config_set_path(config_file_t *conf, const char *entry, const char *val)
@@ -1331,62 +1335,62 @@ size_t config_set_double(config_file_t *conf, const char *key, double val)
 {
    char buf[320];
 #ifdef __cplusplus
-   size_t _len = snprintf(buf, sizeof(buf), "%f", (float)val);
+   size_t len = snprintf(buf, sizeof(buf), "%f", (float)val);
 #elif defined(__STDC_VERSION__) && __STDC_VERSION__>=199901L
-   size_t _len = snprintf(buf, sizeof(buf), "%lf", val);
+   size_t len = snprintf(buf, sizeof(buf), "%lf", val);
 #else
-   size_t _len = snprintf(buf, sizeof(buf), "%f", (float)val);
+   size_t len = snprintf(buf, sizeof(buf), "%f", (float)val);
 #endif
    config_set_string(conf, key, buf);
-   return _len;
+   return len;
 }
 
 size_t config_set_float(config_file_t *conf, const char *key, float val)
 {
    char buf[64];
-   size_t _len = snprintf(buf, sizeof(buf), "%f", val);
+   size_t len = snprintf(buf, sizeof(buf), "%f", val);
    config_set_string(conf, key, buf);
-   return _len;
+   return len;
 }
 
 size_t config_set_int(config_file_t *conf, const char *key, int val)
 {
    char buf[16];
-   size_t _len = snprintf(buf, sizeof(buf), "%d", val);
+   size_t len = snprintf(buf, sizeof(buf), "%d", val);
    config_set_string(conf, key, buf);
-   return _len;
+   return len;
 }
 
 size_t config_set_uint(config_file_t *conf, const char *key, unsigned int val)
 {
    char buf[16];
-   size_t _len = snprintf(buf, sizeof(buf), "%u", val);
+   size_t len = snprintf(buf, sizeof(buf), "%u", val);
    config_set_string(conf, key, buf);
-   return _len;
+   return len;
 }
 
 size_t config_set_hex(config_file_t *conf, const char *key, unsigned val)
 {
    char buf[16];
-   size_t _len = snprintf(buf, sizeof(buf), "%x", val);
+   size_t len = snprintf(buf, sizeof(buf), "%x", val);
    config_set_string(conf, key, buf);
-   return _len;
+   return len;
 }
 
 size_t config_set_uint64(config_file_t *conf, const char *key, uint64_t val)
 {
    char buf[32];
-   size_t _len = snprintf(buf, sizeof(buf), "%" PRIu64, val);
+   size_t len = snprintf(buf, sizeof(buf), "%" PRIu64, val);
    config_set_string(conf, key, buf);
-   return _len;
+   return len;
 }
 
 size_t config_set_char(config_file_t *conf, const char *key, char val)
 {
    char buf[2];
-   size_t _len = snprintf(buf, sizeof(buf), "%c", val);
+   size_t len = snprintf(buf, sizeof(buf), "%c", val);
    config_set_string(conf, key, buf);
-   return _len;
+   return len;
 }
 
 /**
@@ -1399,7 +1403,7 @@ bool config_file_write(config_file_t *conf, const char *path, bool sort)
    if (!conf)
       return false;
 
-   if (conf->flags & CONF_FILE_FLG_MODIFIED)
+   if (conf->modified)
    {
       if (string_is_empty(path))
          config_file_dump(conf, stdout, sort);
@@ -1422,7 +1426,7 @@ bool config_file_write(config_file_t *conf, const char *path, bool sort)
 
          /* Only update modified flag if config file
           * is actually written to disk */
-         conf->flags &= ~CONF_FILE_FLG_MODIFIED;
+         conf->modified = false;
       }
    }
 

@@ -1,8 +1,8 @@
 /* HuffEnc.h -- Huffman encoding
-2023-03-05 : Igor Pavlov : Public domain */
+2013-01-18 : Igor Pavlov : Public domain */
 
-#ifndef ZIP7_INC_HUFF_ENC_H
-#define ZIP7_INC_HUFF_ENC_H
+#ifndef __HUFF_ENC_H
+#define __HUFF_ENC_H
 
 #include "7zTypes.h"
 

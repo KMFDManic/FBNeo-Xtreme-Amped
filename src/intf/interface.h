@@ -189,10 +189,8 @@ extern INT32 nVidHorWidth, nVidHorHeight;
 extern INT32 nVidVerWidth, nVidVerHeight;
 
 extern INT32 nVidFullscreen;
-extern INT32 bVidIntegerScale;
 extern INT32 bVidBilinear;
 extern INT32 bVidScanlines;
-extern INT32 bVidDX9WinFullscreen;
 extern INT32 bVidScanRotate;
 extern INT32 bVidScanBilinear;
 extern INT32 nVidScanIntensity;
@@ -203,22 +201,6 @@ extern INT32 nVidFeedbackOverSaturation;
 extern INT32 bVidCorrectAspect;
 extern INT32 bVidArcaderes;
 extern INT32 nVidDX9HardFX;
-
-struct hardfx_config {
-	char *szFileName;
-	int nOptions;
-	const float fDefaults[4];
-	float fOptions[4];
-	char *szOptions[4];
-
-	void hardfx_config_load_defaults() {
-		for (int i = 0; i < 4; i++) {
-			fOptions[i] = fDefaults[i];
-		}
-	}
-};
-
-extern hardfx_config HardFXConfigs[];
 
 extern INT32 bVidArcaderesHor;
 extern INT32 bVidArcaderesVer;

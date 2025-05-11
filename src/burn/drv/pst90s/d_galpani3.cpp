@@ -36,7 +36,6 @@ static INT32 scrolly[3];
 static INT32 enable[3];
 static INT32 fbbright1[3];
 static INT32 fbbright2[3];
-static INT32 c1c[3];
 static INT32 regs1_address[4][2];
 static INT32 prio_scrollx;
 static INT32 prio_scrolly;
@@ -147,7 +146,7 @@ static void toybox_mcu_com_write(UINT16 data, INT32 select)
 	toybox_mcu_run();
 }
 
-static void do_rle(INT32 which, INT32 data)
+static void do_rle(INT32 which)
 {
 	INT32 rle_count = 0;
 	INT32 normal_count = 0;
@@ -156,17 +155,6 @@ static void do_rle(INT32 which, INT32 data)
 	UINT8 thebyte;
 	UINT32 address = regs1_address[which][1] | (regs1_address[which][0]<<16);
 	UINT16 *framebuffer = DrvFrameBuffer[which];
-
-	switch (data & 0xf000) {
-		case 0x2000:
-			return; // not used?
-		case 0x3000:
-			// data = framebuffer destination address "x" offset
-			// c1c  = framebuffer destination address "y" offset  -dink Nov, 2024
-			//bprintf(0, _T("do_rle, data/c1c:  %x  %x\n"), data, c1c[which]);
-			dstaddress += (data & 0x1ff) | ((c1c[which] & 0x1ff) * 0x200);
-			break;
-	}
 
 	while (dstaddress<0x40000)
 	{
@@ -188,9 +176,7 @@ static void do_rle(INT32 which, INT32 data)
 		else if (rle_count)
 		{
 			thebyte = DrvGfxROM[address & 0xffffff];
-			if (dstaddress >= 0) {
-				framebuffer[dstaddress] = BURN_ENDIAN_SWAP_INT16(thebyte);
-			}
+			framebuffer[dstaddress] = BURN_ENDIAN_SWAP_INT16(thebyte);
 			dstaddress++;
 			rle_count--;
 
@@ -202,9 +188,7 @@ static void do_rle(INT32 which, INT32 data)
 		else if (normal_count)
 		{
 			thebyte = DrvGfxROM[address & 0xffffff];
-			if (dstaddress >= 0) {
-				framebuffer[dstaddress] = BURN_ENDIAN_SWAP_INT16(thebyte);
-			}
+			framebuffer[dstaddress] = BURN_ENDIAN_SWAP_INT16(thebyte);
 			dstaddress++;
 			normal_count--;
 			address++;
@@ -277,17 +261,11 @@ static void __fastcall galpani3_write_word(UINT32 address, UINT16 data)
 			regs1_address[(address / 0x200000) & 3][(address / 2) & 1] = data;
 		return;
 
-		case 0x800c1c:
-		case 0xa00c1c:
-		case 0xc00c1c:
-			c1c[(address / 0x200000) & 3] = data;
-		return;
-
 		case 0x800c1e:
 		case 0xa00c1e:
 		case 0xc00c1e:
-			do_rle((address / 0x200000) & 3, data);
-			return;
+			if ((data & 0xefff) == 0x2000) do_rle((address / 0x200000) & 3);
+		return;
 
 		case 0xe80000:
 			prio_scrollx = data;
@@ -391,7 +369,6 @@ static INT32 DrvDoReset(INT32 clear_mem)
 	memset (scrollx,  		0, sizeof(scrollx));
 	memset (scrolly,  		0, sizeof(scrolly));
 	memset (enable,    		0, sizeof(enable));
-	memset (c1c,    		0, sizeof(c1c));
 	memset (fbbright1,		0, sizeof(fbbright1));
 	memset (fbbright2, 		0, sizeof(fbbright2));
 	memset (regs1_address,	0, sizeof(regs1_address));
@@ -628,7 +605,7 @@ static inline UINT32 alpha_blend(UINT32 d, UINT32 s, UINT32 p)
 static INT32 DrvDraw()
 {
 	DrvPaletteUpdate();
-	pBurnDrvPalette = DrvPalette;
+
 	// Clear sknsspr bitmap register (assumed only used by galpani3)
 	UINT32 *sprite_regs = (UINT32*)DrvSprRegs;
 	if (~BURN_ENDIAN_SWAP_INT32(sprite_regs[0x04/4]) & 0x04) {
@@ -686,9 +663,9 @@ static INT32 DrvDraw()
 				if (nSpriteEnable & 1) COPY_SPRITE_PIXEL(0x0000);
 				if (nBurnLayer & 1 && enable[1]) DRAW_BLITLAYER2();
 				if (nSpriteEnable & 2) COPY_SPRITE_PIXEL(0x4000);
-				if (nBurnLayer & 2 && enable[0]) DRAW_BLITLAYER1();
+				if (nBurnLayer & 2 && dat1 && enable[0]) DRAW_BLITLAYER1();
 				if (nSpriteEnable & 4) COPY_SPRITE_PIXEL(0x8000);
-				if (nBurnLayer & 4 && dat3 && enable[2]) DRAW_BLITLAYER3();
+				if (nBurnLayer & 4 && dat3 && enable[1]) DRAW_BLITLAYER3();
 				if (nSpriteEnable & 8) COPY_SPRITE_PIXEL(0xc000);
 			}
 			else
@@ -786,7 +763,6 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 		SCAN_VAR(fbbright1);
 		SCAN_VAR(fbbright2);
 		SCAN_VAR(regs1_address);
-		SCAN_VAR(c1c);
 		SCAN_VAR(prio_scrollx);
 		SCAN_VAR(prio_scrolly);
 		SCAN_VAR(regs1);

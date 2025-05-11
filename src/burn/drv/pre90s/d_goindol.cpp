@@ -1,4 +1,4 @@
-// FB Neo Goindol driver module
+// FB Alpha Goindol driver module
 // Based on MAME driver by Jarek Parchanski
 
 #include "tiles_generic.h"
@@ -331,7 +331,12 @@ static INT32 DrvGfxDecode()
 
 static INT32 DrvInit()
 {
-	BurnAllocMemIndex();
+	AllMem = NULL;
+	MemIndex();
+	INT32 nLen = MemEnd - (UINT8 *)0;
+	if ((AllMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(AllMem, 0, nLen);
+	MemIndex();
 
 	{
 		if (BurnLoadRom(DrvZ80ROM0 + 0x00000,  0, 1)) return 1;
@@ -403,7 +408,7 @@ static INT32 DrvExit()
 
 	ZetExit();
 
-	BurnFreeMemIndex();
+	BurnFree (AllMem);
 
 	return 0;
 }
@@ -590,7 +595,7 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 }
 
 
-// Goindol (SunA, World)
+// Goindol (World)
 
 static struct BurnRomInfo goindolRomDesc[] = {
 	{ "r1w",			0x8000, 0xdf77c502, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
@@ -646,7 +651,7 @@ static INT32 GoindolInit()
 
 struct BurnDriver BurnDrvGoindol = {
 	"goindol", NULL, NULL, NULL, "1987",
-	"Goindol (SunA, World)\0", NULL, "SunA", "Miscellaneous",
+	"Goindol (World)\0", NULL, "SunA", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_BREAKOUT, 0,
 	NULL, goindolRomInfo, goindolRomName, NULL, NULL, NULL, NULL, GoindolInputInfo, GoindolDIPInfo,
@@ -655,7 +660,7 @@ struct BurnDriver BurnDrvGoindol = {
 };
 
 
-// Goindol (SunA, US)
+// Goindol (US)
 
 static struct BurnRomInfo goindoluRomDesc[] = {
 	{ "r1",				0x8000, 0x3111c61b, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
@@ -682,7 +687,7 @@ STD_ROM_FN(goindolu)
 
 struct BurnDriver BurnDrvGoindolu = {
 	"goindolu", "goindol", NULL, NULL, "1987",
-	"Goindol (SunA, US)\0", NULL, "SunA", "Miscellaneous",
+	"Goindol (US)\0", NULL, "SunA", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_BREAKOUT, 0,
 	NULL, goindoluRomInfo, goindoluRomName, NULL, NULL, NULL, NULL, GoindolInputInfo, GoindolDIPInfo,
@@ -691,7 +696,7 @@ struct BurnDriver BurnDrvGoindolu = {
 };
 
 
-// Goindol (SunA, Japan)
+// Goindol (Japan)
 
 static struct BurnRomInfo goindoljRomDesc[] = {
 	{ "r1j",			0x8000, 0xdde33ad3, 1 | BRF_PRG | BRF_ESS }, //  0 Z80 #0 Code
@@ -718,7 +723,7 @@ STD_ROM_FN(goindolj)
 
 struct BurnDriver BurnDrvGoindolj = {
 	"goindolj", "goindol", NULL, NULL, "1987",
-	"Goindol (SunA, Japan)\0", NULL, "SunA", "Miscellaneous",
+	"Goindol (Japan)\0", NULL, "SunA", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_BREAKOUT, 0,
 	NULL, goindoljRomInfo, goindoljRomName, NULL, NULL, NULL, NULL, GoindolInputInfo, GoindolDIPInfo,

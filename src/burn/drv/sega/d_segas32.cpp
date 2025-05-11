@@ -72,8 +72,6 @@ static INT32 timer_1_cycles;
 #define SOUND_IRQ_YM3438	0
 #define SOUND_IRQ_V60		1
 
-#define sign_extend(f, frombits) ((INT32)((f) << (32 - (frombits))) >> (32 - (frombits)))
-
 static UINT8 transparent_check[32][256];
 
 struct extents_list
@@ -2907,8 +2905,8 @@ static void update_tilemap_zoom(clip_struct cliprect, UINT16 *ram, INT32 destbmp
 	UINT32 srcy = (BURN_ENDIAN_SWAP_INT16(ram[0x1ff16/2 + 4 * bgnum]) & 0x1ff) << 20;
 	srcy += (BURN_ENDIAN_SWAP_INT16(ram[0x1ff14/2 + 4 * bgnum]) & 0xfe00) << 4;
 
-	srcx_start -= sign_extend(BURN_ENDIAN_SWAP_INT16(ram[0x1ff30/2 + 2 * bgnum]), (dstxstep != 0x200) ? 10 : 9) * srcxstep;
-	srcy -= sign_extend(BURN_ENDIAN_SWAP_INT16(ram[0x1ff32/2 + 2 * bgnum]), (dstystep != 0x200) ? 10 : 9) * srcystep;
+	srcx_start -= ((INT16)(BURN_ENDIAN_SWAP_INT16(ram[0x1ff30/2 + 2 * bgnum]) << 6) >> 6) * srcxstep;
+	srcy -= ((INT16)(BURN_ENDIAN_SWAP_INT16(ram[0x1ff32/2 + 2 * bgnum]) << 7) >> 7) * srcystep;
 
 	srcx_start += cliprect.nMinx * srcxstep;
 	srcy += cliprect.nMiny * srcystep;
@@ -4166,7 +4164,7 @@ static void draw_screen(INT32 which)
 
 	BurnTransferClear(0);
 
-	if (!system32_displayenable[which]) {
+	if (!system32_displayenable[0]) {
 		return;
 	}
 
@@ -7736,7 +7734,7 @@ struct BurnDriver BurnDrvScross = {
 };
 
 
-// Stadium Cross (World, linkable)
+// Stadium Cross (World, alt)
 
 static struct BurnRomInfo scrossaRomDesc[] = {
 	{ "ic37",						0x040000, 0x240a7655, 5 | BRF_PRG | BRF_ESS }, //  0 V70 #0 Code
@@ -7769,7 +7767,7 @@ STD_ROM_FN(scrossa)
 
 struct BurnDriver BurnDrvScrossa = {
 	"scrossa", "scross", NULL, NULL, "1992",
-	"Stadium Cross (World, linkable)\0", NULL, "Sega", "System 32",
+	"Stadium Cross (World, alt)\0", NULL, "Sega", "System 32",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_SEGA_SYSTEM32, GBF_RACING, 0,
 	NULL, scrossaRomInfo, scrossaRomName, NULL, NULL, NULL, NULL, ScrossInputInfo, ScrossDIPInfo,
@@ -7802,8 +7800,6 @@ static struct BurnRomInfo scrossuRomDesc[] = {
 
 	{ "mpr-15031.ic1",				0x100000, 0x6af139dc, 1 | BRF_SND },           // 15 PCM Samples
 	{ "mpr-15032.ic2",				0x100000, 0x915d6096, 1 | BRF_SND },           // 16
-
-	{ "epr-15033.ic17",				0x020000, 0xdc19ac00, 0 | BRF_PRG | BRF_ESS }, // 17 Comms Board ROM
 };
 
 STD_ROM_PICK(scrossu)

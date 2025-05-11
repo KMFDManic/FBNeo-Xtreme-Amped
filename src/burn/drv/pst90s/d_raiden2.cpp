@@ -2701,7 +2701,12 @@ static INT32 Raiden2Init()
 
 	BurnSetRefreshRate(55.47);
 
-	BurnAllocMemIndex();
+	AllMem = NULL;
+	MemIndex();
+	INT32 nLen = MemEnd - (UINT8 *)0;
+	if ((AllMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(AllMem, 0, nLen);
+	MemIndex();
 
 	{
 		if (BurnLoadRom(DrvMainROM + 0x000000,  0, 2)) return 1;
@@ -2757,7 +2762,12 @@ static INT32 Raiden2aInit() // alternate rom layout
 
 	BurnSetRefreshRate(55.47);
 
-	BurnAllocMemIndex();
+	AllMem = NULL;
+	MemIndex();
+	INT32 nLen = MemEnd - (UINT8 *)0;
+	if ((AllMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(AllMem, 0, nLen);
+	MemIndex();
 
 	{
 		if (BurnLoadRom(DrvMainROM + 0x000000,  0, 4)) return 1;
@@ -2815,7 +2825,12 @@ static INT32 RaidendxInit()
 
 	BurnSetRefreshRate(55.47);
 
-	BurnAllocMemIndex();
+	AllMem = NULL;
+	MemIndex();
+	INT32 nLen = MemEnd - (UINT8 *)0;
+	if ((AllMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(AllMem, 0, nLen);
+	MemIndex();
 
 	{
 		if (BurnLoadRom(DrvMainROM + 0x000000,  0, 4)) return 1;
@@ -2908,7 +2923,12 @@ static INT32 ZeroteamInit()
 
 	BurnSetRefreshRate(55.47);
 
-	BurnAllocMemIndex();
+	AllMem = NULL;
+	MemIndex();
+	INT32 nLen = MemEnd - (UINT8 *)0;
+	if ((AllMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(AllMem, 0, nLen);
+	MemIndex();
 
 	{
 		if (BurnLoadRom(DrvMainROM + 0x000000,  0, 4)) return 1;
@@ -2962,7 +2982,12 @@ static INT32 XsedaeInit()
 
 	BurnSetRefreshRate(55.47);
 
-	BurnAllocMemIndex();
+	AllMem = NULL;
+	MemIndex();
+	INT32 nLen = MemEnd - (UINT8 *)0;
+	if ((AllMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(AllMem, 0, nLen);
+	MemIndex();
 
 	{
 		if (BurnLoadRom(DrvMainROM + 0x000000,  0, 4)) return 1;
@@ -3018,7 +3043,12 @@ static INT32 R2dxInit()
 
 	BurnSetRefreshRate(55.47);
 
-	BurnAllocMemIndex();
+	AllMem = NULL;
+	MemIndex();
+	INT32 nLen = MemEnd - (UINT8 *)0;
+	if ((AllMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(AllMem, 0, nLen);
+	MemIndex();
 
 	{
 		if (BurnLoadRom(DrvMainROM + 0x000000,  0, 1)) return 1;
@@ -3078,7 +3108,12 @@ static INT32 NzeroteamInit()
 
 	BurnSetRefreshRate(55.47);
 
-	BurnAllocMemIndex();
+	AllMem = NULL;
+	MemIndex();
+	INT32 nLen = MemEnd - (UINT8 *)0;
+	if ((AllMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(AllMem, 0, nLen);
+	MemIndex();
 
 	{
 		if (BurnLoadRom(DrvMainROM + 0x000000,  0, 2)) return 1;
@@ -3156,7 +3191,12 @@ static INT32 Zerotm2kInit()
 
 	BurnSetRefreshRate(55.47);
 
-	BurnAllocMemIndex();
+	AllMem = NULL;
+	MemIndex();
+	INT32 nLen = MemEnd - (UINT8 *)0;
+	if ((AllMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
+	memset(AllMem, 0, nLen);
+	MemIndex();
 
 	{
 		if (BurnLoadRom(DrvMainROM + 0x000000,  0, 1)) return 1;
@@ -3229,7 +3269,7 @@ static INT32 DrvExit()
 		EEPROMExit();
 	}
 
-	BurnFreeMemIndex();
+	BurnFree (AllMem);
 
 	game_select = 0;
 
@@ -3746,48 +3786,6 @@ struct BurnDriver BurnDrvRaiden2g = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
 	NULL, raiden2gRomInfo, raiden2gRomName, NULL, NULL, NULL, NULL, Raiden2InputInfo, Raiden2DIPInfo,
-	Raiden2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x800,
-	240, 320, 3, 4
-};
-
-
-// Raiden II (Great Britain)
-
-static struct BurnRomInfo raiden2gbRomDesc[] = {
-	{ "prg0.u0211",					0x080000, 0x09475ec4, 1 | BRF_PRG | BRF_ESS }, //  0 V30 Code
-	{ "prg1.u0212",				0x080000, 0x4b9e3024, 1 | BRF_PRG | BRF_ESS }, //  1
-
-	{ "copx-d2.u0313",				0x040000, 0xa6732ff9, 2 | BRF_PRG | BRF_OPT }, //  2 COPX MCU data
-
-	{ "snd.u1110",  				0x010000, 0xf51a28f9, 3 | BRF_PRG | BRF_ESS }, //  3 Z80 Code
-
-	{ "seibu7.u0724",				0x020000, 0xc9ec9469, 4 | BRF_GRA },           //  4 Characters
-
-	{ "raiden_2_seibu_bg-1.u0714",	0x200000, 0xe61ad38e, 5 | BRF_GRA },           //  5 Tiles
-	{ "raiden_2_seibu_bg-2.u075",	0x200000, 0xa694a4bb, 5 | BRF_GRA },           //  6
-
-	{ "raiden_2_seibu_obj-1.u0811", 0x200000, 0xff08ef0b, 6 | BRF_GRA },           //  7 Sprites (Encrypted)
-	{ "raiden_2_seibu_obj-2.u082", 	0x200000, 0x638eb771, 6 | BRF_GRA },           //  8
-	{ "raiden_2_seibu_obj-3.u0837", 0x200000, 0x897a0322, 6 | BRF_GRA },           //  9
-	{ "raiden_2_seibu_obj-4.u0836", 0x200000, 0xb676e188, 6 | BRF_GRA },           // 10
-
-	{ "seibu6.u1017",				0x040000, 0xfb0fca23, 7 | BRF_SND },           // 11 OKI #0 Samples
-
-	{ "raiden_2_pcm.u1018",			0x040000, 0x8cf0d17e, 8 | BRF_SND },           // 12 OKI #1 Samples
-
-	{ "jj4b02__ami18cv8-15.u0342", 		0x000155, 0x057a9cdc, 0 | BRF_OPT },	   // 13 Pals
-	{ "jj4b01__mmipal16l8bcn.u0341",	0x000117, 0x20931f21, 0 | BRF_OPT },	   // 14
-};
-
-STD_ROM_PICK(raiden2gb)
-STD_ROM_FN(raiden2gb)
-
-struct BurnDriver BurnDrvRaiden2gb = {
-	"raiden2gb", "raiden2", NULL, NULL, "1993",
-	"Raiden II (Great Britain)\0", NULL, "Seibu Kaihatsu", "Miscellaneous",
-	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
-	NULL, raiden2gbRomInfo, raiden2gbRomName, NULL, NULL, NULL, NULL, Raiden2InputInfo, Raiden2DIPInfo,
 	Raiden2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, &DrvRecalc, 0x800,
 	240, 320, 3, 4
 };
@@ -5677,13 +5675,13 @@ struct BurnDriver BurnDrvZerotm2k = {
 
 // Zero Team USA (Incubus, Hack)
 // Modified by YanYan
-// GOTVG 20250228
+// GOTVG 20240229
 
 static struct BurnRomInfo zteammmRomDesc[] = {
-	{ "ztmm__1.u024.5k",	0x040000, 0xf326fd65, 1 | BRF_PRG | BRF_ESS }, //  0 V30 Code
-	{ "ztmm__3.u023.6k",	0x040000, 0x8ab206eb, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "ztmm__2.u025.6l",	0x040000, 0x48cab019, 1 | BRF_PRG | BRF_ESS }, //  2
-	{ "ztmm__4.u026.5l",	0x040000, 0x3788cddf, 1 | BRF_PRG | BRF_ESS }, //  3
+	{ "ztmm__1.u024.5k",	0x040000, 0xc8bec908, 1 | BRF_PRG | BRF_ESS }, //  0 V30 Code
+	{ "ztmm__3.u023.6k",	0x040000, 0xb96f3a32, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "ztmm__2.u025.6l",	0x040000, 0x6fdfdf1c, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "ztmm__4.u026.5l",	0x040000, 0x5dae1177, 1 | BRF_PRG | BRF_ESS }, //  3
 
 	ZEROTEAM_COMPONENTS
 };
@@ -5692,7 +5690,7 @@ STD_ROM_PICK(zteammm)
 STD_ROM_FN(zteammm)
 
 struct BurnDriver BurnDrvZteammm = {
-	"zteammm", "zeroteam", NULL, NULL, "2025",
+	"zteammm", "zeroteam", NULL, NULL, "2024",
 	"Zero Team USA (Incubus, Hack)\0", "Unemulated protection", "hack", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_HISCORE_SUPPORTED, 4, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
@@ -5756,13 +5754,13 @@ struct BurnDriver BurnDrvZteamdw = {
 
 // Zero Team USA (Providence, Hack)
 // Modified by YouTan
-// GOTVG 20241201
+// GOTVG 20240125
 
 static struct BurnRomInfo zteamdrRomDesc[] = {
-	{ "ztdr__1.u024.5k",	0x040000, 0x67d110fb, 1 | BRF_PRG | BRF_ESS }, //  0 V30 Code
-	{ "ztdr__3.u023.6k",	0x040000, 0x78b2d800, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "ztdr__1.u024.5k",	0x040000, 0xb2745c94, 1 | BRF_PRG | BRF_ESS }, //  0 V30 Code
+	{ "ztdr__3.u023.6k",	0x040000, 0x3a69d56e, 1 | BRF_PRG | BRF_ESS }, //  1
 	{ "ztdr__2.u025.6l",	0x040000, 0xbc42adf1, 1 | BRF_PRG | BRF_ESS }, //  2
-	{ "ztdr__4.u026.5l",	0x040000, 0x2c374faf, 1 | BRF_PRG | BRF_ESS }, //  3
+	{ "ztdr__4.u026.5l",	0x040000, 0x0d774a72, 1 | BRF_PRG | BRF_ESS }, //  3
 
 	ZEROTEAM_COMPONENTS
 };
@@ -5837,13 +5835,13 @@ struct BurnDriver BurnDrvZteamwxp = {
 
 // Zero Team USA (Devil, Hack)
 // Modified by YanYan
-// GOTVG 20241230
+// GOTVG 20231118
 
 static struct BurnRomInfo zteamymRomDesc[] = {
-	{ "ztym__1.u024.5k",	0x040000, 0x4fa63b2e, 1 | BRF_PRG | BRF_ESS }, //  0 V30 Code
-	{ "ztym__3.u023.6k",	0x040000, 0x9458f7d6, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "ztym__2.u025.6l",	0x040000, 0x96026e2e, 1 | BRF_PRG | BRF_ESS }, //  2
-	{ "ztym__4.u026.5l",	0x040000, 0xfb682bbc, 1 | BRF_PRG | BRF_ESS }, //  3
+	{ "ztym__1.u024.5k",	0x040000, 0xbcf0c74f, 1 | BRF_PRG | BRF_ESS }, //  0 V30 Code
+	{ "ztym__3.u023.6k",	0x040000, 0x0e97523a, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "ztym__2.u025.6l",	0x040000, 0x01c5f0f4, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "ztym__4.u026.5l",	0x040000, 0xd5a90262, 1 | BRF_PRG | BRF_ESS }, //  3
 
 	ZEROTEAM_COMPONENTS
 };
@@ -5852,7 +5850,7 @@ STD_ROM_PICK(zteamym)
 STD_ROM_FN(zteamym)
 
 struct BurnDriver BurnDrvZteamym = {
-	"zteamym", "zeroteam", NULL, NULL, "2024",
+	"zteamym", "zeroteam", NULL, NULL, "2023",
 	"Zero Team USA (Devil, Hack)\0", "Unemulated protection", "hack", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_HISCORE_SUPPORTED, 4, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
@@ -5864,13 +5862,13 @@ struct BurnDriver BurnDrvZteamym = {
 
 // Zero Team USA (God, Hack)
 // Modified by YanYan
-// GOTVG 20241125
+// GOTVG 20240413
 
 static struct BurnRomInfo zteamysRomDesc[] = {
-	{ "ztys__1.u024.5k",	0x040000, 0x15256630, 1 | BRF_PRG | BRF_ESS }, //  0 V30 Code
-	{ "ztys__3.u023.6k",	0x040000, 0x5a1f5a9f, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "ztys__2.u025.6l",	0x040000, 0xc075a5c0, 1 | BRF_PRG | BRF_ESS }, //  2
-	{ "ztys__4.u026.5l",	0x040000, 0xf8686de6, 1 | BRF_PRG | BRF_ESS }, //  3
+	{ "ztys__1.u024.5k",	0x040000, 0x472e93cd, 1 | BRF_PRG | BRF_ESS }, //  0 V30 Code
+	{ "ztys__3.u023.6k",	0x040000, 0x60f0cc00, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "ztys__2.u025.6l",	0x040000, 0x14fd9f50, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "ztys__4.u026.5l",	0x040000, 0x65bc51a6, 1 | BRF_PRG | BRF_ESS }, //  3
 
 	ZEROTEAM_COMPONENTS
 };
@@ -5964,59 +5962,6 @@ struct BurnDriver BurnDrvZteampls = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_HISCORE_SUPPORTED, 4, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, zteamplsRomInfo, zteamplsRomName, NULL, NULL, NULL, NULL, ZeroteamInputInfo, ZeroteamDIPInfo,
-	ZeroteamInit, DrvExit, DrvFrame, ZeroteamDraw, DrvScan, &DrvRecalc, 0x800,
-	320, 256, 4, 3
-};
-
-
-// Zero Team USA (Camper, Hack)
-// GOTVG 20241216
-
-static struct BurnRomInfo zteaml6RomDesc[] = {
-	{ "ztl6__1.u024.5k",	0x040000, 0xe2d7f0a5, 1 | BRF_PRG | BRF_ESS }, //  0 V30 Code
-	{ "ztl6__3.u023.6k",	0x040000, 0xcc87aeaf, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "ztl6__2.u025.6l",	0x040000, 0x68bbd418, 1 | BRF_PRG | BRF_ESS }, //  2
-	{ "ztl6__4.u026.5l",	0x040000, 0x78131750, 1 | BRF_PRG | BRF_ESS }, //  3
-
-	ZEROTEAM_COMPONENTS
-};
-
-STD_ROM_PICK(zteaml6)
-STD_ROM_FN(zteaml6)
-
-struct BurnDriver BurnDrvZteaml6 = {
-	"zteaml6", "zeroteam", NULL, NULL, "2024",
-	"Zero Team USA (Camper, Hack)\0", "Unemulated protection", "hack", "Miscellaneous",
-	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_HISCORE_SUPPORTED, 4, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
-	NULL, zteaml6RomInfo, zteaml6RomName, NULL, NULL, NULL, NULL, ZeroteamInputInfo, ZeroteamDIPInfo,
-	ZeroteamInit, DrvExit, DrvFrame, ZeroteamDraw, DrvScan, &DrvRecalc, 0x800,
-	320, 256, 4, 3
-};
-
-
-// Zero Team USA (Devil Plus, Hack)
-// Modified by YanYan
-// GOTVG 20250306
-
-static struct BurnRomInfo zteamympRomDesc[] = {
-	{ "ztymp__1.u024.5k",	0x040000, 0x6b3ec30b, 1 | BRF_PRG | BRF_ESS }, //  0 V30 Code
-	{ "ztymp__3.u023.6k",	0x040000, 0x6957baea, 1 | BRF_PRG | BRF_ESS }, //  1
-	{ "ztymp__2.u025.6l",	0x040000, 0x56449f72, 1 | BRF_PRG | BRF_ESS }, //  2
-	{ "ztymp__4.u026.5l",	0x040000, 0xaffc1822, 1 | BRF_PRG | BRF_ESS }, //  3
-
-	ZEROTEAM_COMPONENTS
-};
-
-STD_ROM_PICK(zteamymp)
-STD_ROM_FN(zteamymp)
-
-struct BurnDriver BurnDrvZteamymp = {
-	"zteamymp", "zeroteam", NULL, NULL, "2025",
-	"Zero Team USA (Devil Plus, Hack)\0", "Unemulated protection", "hack", "Miscellaneous",
-	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_HISCORE_SUPPORTED, 4, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
-	NULL, zteamympRomInfo, zteamympRomName, NULL, NULL, NULL, NULL, ZeroteamInputInfo, ZeroteamDIPInfo,
 	ZeroteamInit, DrvExit, DrvFrame, ZeroteamDraw, DrvScan, &DrvRecalc, 0x800,
 	320, 256, 4, 3
 };

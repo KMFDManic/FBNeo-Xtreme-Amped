@@ -158,7 +158,7 @@ static unsigned __stdcall DoProgress(void*)
 
 int ProgressCreate()
 {
-	if (hProgressDlg || hProgressThread || bNoPopups) {
+	if (hProgressDlg || hProgressThread) {
 		return 1;
 	}
 

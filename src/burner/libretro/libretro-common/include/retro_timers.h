@@ -80,9 +80,10 @@ static int nanosleepDOS(const struct timespec *rqtp, struct timespec *rmtp)
 #endif
 
 /**
- * Briefly suspends the running thread.
+ * retro_sleep:
+ * @msec         : amount in milliseconds to sleep
  *
- * @param msec The time to sleep for, in milliseconds.
+ * Sleeps for a specified amount of milliseconds (@msec).
  **/
 #if defined(VITA)
 #define retro_sleep(msec) (sceKernelDelayThread(1000 * (msec)))

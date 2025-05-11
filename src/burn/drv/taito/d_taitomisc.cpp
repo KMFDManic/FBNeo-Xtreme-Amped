@@ -6118,7 +6118,7 @@ struct BurnDriver BurnDrvDariuse = {
 
 struct BurnDriver BurnDrvOpwolf = {
 	"opwolf", NULL, "cchip", NULL, "1987",
-	"Operation Wolf (World, rev 2, set 1)\0", NULL, "Taito Corporation Japan", "Taito Misc",
+	"Operation Wolf (World, set 1)\0", NULL, "Taito Corporation Japan", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SHOOT, 0,
 	NULL, OpwolfRomInfo, OpwolfRomName, NULL, NULL, NULL, NULL, OpwolfInputInfo, OpwolfDIPInfo,
@@ -6128,7 +6128,7 @@ struct BurnDriver BurnDrvOpwolf = {
 
 struct BurnDriver BurnDrvOpwolfa = {
 	"opwolfa", "opwolf", "cchip", NULL, "1987",
-	"Operation Wolf (World, rev 2, set 2)\0", NULL, "Taito Corporation Japan", "Taito Misc",
+	"Operation Wolf (World, set 2)\0", NULL, "Taito Corporation Japan", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SHOOT, 0,
 	NULL, OpwolfaRomInfo, OpwolfaRomName, NULL, NULL, NULL, NULL, OpwolfInputInfo, OpwolfDIPInfo,
@@ -6138,7 +6138,7 @@ struct BurnDriver BurnDrvOpwolfa = {
 
 struct BurnDriver BurnDrvOpwolfj = {
 	"opwolfj", "opwolf", "cchip", NULL, "1987",
-	"Operation Wolf (Japan, rev 2)\0", NULL, "Taito Corporation", "Taito Misc",
+	"Operation Wolf (Japan)\0", NULL, "Taito Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SHOOT, 0,
 	NULL, OpwolfjRomInfo, OpwolfjRomName, NULL, NULL, NULL, NULL, OpwolfInputInfo, OpwolfDIPInfo,
@@ -6158,7 +6158,7 @@ struct BurnDriver BurnDrvOpwolfjsc = {
 
 struct BurnDriver BurnDrvOpwolfu = {
 	"opwolfu", "opwolf", "cchip", NULL, "1987",
-	"Operation Wolf (US, rev 2)\0", NULL, "Taito America Corporation", "Taito Misc",
+	"Operation Wolf (US)\0", NULL, "Taito America Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SHOOT, 0,
 	NULL, OpwolfuRomInfo, OpwolfuRomName, NULL, NULL, NULL, NULL, OpwolfInputInfo, OpwolfuDIPInfo,
@@ -6178,7 +6178,7 @@ struct BurnDriver BurnDrvOpwolfb = {
 
 struct BurnDriver BurnDrvRbisland = {
 	"rbisland", NULL, "cchip", NULL, "1987",
-	"Rainbow Islands (rev 1)\0", NULL, "Taito Corporation", "Taito Misc",
+	"Rainbow Islands (new version)\0", NULL, "Taito Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
 	NULL, RbislandRomInfo, RbislandRomName, NULL, NULL, NULL, NULL, RbislandInputInfo, RbislandDIPInfo,
@@ -6188,7 +6188,7 @@ struct BurnDriver BurnDrvRbisland = {
 
 struct BurnDriver BurnDrvRbislando = {
 	"rbislando", "rbisland", "cchip", NULL, "1987",
-	"Rainbow Islands\0", NULL, "Taito Corporation", "Taito Misc",
+	"Rainbow Islands (old version)\0", NULL, "Taito Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
 	NULL, RbislandoRomInfo, RbislandoRomName, NULL, NULL, NULL, NULL, RbislandInputInfo, RbislandDIPInfo,
@@ -6338,7 +6338,7 @@ struct BurnDriver BurnDrvRastsagab = {
 
 struct BurnDriver BurnDrvTopspeed = {
 	"topspeed", NULL, NULL, NULL, "1987",
-	"Top Speed (World, rev 1)\0", NULL, "Taito Corporation Japan", "Taito Misc",
+	"Top Speed (World)\0", NULL, "Taito Corporation Japan", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_RACING, 0,
 	NULL, TopspeedRomInfo, TopspeedRomName, NULL, NULL, NULL, NULL, TopspeedInputInfo, TopspeedDIPInfo,
@@ -6368,7 +6368,7 @@ struct BurnDriver BurnDrvFullthrl = {
 
 struct BurnDriver BurnDrvVolfied = {
 	"volfied", NULL, "cchip", NULL, "1989",
-	"Volfied (World, rev 1)\0", NULL, "Taito Corporation Japan", "Taito Misc",
+	"Volfied (World, revision 1)\0", NULL, "Taito Corporation Japan", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_PUZZLE, 0,
 	NULL, VolfiedRomInfo, VolfiedRomName, NULL, NULL, NULL, NULL, VolfiedInputInfo, VolfiedDIPInfo,
@@ -6378,7 +6378,7 @@ struct BurnDriver BurnDrvVolfied = {
 
 struct BurnDriver BurnDrvVolfiedj = {
 	"volfiedj", "volfied", "cchip", NULL, "1989",
-	"Volfied (Japan, rev 1)\0", NULL, "Taito Corporation", "Taito Misc",
+	"Volfied (Japan, revision 1)\0", NULL, "Taito Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_PUZZLE, 0,
 	NULL, VolfiedjRomInfo, VolfiedjRomName, NULL, NULL, NULL, NULL, VolfiedInputInfo, VolfiedjDIPInfo,
@@ -6398,7 +6398,7 @@ struct BurnDriver BurnDrvVolfiedjo = {
 
 struct BurnDriver BurnDrvVolfiedu = {
 	"volfiedu", "volfied", "cchip", NULL, "1989",
-	"Volfied (US, rev 1)\0", NULL, "Taito America Corporation", "Taito Misc",
+	"Volfied (US, revision 1)\0", NULL, "Taito America Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_PUZZLE, 0,
 	NULL, VolfieduRomInfo, VolfieduRomName, NULL, NULL, NULL, NULL, VolfiedInputInfo, VolfieduDIPInfo,
@@ -6424,47 +6424,4 @@ struct BurnDriver BurnDrvVolfieduo = {
 	NULL, VolfieduoRomInfo, VolfieduoRomName, NULL, NULL, NULL, NULL, VolfiedInputInfo, VolfieduDIPInfo,
 	VolfiedInit, TaitoMiscExit, JumpingFrame, VolfiedDraw, TaitoMiscScan,
 	NULL, 0x2000, 240, 320, 3, 4
-};
-
-// -----------------------------------------------------------------------------
-// Hacks and Translations
-// -----------------------------------------------------------------------------
-
-// Rastan Saga (Portuguese-BR v1.11, Hack)
-// Modified by Antígeno
-
-static struct BurnRomInfo RastsagabrRomDesc[] = {
-	{ "b04br-14.19",	0x10000, 0xf33adf4d, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
-	{ "b04br-13.7",		0x10000, 0xdcc16c00, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
-	{ "b04br-16-1.20",	0x10000, 0x8375d5a3, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
-	{ "b04br-15-1.8",	0x10000, 0x602ccf6d, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
-	{ "b04br-18-1.21",	0x10000, 0x1846353b, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
-	{ "b04br-17-1.9",	0x10000, 0x8f4414b8, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
-
-	{ "b04-19.49",		0x10000, 0xee81fdd8, BRF_ESS | BRF_PRG | TAITO_Z80ROM1 },
-
-	{ "b04br-01.40",	0x20000, 0x56494cce, BRF_GRA | TAITO_CHARS },
-	{ "b04-03.39",		0x20000, 0xab67e064, BRF_GRA | TAITO_CHARS },
-	{ "b04br-02.67",	0x20000, 0xe4beeb34, BRF_GRA | TAITO_CHARS },
-	{ "b04-04.66",		0x20000, 0x94737e93, BRF_GRA | TAITO_CHARS },
-
-	{ "b04br-05.15",	0x20000, 0xd0de533f, BRF_GRA | TAITO_SPRITESA },
-	{ "b04br-07.14",	0x20000, 0x7521af01, BRF_GRA | TAITO_SPRITESA },
-	{ "b04br-06.28",	0x20000, 0x78510eed, BRF_GRA | TAITO_SPRITESA },
-	{ "b04br-08.27",	0x20000, 0xca183d63, BRF_GRA | TAITO_SPRITESA },
-
-	{ "b04-20.76",		0x10000, 0xfd1a34cc, BRF_SND | TAITO_MSM5205 },
-};
-
-STD_ROM_PICK(Rastsagabr)
-STD_ROM_FN(Rastsagabr)
-
-struct BurnDriver BurnDrvRastsagabr = {
-	"rastsagabr", "rastan", NULL, NULL, "2019",
-	"Rastan Saga (Portuguese-BR Translation v1.11, Hack)\0", NULL, "hack (Ant\u00EDgeno)", "Taito Misc",
-	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
-	NULL, RastsagabrRomInfo, RastsagabrRomName, NULL, NULL, NULL, NULL, RastanInputInfo, RastanDIPInfo,
-	RastanInit, TaitoMiscExit, TaitoMiscFrame, RastanDraw, TaitoMiscScan,
-	NULL, 0x2000, 320, 240, 4, 3
 };

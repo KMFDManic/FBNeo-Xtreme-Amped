@@ -1,24 +1,22 @@
 // Burner Zip module
 #include "burner.h"
 
-INT32 nBzipError = 0;												// non-zero if there is a problem with the opened romset
+int nBzipError = 0;												// non-zero if there is a problem with the opened romset
 
 static TCHAR* szBzipName[BZIP_MAX] = { NULL, };					// Zip files to search through
 
-struct RomFind { INT32 nState; INT32 nZip; INT32 nPos; };				// State is non-zero if found. 1 = found totally okay.
+struct RomFind { int nState; int nZip; int nPos; };				// State is non-zero if found. 1 = found totally okay.
 static struct RomFind* RomFind = NULL;
-static INT32 nRomCount = 0; static INT32 nTotalSize = 0;
-static struct ZipEntry* List = NULL; static INT32 nListCount = 0;	// List of entries for current zip file
-static INT32 nCurrentZip = -1;									// Zip which is currently open
-struct SubDirsZip { TCHAR** pszZipName; UINT32 nCount; };		// Zip files in subdirectories
-static struct SubDirsZip _SubDirsZip;
+static int nRomCount = 0; static int nTotalSize = 0;
+static struct ZipEntry* List = NULL; static int nListCount = 0;	// List of entries for current zip file
+static int nCurrentZip = -1;									// Zip which is currently open
 
 // ----------------------------------------------------------------------------
 
 static void BzipListFree()
 {
 	if (List) {
-		for (INT32 i = 0; i < nListCount; i++) {
+		for (int i = 0; i < nListCount; i++) {
 			if (List[i].szName) {
 				free(List[i].szName);
 				List[i].szName = NULL;
@@ -31,29 +29,14 @@ static void BzipListFree()
 	nListCount = 0;
 }
 
-static void SubDirsListFree()
-{
-	if (NULL != _SubDirsZip.pszZipName) {
-		for (INT32 i = 0; i < _SubDirsZip.nCount; i++) {
-			if (NULL != _SubDirsZip.pszZipName[i]) {
-				free(_SubDirsZip.pszZipName[i]);
-				_SubDirsZip.pszZipName[i] = NULL;
-			}
-		}
-		free(_SubDirsZip.pszZipName);
-		_SubDirsZip.pszZipName = NULL;
-		_SubDirsZip.nCount = 0;
-	}
-}
-
 static char* GetFilenameA(char* szFull)
 {
-	INT32 nLen = strlen(szFull);
+	int nLen = strlen(szFull);
 
 	if (nLen <= 0) {
 		return szFull;
 	}
-	for (INT32 i = nLen - 1; i >= 0; i--) {
+	for (int i = nLen - 1; i >= 0; i--) {
 		if (szFull[i] == '\\' || szFull[i] == '/') {
 			return szFull + i + 1;
 		}
@@ -64,12 +47,12 @@ static char* GetFilenameA(char* szFull)
 
 static TCHAR* GetFilenameW(TCHAR* szFull)
 {
-	INT32 nLen = _tcslen(szFull);
+	int nLen = _tcslen(szFull);
 
 	if (nLen <= 0) {
 		return szFull;
 	}
-	for (INT32 i = nLen - 1; i >= 0; i--) {
+	for (int i = nLen - 1; i >= 0; i--) {
 		if (szFull[i] == _T('\\') || szFull[i] == _T('/')) {
 			return szFull + i + 1;
 		}
@@ -78,15 +61,15 @@ static TCHAR* GetFilenameW(TCHAR* szFull)
 	return szFull;
 }
 
-static INT32 FileExists(TCHAR *szName)
+static int FileExists(TCHAR *szName)
 {
-	return GetFileAttributes(szName) != INVALID_FILE_ATTRIBUTES;
+    return GetFileAttributes(szName) != INVALID_FILE_ATTRIBUTES;
 }
 
-static INT32 RomArchiveExists(TCHAR *szName)
+static int RomArchiveExists(TCHAR *szName)
 {
 	TCHAR szFileName[MAX_PATH];
-	INT32 ret = 0;
+	int ret = 0;
 
 	_stprintf(szFileName, _T("%s.zip"), szName);
 	ret = FileExists(szFileName);
@@ -101,10 +84,10 @@ static INT32 RomArchiveExists(TCHAR *szName)
 	return ret;
 }
 
-static INT32 FindRomByName(TCHAR* szName)
+static int FindRomByName(TCHAR* szName)
 {
 	struct ZipEntry* pl;
-	INT32 i;
+	int i;
 
 	// Find the rom named szName in the List
 	for (i = 0, pl = List; i < nListCount; i++, pl++) {
@@ -118,10 +101,10 @@ static INT32 FindRomByName(TCHAR* szName)
 	return -1;													// couldn't find the rom
 }
 
-static INT32 FindRomByCrc(UINT32 nCrc)
+static int FindRomByCrc(unsigned int nCrc)
 {
 	struct ZipEntry* pl;
-	INT32 i;
+	int i;
 
 	// Find the rom named szName in the List
 	for (i = 0, pl = List; i< nListCount; i++, pl++)	{
@@ -134,10 +117,10 @@ static INT32 FindRomByCrc(UINT32 nCrc)
 }
 
 // Find rom number i from the pBzipDriver game
-static INT32 FindRom(INT32 i)
+static int FindRom(int i)
 {
 	struct BurnRomInfo ri;
-	INT32 nRet;
+	int nRet;
 
 	memset(&ri, 0, sizeof(ri));
 
@@ -153,7 +136,7 @@ static INT32 FindRom(INT32 i)
 		}
 	}
 
-	for (INT32 nAka = 0; nAka < 0x10000; nAka++) {				// Failing that, search for possible names
+	for (int nAka = 0; nAka < 0x10000; nAka++) {				// Failing that, search for possible names
 		char *szPossibleName = NULL;
 
 		nRet = BurnDrvGetRomName(&szPossibleName, i, nAka);
@@ -169,7 +152,7 @@ static INT32 FindRom(INT32 i)
 	return -1;													// Couldn't find the rom
 }
 
-static INT32 RomDescribe(struct BurnRomInfo* pri)
+static int RomDescribe(struct BurnRomInfo* pri)
 {
 	if (nBzipError == 0) {
 		nBzipError |= 0x8000;
@@ -198,13 +181,13 @@ static INT32 RomDescribe(struct BurnRomInfo* pri)
 	return 0;
 }
 
-static INT32 CheckRomsBoot()
+static int CheckRomsBoot()
 {
-	INT32 nRet = 0;
+	int nRet = 0;
 
-	for (INT32 i = 0; i < nRomCount; i++) {
+	for (int i = 0; i < nRomCount; i++) {
 		struct BurnRomInfo ri;
-		INT32 nState;
+		int nState;
 
 		memset(&ri, 0, sizeof(ri));
 		BurnDrvGetRomInfo(&ri, i);			// Find information about the wanted rom
@@ -221,7 +204,7 @@ static INT32 CheckRomsBoot()
 	return nRet;
 }
 
-static INT32 GetBZipError(INT32 nState)
+static int GetBZipError(int nState)
 {
 	switch (nState) {
 		case 1:								// OK
@@ -238,16 +221,16 @@ static INT32 GetBZipError(INT32 nState)
 }
 
 // Check the roms to see if they code, graphics etc are complete
-static INT32 CheckRoms()
+static int CheckRoms()
 {
-	for (INT32 i = 0; i < nRomCount; i++) {
+	for (int i = 0; i < nRomCount; i++) {
 		struct BurnRomInfo ri;
 
 		memset(&ri, 0, sizeof(ri));
 		BurnDrvGetRomInfo(&ri, i);							// Find information about the wanted rom
 		if ( /*ri.nCrc &&*/ (ri.nType & BRF_OPT) == 0 && (ri.nType & BRF_NODUMP) == 0) {
-			INT32 nState = RomFind[i].nState;					// Get the state of the rom in the zip file
-			INT32 nError = GetBZipError(nState);
+			int nState = RomFind[i].nState;					// Get the state of the rom in the zip file
+			int nError = GetBZipError(nState);
 
 			if (nState == 0 && ri.nType) {					// (A type of 0 means empty slot - no rom)
 				char* szName = "Unknown";
@@ -284,17 +267,17 @@ static INT32 CheckRoms()
 
 // ----------------------------------------------------------------------------
 
-static INT32 __cdecl BzipBurnLoadRom(UINT8* Dest, INT32* pnWrote, INT32 i)
+static int __cdecl BzipBurnLoadRom(unsigned char* Dest, int* pnWrote, int i)
 {
 #if defined (BUILD_WIN32)
 	MSG Msg;
 #endif
 
 	struct BurnRomInfo ri;
-	INT32 nWantZip = 0;
+	int nWantZip = 0;
 	TCHAR szText[128];
 	char* pszRomName = NULL;
-	INT32 nRet = 0;
+	int nRet = 0;
 
 	if (i < 0 || i >= nRomCount) {
 		return 1;
@@ -338,16 +321,14 @@ static INT32 __cdecl BzipBurnLoadRom(UINT8* Dest, INT32* pnWrote, INT32 i)
 		}
 		_stprintf(szText + _tcslen(szText), _T("(%hs)..."), pszRomName);
 	} else {
-		_stprintf(szText + _tcslen(szText), _T(" %hs..."),  pszRomName);
+		_stprintf(szText + _tcslen(szText), _T(" %hs..."), pszRomName);
 	}
 	ProgressUpdateBurner(ri.nLen ? 1.0 / ((double)nTotalSize / ri.nLen) : 0, szText, 0);
 
 #if defined (BUILD_WIN32)
 	// Check for messages:
-	if (bNoPopups == false) {
-		while (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE)) {
-			DispatchMessage(&Msg);
-		}
+	while (PeekMessage(&Msg, NULL, 0, 0, PM_REMOVE)) {
+		DispatchMessage(&Msg);
 	}
 #endif
 
@@ -359,9 +340,7 @@ static INT32 __cdecl BzipBurnLoadRom(UINT8* Dest, INT32* pnWrote, INT32 i)
 	if (nCurrentZip != nWantZip) {							// If we haven't got the right zip file currently open
 		ZipClose();
 		nCurrentZip = -1;
-
-		const TCHAR* pszBzipName = (nWantZip < BZIP_MAX) ? szBzipName[nWantZip] : _SubDirsZip.pszZipName[nWantZip - BZIP_MAX];
-		if (ZipOpen(TCHARToANSI(pszBzipName, NULL, 0))) {
+		if (ZipOpen(TCHARToANSI(szBzipName[nWantZip], NULL, 0))) {
 			return 1;
 		}
 		nCurrentZip = nWantZip;
@@ -382,7 +361,7 @@ static INT32 __cdecl BzipBurnLoadRom(UINT8* Dest, INT32* pnWrote, INT32 i)
 
 // ----------------------------------------------------------------------------
 
-INT32 BzipStatus()
+int BzipStatus()
 {
 	if (!(nBzipError & 0x0F0F)) {
 		return BZIP_STATUS_OK;
@@ -394,9 +373,9 @@ INT32 BzipStatus()
 	return BZIP_STATUS_BADDATA;
 }
 
-INT32 BzipOpen(bool bootApp)
+int BzipOpen(bool bootApp)
 {
-	INT32 nMemLen;														// Zip name number
+	int nMemLen;														// Zip name number
 
 	nTotalSize = 0;
 	nBzipError = 0;
@@ -421,17 +400,15 @@ INT32 BzipOpen(bool bootApp)
 	}
 	memset(RomFind, 0, nMemLen);
 
-	for (INT32 y = 0; y < BZIP_MAX; y++) {
+	for (int y = 0; y < BZIP_MAX; y++) {
 		if (szBzipName[y]) {
 			free(szBzipName[y]);
 			szBzipName[y] = NULL;
 		}
 	}
 
-	SubDirsListFree();
-
 	// Locate each zip file
-	for (INT32 y = 0, z = 0; y < BZIP_MAX && z < BZIP_MAX; y++) {
+	for (int y = 0, z = 0; y < BZIP_MAX && z < BZIP_MAX; y++) {
 		char* szName = NULL;
 		bool bFound = false;
 
@@ -439,33 +416,8 @@ INT32 BzipOpen(bool bootApp)
 			break;
 		}
 
-		for (INT32 d = 0; d < DIRS_MAX; d++) { // Traverse the user-configured rom paths
-			TCHAR szFullName[MAX_PATH] = { 0 };
-
-			if (nLoadMenuShowY & (1 << 26)) {
-				for (UINT32 nCount = 0; nCount < _SubDirInfo[d].nCount; nCount++) {
-					// like: c:\1st_dir\2nd_dir\1 + ".zip" + '\0' = 5 chars
-					if ((_tcslen(_SubDirInfo[d].SubDirs[nCount]) + strlen(szName)) > (MAX_PATH - 5))
-						continue;
-					_stprintf(szFullName, _T("%s%hs"), _SubDirInfo[d].SubDirs[nCount], szName);
-
-					if (RomArchiveExists(szFullName)) {
-						bFound = true;
-
-						TCHAR** newArray = (TCHAR**)realloc(_SubDirsZip.pszZipName, (_SubDirsZip.nCount + 1) * sizeof(TCHAR*));
-						_SubDirsZip.pszZipName = newArray;
-
-						_SubDirsZip.pszZipName[_SubDirsZip.nCount] = (TCHAR*)malloc(MAX_PATH * sizeof(TCHAR));
-						_tcscpy(_SubDirsZip.pszZipName[_SubDirsZip.nCount], szFullName);
-
-						if (!bootApp) {
-							FBAPopupAddText(PUF_TEXT_DEFAULT, MAKEINTRESOURCE(IDS_ERR_LOAD_FOUND), szName, _SubDirsZip.pszZipName[_SubDirsZip.nCount]);
-						}
-
-						_SubDirsZip.nCount++;
-					}
-				}
-			}
+		for (int d = 0; d < DIRS_MAX; d++) { // Traverse the user-configured rom paths
+			TCHAR szFullName[MAX_PATH];
 
 			_stprintf(szFullName, _T("%s%hs"), szAppRomPaths[d], szName);
 
@@ -494,24 +446,21 @@ INT32 BzipOpen(bool bootApp)
 		FBAPopupAddText(PUF_TEXT_DEFAULT, _T("\n"));
 	}
 
-	const INT32 nAllCount = (nLoadMenuShowY & (1 << 26)) ? BZIP_MAX + _SubDirsZip.nCount : BZIP_MAX;
-
 	// Locate the ROM data in the zip files
-	for (INT32 z = 0; z < nAllCount; z++) {
-		const TCHAR* pszBzipName = (z < BZIP_MAX) ? szBzipName[z] : _SubDirsZip.pszZipName[z - BZIP_MAX];
+	for (int z = 0; z < BZIP_MAX; z++) {
 
-		if (pszBzipName == NULL) {
+		if (szBzipName[z] == NULL) {
 			continue;
 		}
 
-		if (ZipOpen(TCHARToANSI(pszBzipName, NULL, 0)) == 0) {		// Open the rom zip file
+		if (ZipOpen(TCHARToANSI(szBzipName[z], NULL, 0)) == 0) {		// Open the rom zip file
 			nCurrentZip = z;
 
 			ZipGetList(&List, &nListCount);								// Get the list of entries
 
-			for (INT32 i = 0; i < nRomCount; i++) {
+			for (int i = 0; i < nRomCount; i++) {
 				struct BurnRomInfo ri;
-				INT32 nFind;
+				int nFind;
 
 				if (RomFind[i].nState == 1) {							// Already found this and it's okay
 					continue;
@@ -697,7 +646,7 @@ INT32 BzipOpen(bool bootApp)
 	return 0;
 }
 
-INT32 BzipClose()
+int BzipClose()
 {
 	ZipClose();
 	nCurrentZip = -1;													// Close the last zip file if open
@@ -711,14 +660,12 @@ INT32 BzipClose()
 	}
 	nRomCount = 0;
 
-	for (INT32 z = 0; z < BZIP_MAX; z++) {
+	for (int z = 0; z < BZIP_MAX; z++) {
 		if (szBzipName[z]) {
 			free(szBzipName[z]);
 			szBzipName[z] = NULL;
 		}
 	}
-
-	SubDirsListFree();
 
 	return 0;
 }

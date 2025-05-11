@@ -11,13 +11,11 @@ CPSINPSET
 CPSINPSET
 #undef  INP
 
-// forgottn, ecofght dials
+// forgottn dials
 UINT16 CpsInp055 = 0;
 UINT16 CpsInp05d = 0;
-INT32 nDial055, nDial05d;
-INT32 nDial055_dir, nDial05d_dir;
-// forgottn digital rotate
 UINT8 CpsDigUD[4] = {0, 0, 0, 0};
+INT32 nDial055, nDial05d;
 
 // puzloop paddles
 INT16 CpsInpPaddle1 = 0;
@@ -40,6 +38,7 @@ INT32 Forgottn = 0;
 INT32 Cps1QsHack = 0;
 INT32 Kodh = 0;
 INT32 Cawingb = 0;
+INT32 Wofh = 0;
 INT32 Sf2thndr = 0;
 INT32 Pzloop2 = 0;
 INT32 Hkittymp = 0;
@@ -48,13 +47,6 @@ INT32 Dinohunt = 0;
 INT32 Port6SoundWrite = 0;
 INT32 CpsBootlegEEPROM = 0;
 INT32 Cps2Turbo = 0;
-INT32 Jurassic99 = 0;
-INT32 Dinoh = 0;
-INT32 Wofhfh = 0;
-INT32 Wofsgzb = 0;
-INT32 Wof3js = 0;
-INT32 Knightsh = 0;
-INT32 Ecofght = 0;
 
 ClearOpposite<4, UINT8> clear_opposite;
 
@@ -93,13 +85,6 @@ void CpsRwScan()
 		SCAN_VAR(nDial05d);
 	}
 
-	if (Ecofght) {
-		SCAN_VAR(nDial055);
-		SCAN_VAR(nDial05d);
-		SCAN_VAR(nDial055_dir);
-		SCAN_VAR(nDial05d_dir);
-	}
-
 	if (Ghouls) {
 		SCAN_VAR(nPrevInp000);
 		SCAN_VAR(nPrevInp001);
@@ -112,22 +97,6 @@ void CpsRwScan()
 	SCAN_VAR(nRasterLine);
 }
 
-static UINT8 ecofght_readpaddle(UINT8 data, INT32 plr)
-{
-	if (ReadPaddle) {
-		switch (plr) {
-			case 0: return nDial055 & 0xff;
-			case 1: return nDial05d & 0xff;
-		}
-	} else {
-		data &= ~0x20;
-		switch (plr) {
-			case 0: data |= nDial055_dir << 5; break;
-			case 1: data |= nDial05d_dir << 5; break;
-		}
-	}
-	return data;
-}
 // Read input port 0x000-0x1ff
 static UINT8 CpsReadPort(const UINT32 ia)
 {
@@ -135,9 +104,6 @@ static UINT8 CpsReadPort(const UINT32 ia)
 
 	if (ia == 0x000) {
 		d = (UINT8)~Inp000;
-		if (Ecofght && (~fFakeDip & 0x20)) {
-			d = ecofght_readpaddle(d, 1);
-		}
 		if (Pzloop2) {
 			if (ReadPaddle) {
 				d -= CpsPaddle2Value;
@@ -149,9 +115,6 @@ static UINT8 CpsReadPort(const UINT32 ia)
 	}
 	if (ia == 0x001) {
 		d = (UINT8)~Inp001;
-		if (Ecofght && (~fFakeDip & 0x20)) {
-			d = ecofght_readpaddle(d, 0);
-		}
 		if (Pzloop2) {
 			if (ReadPaddle) {
 				d -= CpsPaddle1Value;
@@ -173,7 +136,6 @@ static UINT8 CpsReadPort(const UINT32 ia)
 	}
 	if (ia == 0x011) {
 		d = (UINT8)~Inp011;
-		if (Ecofght && (~fFakeDip & 0x20)) d &= 0xef; // select analog spinner
 		return d;
 	}
 	if (ia == 0x012) {
@@ -364,7 +326,7 @@ static UINT8 CpsReadPort(const UINT32 ia)
 			if (ia == 0x05D) {
 				return (nDial05d >> 8) & 0x0f;
 			}
-		}
+		}	
 	}
 	
 //	bprintf(PRINT_NORMAL, _T("Read Port %x\n"), ia);
@@ -434,10 +396,6 @@ void CpsWritePort(const UINT32 ia, UINT8 d)
 	if (Cps == 2) {
 		if (ia == 0x40) {
 			EEPROMWrite(d & 0x20, d& 0x40, d & 0x10);
-
-			if (Ecofght) {
-				ReadPaddle = d & 0x01;
-			}
 			return;
 		}
 
@@ -621,15 +579,6 @@ INT32 CpsRwGetInp()
 	CPSINPEX
 #undef INP
 
-	if (Jurassic99)
-		Inpc001 |= (CpsInp179[0] & 1) << 7;
-	if (Wofsgzb)
-		Inpc001 |= (CpsInp179[0] & 1) << 6;
-	if (Dinoh)
-		Inp177  |= (CpsInp179[0] & 1) << 7;
-	if (Wofhfh || Wof3js || Knightsh)
-		Inp177  |= (CpsInp179[0] & 1) << 6;
-
 	if (Forgottn) {
 		// Handle analog controls
 		if (fFakeDip & 0x80) {
@@ -644,7 +593,7 @@ INT32 CpsRwGetInp()
 			if (CpsDigUD[3]) nDial05d += 0x40;
 		}
 	}
-
+	
 	if (Pzloop2) {
 		if (ReadPaddle) {
 			CpsPaddle1Value = 0;

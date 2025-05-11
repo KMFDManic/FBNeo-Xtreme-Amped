@@ -133,16 +133,12 @@ UINT8 NeoDiag[2]	 = { 0, 0 };
 UINT8 NeoDebugDip[2] = { 0, 0 };
 UINT8 NeoReset = 0, NeoSystem = 0;
 UINT8 NeoCDBios = 0;
-UINT8 NeoUniHW = 0;
-UINT8 NeoOverscan = 0;
 static ClearOpposite<2, UINT8> clear_opposite;
 
 static UINT8 OldDebugDip[2] = { 0, 0 };
 
 // Which 68K BIOS to use
 INT32 nBIOS;
-
-#define AES_BIOS (nBIOS == 15 || nBIOS == 16 || nBIOS == 17 || ((NeoUniHW & 1) && (nBIOS == 19 || nBIOS == 20 || nBIOS == 21 || nBIOS == 22 || nBIOS == 23 || nBIOS == 24 || nBIOS == 25 || nBIOS == 26 || nBIOS == 27)))
 
 #if defined CYCLE_LOG
 // for debugging -dink (will be removed later)
@@ -435,7 +431,7 @@ static void NeoSetSystemType()
 	}
 
 	// See if we're emulating MVS or AES hardware
-	if (nBIOS == -1 || AES_BIOS || ((NeoSystem & 0x74) == 0x20)) {
+	if (nBIOS == -1 || nBIOS == 15 || nBIOS == 16 || nBIOS == 17 || ((NeoSystem & 0x74) == 0x20)) {
 		nNeoSystemType = NEO_SYS_CART | NEO_SYS_AES;
 		return;
 	}
@@ -1132,7 +1128,7 @@ static UINT8 __fastcall vliner_timing(UINT32 sekAddress)
 
 		case 0x320001: {
 //			if (!bAESBIOS) {
-			if (!AES_BIOS) {
+			if (nBIOS != 14 && nBIOS != 16 && nBIOS != 17) {
 				return 0x3F | (uPD4990ARead() << 6);
 			}
 
@@ -2022,13 +2018,6 @@ static UINT16 __fastcall neogeoReadWord(UINT32 sekAddress)
 	}
 
 	return ~0;
-}
-
-static UINT16 __fastcall neogeoUnmappedReadWord(UINT32)
-{
-	/* unmapped memory returns the last word on the data bus, which is almost always the opcode
-	   of the next instruction due to prefetch */
-	return neogeoReadWord(SekGetPC(-1));
 }
 
 static void WriteIO1(INT32 nOffset, UINT8 byteValue)
@@ -3266,7 +3255,7 @@ static UINT16 __fastcall neogeoReadWordCDROM(UINT32 sekAddress)
 			break;
 
 		case 0x011C:
-			return ~(((((NeoCDBios & 3) < 2) ? 0x10 : 0x00) | (NeoSystem & 3)) << 8); // 0x00 for unibioses, 0x10 for all others ?
+			return ~(((((NeoCDBios & 3) == 0) ? 0x10 : 0x00) | (NeoSystem & 3)) << 8);
 	}
 
 //	bprintf(PRINT_NORMAL, _T("  - NGCD port 0x%06X read (word, PC: 0x%06X)\n"), sekAddress, SekGetPC(-1));
@@ -3794,8 +3783,7 @@ static INT32 neogeoReset()
 			}
 			SekMapHandler(1,			0xD00000, 0xDFFFFF, MAP_WRITE);	//
 		} else {
-			// AES/NeoCD don't have the SRAM
-			SekMapHandler(8,			0xD00000, 0xDFFFFF, MAP_READ);
+			SekMapHandler(0,			0xD00000, 0xDFFFFF, MAP_RAM);	// AES/NeoCD don't have the SRAM
 		}
 
 		if (nNeoSystemType & NEO_SYS_CART) {
@@ -3910,16 +3898,6 @@ static INT32 NeoInitCommon()
 	INT32 nNeoScreenHeight; // not used
 	BurnDrvGetFullSize(&nNeoScreenWidth, &nNeoScreenHeight);
 
-	if (NeoOverscan != 0) {
-		// if a user dislikes the width (overscan) set by the driver,
-		// let's force the one he wants
-		if (NeoOverscan == 0x01)
-			nNeoScreenWidth = 304;
-		if (NeoOverscan == 0x02)
-			nNeoScreenWidth = 320;
-		BurnDrvSetVisibleSize(nNeoScreenWidth, nNeoScreenHeight);
-	}
-
 	if (nNeoSystemType & NEO_SYS_CART) {
 		nVBLankIRQ   = 1;
 		nScanlineIRQ = 2;
@@ -4002,8 +3980,6 @@ static INT32 NeoInitCommon()
 		SekSetWriteWordHandler(3, NeoPalWriteWord);
 		SekSetWriteByteHandler(3, NeoPalWriteByte);
 
-		SekSetReadWordHandler(8, neogeoUnmappedReadWord);
-
 		// Set up mirrors
 		for (INT32 a = 0x420000; a < 0x800000; a += 0x2000) {
 			SekMapMemory(NeoPalSrc[0], a, a + 0x1FFF, MAP_ROM);
@@ -4037,6 +4013,7 @@ static INT32 NeoInitCommon()
 
 			SekSetReadByteHandler(2, neoCDReadByteMemoryCard);
 			SekSetWriteByteHandler(2, neoCDWriteByteMemoryCard);
+
 		}
 	}
 
@@ -4381,7 +4358,7 @@ INT32 NeoCDInit()
 	Neo68KFix[0] = Neo68KROM[0];
 
 	NeoLoad68KBIOS(0 + (NeoCDBios & 3));
-	BurnLoadRom(NeoZoomROM,	5, 1);
+	BurnLoadRom(NeoZoomROM,	4, 1);
 
 	// Create copy of 68K with BIOS vector table
 	memcpy(NeoVectorActive + 0x00, Neo68KBIOS, 0x0100);

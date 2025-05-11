@@ -28,6 +28,11 @@
 #define STAT_SMALL   3
 #define STAT_LARGE   4
 
+#ifdef LIGHT
+#undef APP_TITLE
+#define APP_TITLE "FinalBurn Neo Light"
+#endif
+
 #ifdef SUBSET
 #undef APP_TITLE
 #define APP_TITLE "FinalBurn Neo (" SUBSET " subset)"
@@ -53,9 +58,10 @@ static unsigned libretro_msg_interface_version = 0;
 
 int kNetGame = 0;
 INT32 nReplayStatus = 0;
+INT32 nIpsMaxFileLen = 0;
 unsigned nGameType = 0;
-static INT32 nGameWidth = 640;
-static INT32 nGameHeight = 480;
+static INT32 nGameWidth = 800;
+static INT32 nGameHeight = 600;
 static INT32 nGameMaximumGeometry;
 static INT32 nNextGeometryCall = RETRO_ENVIRONMENT_SET_GEOMETRY;
 
@@ -76,10 +82,10 @@ std::vector<cheat_core_option> cheat_core_options;
 
 INT32 nAudSegLen = 0;
 
-static UINT8* pVidImage              = NULL;
-static bool bVidImageNeedRealloc     = false;
-static bool bRotationDone            = false;
-static int16_t *pAudBuffer           = NULL;
+static UINT8* pVidImage = NULL;
+static bool bVidImageNeedRealloc = false;
+static bool bRotationDone = false;
+static int16_t *pAudBuffer = NULL;
 static char text_missing_files[2048] = "";
 
 // Frameskipping v2 Support
@@ -104,6 +110,9 @@ static void retro_audio_buff_status_cb(bool active, unsigned occupancy, bool und
 
 // Mapping of PC inputs to game inputs
 struct GameInp* GameInp = NULL;
+UINT32 nGameInpCount = 0;
+INT32 nAnalogSpeed = 0x0100;
+INT32 nFireButtons = 0;
 
 char g_driver_name[128];
 char g_rom_dir[MAX_PATH];
@@ -125,10 +134,19 @@ unsigned ArcadeJoystick;
 int bDrvOkay;
 int bRunPause;
 bool bAlwaysProcessKeyboardInput;
+bool bDoIpsPatch;
+void IpsApplyPatches(UINT8* base, char* rom_name, UINT32 crc, bool readonly) {}
+INT32 GetIpsesMaxLen(char* rom_name) {return -1;}
+bool GetIpsDrvProtection() { return false; };
+void GetIpsDrvDefine() {}
 void BurnerDoGameListExLocalisation() {}
+UINT32 nIpsDrvDefine		= 0, nIpsMemExpLen[SND2_ROM + 1] = { 0 };
 UINT32 nStartFrame = 0;
 INT32 FreezeInput(UINT8** buf, INT32* size) { return 0; }
 INT32 UnfreezeInput(const UINT8* buf, INT32 size) { return 0; }
+static struct RomDataInfo RDI = { 0 };
+RomDataInfo* pRDI = &RDI;
+struct BurnRomInfo* pDataRomDesc = NULL;
 bool bWithEEPROM = false;
 
 TCHAR szAppEEPROMPath[MAX_PATH];
@@ -137,128 +155,11 @@ TCHAR szAppSamplesPath[MAX_PATH];
 TCHAR szAppBlendPath[MAX_PATH];
 TCHAR szAppHDDPath[MAX_PATH];
 TCHAR szAppCheatsPath[MAX_PATH];
-TCHAR szAppIpsesPath[MAX_PATH];
-TCHAR szAppRomdatasPath[MAX_PATH];
-TCHAR szAppPathDefPath[MAX_PATH];
 TCHAR szAppBurnVer[16];
-
-static char szRomsetPath[MAX_PATH]        = { 0 };
-
-#define TYPES_MAX	(27)	// Maximum number of machine types
-
-static const TCHAR szTypeEnum[2][TYPES_MAX][13] = {
-	{
-		_T("arc"),			_T("arcade"),							// arcade_dir
-		_T("romdata"),												// romdata_dir
-		_T("coleco"),		_T("colecovision"),
-		_T("gamegear"),
-		_T("megadriv"),		_T("megadrive"),		_T("genesis"),
-		_T("msx"),			_T("msx1"),
-		_T("pce"),			_T("pcengine"),
-		_T("sg1000"),
-		_T("sgx"),			_T("supergrafx"),
-		_T("sms"),			_T("mastersystem"),
-		_T("snes"),
-		_T("spectrum"),		_T("zxspectrum"),
-		_T("tg16"),
-		_T("nes"),
-		_T("fds"),
-		_T("ngp"),
-		_T("chf"),			_T("channelf")							// consoles_dir
-	},
-	{
-		_T(""),				_T(""),									// Signage of the arcade
-		_T(""),														// romdata
-		_T("cv_"),			_T("cv_"),
-		_T("gg_"),
-		_T("md_"),			_T("md_"),				_T("md_"),
-		_T("msx_"),			_T("msx_"),
-		_T("pce_"),			_T("pce_"),
-		_T("sg1k_"),
-		_T("sgx_"),			_T("sgx_"),
-		_T("sms_"),			_T("sms_"),
-		_T("snes_"),
-		_T("spec_"),		_T("spec_"),
-		_T("tg_"),
-		_T("nes_"),
-		_T("fds_"),
-		_T("ngp_"),
-		_T("chf_"),			_T("chf_")								// Signage of the console
-	}
-};
-
-static TCHAR CoreRomPaths[DIRS_MAX][MAX_PATH];
-
-static void extract_directory(char* buf, const char* path, size_t size);
-static bool retro_load_game_common();
-static void retro_incomplete_exit();
 
 static int nDIPOffset;
 
 const int nConfigMinVersion = 0x020921;
-
-// Read in the config file for the whole application
-INT32 CoreRomPathsLoad()
-{
-	TCHAR szConfig[MAX_PATH] = { 0 }, szLine[1024] = { 0 };
-	FILE* h = NULL;
-
-#ifdef _UNICODE
-	setlocale(LC_ALL, "");
-#endif
-
-	for (INT32 i = 0; i < DIRS_MAX; i++)
-		memset(CoreRomPaths[i], 0, MAX_PATH * sizeof(TCHAR));
-
-	snprintf(szConfig, MAX_PATH - 1, "%srom_path.opt", szAppPathDefPath);
-
-	if (NULL == (h = fopen(szConfig, "rt"))) {
-		memset(szConfig, 0, MAX_PATH * sizeof(TCHAR));
-		snprintf(szConfig, MAX_PATH - 1, "%s%crom_path.opt", g_rom_dir, PATH_DEFAULT_SLASH_C());
-
-		if (NULL == (h = fopen(szConfig, "rt")))
-			return 1;
-	}
-
-	// Go through each line of the config file
-	while (_fgetts(szLine, 1024, h)) {
-		int nLen = _tcslen(szLine);
-
-		// Get rid of the linefeed at the end
-		if (nLen > 0 && szLine[nLen - 1] == 10) {
-			szLine[nLen - 1] = 0;
-			nLen--;
-		}
-
-#define STR(x) { TCHAR* szValue = LabelCheck(szLine,_T(#x) _T(" "));	\
-  if (szValue) _tcscpy(x,szValue); }
-
-		STR(CoreRomPaths[0]);
-		STR(CoreRomPaths[1]);
-		STR(CoreRomPaths[2]);
-		STR(CoreRomPaths[3]);
-		STR(CoreRomPaths[4]);
-		STR(CoreRomPaths[5]);
-		STR(CoreRomPaths[6]);
-		STR(CoreRomPaths[7]);
-		STR(CoreRomPaths[8]);
-		STR(CoreRomPaths[9]);
-		STR(CoreRomPaths[10]);
-		STR(CoreRomPaths[11]);
-		STR(CoreRomPaths[12]);
-		STR(CoreRomPaths[13]);
-		STR(CoreRomPaths[14]);
-		STR(CoreRomPaths[15]);
-		STR(CoreRomPaths[16]);
-		STR(CoreRomPaths[17]);
-		STR(CoreRomPaths[18]);
-		STR(CoreRomPaths[19]);
-#undef STR
-	}
-
-	fclose(h);
-	return 0;
-}
 
 int HandleMessage(enum retro_log_level level, TCHAR* szFormat, ...)
 {
@@ -307,7 +208,7 @@ static INT32 __cdecl libretro_bprintf(INT32 nStatus, TCHAR* szFormat, ...)
 	va_list vp;
 
 	// some format specifiers don't translate well into the retro logs, replace them
-	szFormat = string_replace_substring(szFormat, strlen(szFormat), "%S", strlen("%S"), "%s", strlen("%s"));
+	szFormat = string_replace_substring(szFormat, "%S", strlen("%S"), "%s", strlen("%s"));
 
 	// retro logs prefer ending with \n
 	// 2021-10-26: disabled it's causing overflow in a few cases, find a better way to do this...
@@ -471,25 +372,24 @@ void retro_set_environment(retro_environment_t cb)
 		{ "Rom", "zip|7z", true, true, true, NULL, 0 },
 	};
 	static const struct retro_subsystem_rom_info subsystem_iso[] = {
-		{ "Iso", "ccd|cue",    true, true, true, NULL, 0 },
+		{ "Iso", "ccd|cue", true, true, true, NULL, 0 },
 	};
 	static const struct retro_subsystem_info subsystems[] = {
-		{ "CBS ColecoVision",                    "cv",    subsystem_rom, 1, RETRO_GAME_TYPE_CV    },
-		{ "Fairchild ChannelF",                  "chf",   subsystem_rom, 1, RETRO_GAME_TYPE_CHF   },
-		{ "MSX 1",                               "msx",   subsystem_rom, 1, RETRO_GAME_TYPE_MSX   },
-		{ "Nec PC-Engine",                       "pce",   subsystem_rom, 1, RETRO_GAME_TYPE_PCE   },
-		{ "Nec SuperGrafX",                      "sgx",   subsystem_rom, 1, RETRO_GAME_TYPE_SGX   },
-		{ "Nec TurboGrafx-16",                   "tg16",  subsystem_rom, 1, RETRO_GAME_TYPE_TG    },
-		{ "Nintendo Entertainment System",       "nes",   subsystem_rom, 1, RETRO_GAME_TYPE_NES   },
-		{ "Nintendo Family Disk System",         "fds",   subsystem_rom, 1, RETRO_GAME_TYPE_FDS   },
-		{ "Super Nintendo Entertainment System", "snes",  subsystem_rom, 1, RETRO_GAME_TYPE_SNES   },
-		{ "Sega GameGear",                       "gg",    subsystem_rom, 1, RETRO_GAME_TYPE_GG    },
-		{ "Sega Master System",                  "sms",   subsystem_rom, 1, RETRO_GAME_TYPE_SMS   },
-		{ "Sega Megadrive",                      "md",    subsystem_rom, 1, RETRO_GAME_TYPE_MD    },
-		{ "Sega SG-1000",                        "sg1k",  subsystem_rom, 1, RETRO_GAME_TYPE_SG1K  },
-		{ "SNK Neo Geo Pocket",                  "ngp",   subsystem_rom, 1, RETRO_GAME_TYPE_NGP   },
-		{ "ZX Spectrum",                         "spec",  subsystem_rom, 1, RETRO_GAME_TYPE_SPEC  },
-		{ "Neogeo CD",                           "neocd", subsystem_iso, 1, RETRO_GAME_TYPE_NEOCD },
+		{ "CBS ColecoVision", "cv", subsystem_rom, 1, RETRO_GAME_TYPE_CV },
+		{ "Fairchild ChannelF", "chf", subsystem_rom, 1, RETRO_GAME_TYPE_CHF },
+		{ "MSX 1", "msx", subsystem_rom, 1, RETRO_GAME_TYPE_MSX },
+		{ "Nec PC-Engine", "pce", subsystem_rom, 1, RETRO_GAME_TYPE_PCE },
+		{ "Nec SuperGrafX", "sgx", subsystem_rom, 1, RETRO_GAME_TYPE_SGX },
+		{ "Nec TurboGrafx-16", "tg16", subsystem_rom, 1, RETRO_GAME_TYPE_TG },
+		{ "Nintendo Entertainment System", "nes", subsystem_rom, 1, RETRO_GAME_TYPE_NES },
+		{ "Nintendo Family Disk System", "fds", subsystem_rom, 1, RETRO_GAME_TYPE_FDS },
+		{ "Sega GameGear", "gg", subsystem_rom, 1, RETRO_GAME_TYPE_GG },
+		{ "Sega Master System", "sms", subsystem_rom, 1, RETRO_GAME_TYPE_SMS },
+		{ "Sega Megadrive", "md", subsystem_rom, 1, RETRO_GAME_TYPE_MD },
+		{ "Sega SG-1000", "sg1k", subsystem_rom, 1, RETRO_GAME_TYPE_SG1K },
+		{ "SNK Neo Geo Pocket", "ngp", subsystem_rom, 1, RETRO_GAME_TYPE_NGP },
+		{ "ZX Spectrum", "spec", subsystem_rom, 1, RETRO_GAME_TYPE_SPEC },
+		{ "Neogeo CD", "neocd", subsystem_iso, 1, RETRO_GAME_TYPE_NEOCD },
 		{ NULL },
 	};
 
@@ -705,6 +605,7 @@ static int create_variables_from_cheats()
 	const char * drvname = BurnDrvGetTextA(DRV_NAME);
 
 	CheatInfo* pCurrentCheat = pCheatInfo;
+
 	int num = 0;
 
 	while (pCurrentCheat) {
@@ -928,139 +829,45 @@ static void locate_archive(std::vector<located_archive>& pathList, const char* c
 		else
 			HandleMessage(RETRO_LOG_INFO, "[FBNeo] No patched romset found at %s\n", path);
 	}
-
+	// Search rom dir
+	snprintf_nowarn(path, sizeof(path), "%s%c%s", g_rom_dir, PATH_DEFAULT_SLASH_C(), romName);
+	if (ZipOpen(path) == 0)
 	{
-		// Search rom dir
-		snprintf_nowarn(path, sizeof(path), "%s%c%s", g_rom_dir, PATH_DEFAULT_SLASH_C(), romName);
-		if (ZipOpen(path) == 0)
-		{
-			g_find_list_path.push_back(located_archive());
-			located_archive* located = &g_find_list_path.back();
-			located->path = path;
-			located->ignoreCrc = false;
-			ZipClose();
-			HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
-		}
-		else
-			HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
-
-		// Continue to search in subdirectories
-		// g_rom_dir/arcade/romName
-		// g_rom_dir/consoles/romName
-		for (INT32 nType = 0; nType < TYPES_MAX; nType++)
-		{
-			memset(path, 0, sizeof(path));
-			snprintf(path, MAX_PATH - 1, "%s%c%s%c%s", g_rom_dir, PATH_DEFAULT_SLASH_C(), szTypeEnum[0][nType], PATH_DEFAULT_SLASH_C(), romName);
-			if (ZipOpen(path) == 0)
-			{
-				g_find_list_path.push_back(located_archive());
-				located_archive* located = &g_find_list_path.back();
-				located->path = path;
-				located->ignoreCrc = false;
-				ZipClose();
-				HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
-			}
-			else
-				HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
-		}
+		g_find_list_path.push_back(located_archive());
+		located_archive *located = &g_find_list_path.back();
+		located->path = path;
+		located->ignoreCrc = false;
+		ZipClose();
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
 	}
-
+	else
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
+	// Search system fbneo subdirectory (where samples/hiscore are stored)
+	snprintf_nowarn(path, sizeof(path), "%s%cfbneo%c%s", g_system_dir, PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C(), romName);
+	if (ZipOpen(path) == 0)
 	{
-		// Search system fbneo subdirectory (where samples/hiscore are stored)
-		snprintf_nowarn(path, sizeof(path), "%s%cfbneo%c%s", g_system_dir, PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C(), romName);
-		if (ZipOpen(path) == 0)
-		{
-			g_find_list_path.push_back(located_archive());
-			located_archive* located = &g_find_list_path.back();
-			located->path = path;
-			located->ignoreCrc = false;
-			ZipClose();
-			HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
-		}
-		else
-			HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
-
-		// Continue to search in subdirectories
-		// g_system_dir/fbneo/arcade/romName
-		// g_system_dir/fbneo/consoles/romName
-		for (INT32 nType = 0; nType < TYPES_MAX; nType++)
-		{
-			memset(path, 0, sizeof(path));
-			snprintf(path, MAX_PATH, "%s%cfbneo%c%s%c%s", g_system_dir, PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C(), szTypeEnum[0][nType], PATH_DEFAULT_SLASH_C(), romName);
-			if (ZipOpen(path) == 0)
-			{
-				g_find_list_path.push_back(located_archive());
-				located_archive* located = &g_find_list_path.back();
-				located->path = path;
-				located->ignoreCrc = false;
-				ZipClose();
-				HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
-			}
-			else
-				HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
-		}
+		g_find_list_path.push_back(located_archive());
+		located_archive *located = &g_find_list_path.back();
+		located->path = path;
+		located->ignoreCrc = false;
+		ZipClose();
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
 	}
-
+	else
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
+	// Search system directory
+	snprintf_nowarn(path, sizeof(path), "%s%c%s", g_system_dir, PATH_DEFAULT_SLASH_C(), romName);
+	if (ZipOpen(path) == 0)
 	{
-		// Search system directory
-		snprintf_nowarn(path, sizeof(path), "%s%c%s", g_system_dir, PATH_DEFAULT_SLASH_C(), romName);
-		if (ZipOpen(path) == 0)
-		{
-			g_find_list_path.push_back(located_archive());
-			located_archive* located = &g_find_list_path.back();
-			located->path = path;
-			located->ignoreCrc = false;
-			ZipClose();
-			HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
-		}
-		else
-			HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
+		g_find_list_path.push_back(located_archive());
+		located_archive *located = &g_find_list_path.back();
+		located->path = path;
+		located->ignoreCrc = false;
+		ZipClose();
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
 	}
-
-	if (0 == CoreRomPathsLoad())
-	{
-		// Search custom directories
-		for (INT32 i = 0; i < DIRS_MAX; i++)
-		{
-			char* p = find_last_slash(CoreRomPaths[i]);
-			if ((NULL != p) && ('\0' == p[1])) p[0] = '\0';
-
-			// custom_dir/romName
-			memset(path, 0, sizeof(path));
-			snprintf(path, MAX_PATH-1,"%s%c%s", CoreRomPaths[i], PATH_DEFAULT_SLASH_C(), romName);
-			if (ZipOpen(path) == 0)
-			{
-				g_find_list_path.push_back(located_archive());
-				located_archive* located = &g_find_list_path.back();
-				located->path = path;
-				located->ignoreCrc = false;
-				ZipClose();
-				HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
-			}
-			else
-				HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
-
-			// Continue to search in subdirectories
-			// custom_dir/arcade/romName
-			// custom_dir/consoles/romName
-			for (INT32 nType = 0; nType < TYPES_MAX; nType++)
-			{
-				memset(path, 0, sizeof(path));
-				snprintf(path, MAX_PATH - 1, "%s%c%s%c%s", CoreRomPaths[i], PATH_DEFAULT_SLASH_C(), szTypeEnum[0][nType], PATH_DEFAULT_SLASH_C(), romName);
-				if (ZipOpen(path) == 0)
-				{
-					g_find_list_path.push_back(located_archive());
-					located_archive* located = &g_find_list_path.back();
-					located->path = path;
-					located->ignoreCrc = false;
-					ZipClose();
-					HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
-				}
-				else
-					HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
-			}
-		}
-	}
+	else
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
 }
 
 // This code is very confusing. The original code is even more confusing :(
@@ -1113,75 +920,67 @@ static bool open_archive()
 
 			ZipEntry *list = NULL;
 			int count;
-			if (ZipGetList(&list, &count) == 0)
+			ZipGetList(&list, &count);
+
+			// Try to map the ROMs FBNeo wants to ROMs we find inside our pretty archives ...
+			for (unsigned i = 0; i < nRomCount; i++)
 			{
-				// Try to map the ROMs FBNeo wants to ROMs we find inside our pretty archives ...
-				for (unsigned i = 0; i < nRomCount; i++)
+				if (pRomFind[i].nState == STAT_OK)
+					continue;
+
+				struct BurnRomInfo ri;
+				memset(&ri, 0, sizeof(ri));
+				BurnDrvGetRomInfo(&ri, i);
+
+				if (ri.nType == 0 || ri.nLen == 0 || ri.nCrc == 0)
 				{
-					if (pRomFind[i].nState == STAT_OK)
-						continue;
-
-					struct BurnRomInfo ri;
-					memset(&ri, 0, sizeof(ri));
-					BurnDrvGetRomInfo(&ri, i);
-
-					if ((ri.nType & BRF_NODUMP) || (ri.nType == 0) || (ri.nLen == 0) || ((NULL == pDataRomDesc) && (0 == ri.nCrc)))
-					{
-						pRomFind[i].nState = STAT_OK;
-						continue;
-					}
-
-					char *real_rom_name;
-					uint32_t real_rom_crc;
-					int index = find_rom_by_crc(ri.nCrc, list, count, &real_rom_name);
-
-					BurnDrvGetRomName(&rom_name, i, 0);
-
-					bool unknown_crc = false;
-
-					if (index < 0)
-					{
-						if ((g_find_list_path[z].ignoreCrc && bPatchedRomsetsEnabled) ||
-							((NULL != pDataRomDesc) && (-1 != pRDI->nDescCount)))					// In romdata mode
-						{
-							index = find_rom_by_name(rom_name, list, count, &real_rom_crc);
-							if (index >= 0)
-								unknown_crc = true;
-						}
-					}
-
-					if (index >= 0)
-					{
-						if ((NULL == pDataRomDesc))						// Not in romdata mode
-						{
-							if (unknown_crc)
-								HandleMessage(RETRO_LOG_WARN, "[FBNeo] Using ROM with unknown crc 0x%08x and name %s from archive %s\n", real_rom_crc, rom_name, g_find_list_path[z].path.c_str());
-							else
-								HandleMessage(RETRO_LOG_INFO, "[FBNeo] Using ROM with known crc 0x%08x and name %s from archive %s\n", ri.nCrc, real_rom_name, g_find_list_path[z].path.c_str());
-						}
-					}
-					else
-					{
-						continue;
-					}
-
-					if (bIsNeogeoCartGame)
-						set_neogeo_bios_availability(list[index].szName, list[index].nCrc, (g_find_list_path[z].ignoreCrc && bPatchedRomsetsEnabled));
-
-					// Yay, we found it!
-					pRomFind[i].nZip = z;
-					pRomFind[i].nPos = index;
 					pRomFind[i].nState = STAT_OK;
-
-					if (list[index].nLen < ri.nLen)
-						pRomFind[i].nState = STAT_SMALL;
-					else if (list[index].nLen > ri.nLen)
-						pRomFind[i].nState = STAT_LARGE;
+					continue;
 				}
 
-				free_archive_list(list, count);
-				ZipClose();
+				char *real_rom_name;
+				uint32_t real_rom_crc;
+				int index = find_rom_by_crc(ri.nCrc, list, count, &real_rom_name);
+
+				BurnDrvGetRomName(&rom_name, i, 0);
+
+				bool unknown_crc = false;
+
+				if (index < 0 && g_find_list_path[z].ignoreCrc && bPatchedRomsetsEnabled)
+				{
+					index = find_rom_by_name(rom_name, list, count, &real_rom_crc);
+					if (index >= 0)
+						unknown_crc = true;
+				}
+
+				if (index >= 0)
+				{
+					if (unknown_crc)
+						HandleMessage(RETRO_LOG_WARN, "[FBNeo] Using ROM with unknown crc 0x%08x and name %s from archive %s\n", real_rom_crc, rom_name, g_find_list_path[z].path.c_str());
+					else
+						HandleMessage(RETRO_LOG_INFO, "[FBNeo] Using ROM with known crc 0x%08x and name %s from archive %s\n", ri.nCrc, real_rom_name, g_find_list_path[z].path.c_str());
+				}
+				else
+				{
+					continue;
+				}
+
+				if (bIsNeogeoCartGame)
+					set_neogeo_bios_availability(list[index].szName, list[index].nCrc, (g_find_list_path[z].ignoreCrc && bPatchedRomsetsEnabled));
+
+				// Yay, we found it!
+				pRomFind[i].nZip = z;
+				pRomFind[i].nPos = index;
+				pRomFind[i].nState = STAT_OK;
+
+				if (list[index].nLen < ri.nLen)
+					pRomFind[i].nState = STAT_SMALL;
+				else if (list[index].nLen > ri.nLen)
+					pRomFind[i].nState = STAT_LARGE;
 			}
+
+			free_archive_list(list, count);
+			ZipClose();
 		}
 
 		if (bIsNeogeoCartGame)
@@ -1201,7 +1000,7 @@ static bool open_archive()
 					static char prev[2048];
 					strcpy(prev, text_missing_files);
 					BurnDrvGetRomName(&rom_name, i, 0);
-					sprintf(text_missing_files, RETRO_ERROR_MESSAGES_11, prev, rom_name, ri.nCrc);
+					sprintf(text_missing_files, "%s\nROM with name %s and CRC 0x%08x is missing", prev, rom_name, ri.nCrc);
 					log_cb(RETRO_LOG_ERROR, "[FBNeo] ROM at index %d with name %s and CRC 0x%08x is required\n", i, rom_name, ri.nCrc);
 					ret = false;
 				}
@@ -1213,7 +1012,7 @@ static bool open_archive()
 	}
 	else
 	{
-		sprintf(text_missing_files, "%s", RETRO_ERROR_MESSAGES_00);
+		sprintf(text_missing_files, "\nNone of those archives was found in your paths");
 		log_cb(RETRO_LOG_ERROR, "[FBNeo] None of those archives was found in your paths\n");
 	}
 
@@ -1241,68 +1040,71 @@ static void SetRotation()
 	bRotationDone = environ_cb(RETRO_ENVIRONMENT_SET_ROTATION, &rotation);
 }
 
-int CreateAllDatfiles(char* dat_folder)
+#ifdef AUTOGEN_DATS
+int CreateAllDatfiles()
 {
 	INT32 nRet = 0;
 	TCHAR szFilename[MAX_PATH];
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Arcade only");
-	create_datfile(szFilename, DAT_ARCADE_ONLY);
-
-#ifndef NO_NEOGEO
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Neogeo only");
-	create_datfile(szFilename, DAT_NEOGEO_ONLY);
+#ifdef LIGHT
+	#define DAT_FOLDER "dats/light"
+#else
+	#define DAT_FOLDER "dats"
 #endif
 
-#ifndef NO_CONSOLES_COMPUTERS
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Megadrive only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Arcade only");
+	create_datfile(szFilename, DAT_ARCADE_ONLY);
+
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Megadrive only");
 	create_datfile(szFilename, DAT_MEGADRIVE_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Sega SG-1000 only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Sega SG-1000 only");
 	create_datfile(szFilename, DAT_SG1000_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, ColecoVision only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, ColecoVision only");
 	create_datfile(szFilename, DAT_COLECO_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Master System only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Master System only");
 	create_datfile(szFilename, DAT_MASTERSYSTEM_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Game Gear only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Game Gear only");
 	create_datfile(szFilename, DAT_GAMEGEAR_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, NeoGeo Pocket Games only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Neogeo only");
+	create_datfile(szFilename, DAT_NEOGEO_ONLY);
+
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, NeoGeo Pocket Games only");
 	create_datfile(szFilename, DAT_NGP_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Fairchild Channel F Games only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, Fairchild Channel F Games only");
 	create_datfile(szFilename, DAT_CHANNELF_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, PC-Engine only");
+#ifndef LIGHT
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, PC-Engine only");
 	create_datfile(szFilename, DAT_PCENGINE_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, TurboGrafx16 only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, TurboGrafx16 only");
 	create_datfile(szFilename, DAT_TG16_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, SuprGrafx only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, SuprGrafx only");
 	create_datfile(szFilename, DAT_SGX_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, NES Games only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, NES Games only");
 	create_datfile(szFilename, DAT_NES_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, FDS Games only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, FDS Games only");
 	create_datfile(szFilename, DAT_FDS_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, SNES Games only");
-	create_datfile(szFilename, DAT_SNES_ONLY);
-
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, MSX 1 Games only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, MSX 1 Games only");
 	create_datfile(szFilename, DAT_MSX_ONLY);
 
-	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", dat_folder, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, ZX Spectrum Games only");
+	snprintf_nowarn(szFilename, sizeof(szFilename), "%s%c%s (%s).dat", DAT_FOLDER, PATH_DEFAULT_SLASH_C(), APP_TITLE, "ClrMame Pro XML, ZX Spectrum Games only");
 	create_datfile(szFilename, DAT_SPECTRUM_ONLY);
 #endif
 
 	return nRet;
 }
+#endif
 
 void retro_init()
 {
@@ -1316,15 +1118,13 @@ void retro_init()
 	else
 		log_cb = log_dummy;
 
-	set_multi_language_strings();	// Determine the user's language and initialize all strings.
-
 	libretro_msg_interface_version = 0;
 	environ_cb(RETRO_ENVIRONMENT_GET_MESSAGE_INTERFACE_VERSION, &libretro_msg_interface_version);
 
 	snprintf_nowarn(szAppBurnVer, sizeof(szAppBurnVer), "%x.%x.%x.%02x", nBurnVer >> 20, (nBurnVer >> 16) & 0x0F, (nBurnVer >> 8) & 0xFF, nBurnVer & 0xFF);
 	BurnLibInit();
 #ifdef AUTOGEN_DATS
-	CreateAllDatfiles("dats");
+	CreateAllDatfiles();
 #endif
 
 	nFrameskipType             = 0;
@@ -1377,11 +1177,6 @@ void retro_reset()
 	apply_dipswitches_from_variables();
 	apply_cheats_from_variables();
 
-	// RomData & IPS Patches can be selected before retro_reset() and will be reset after retro_reset(),
-	// at which point the data is processed and returned to determine whether to subsequently Reset or Re-Init.
-	INT32 nIndex   = apply_romdatas_from_variables();
-	INT32 nPatches = apply_ipses_from_variables();
-
 	// restore the NeoSystem because it was changed during the gameplay
 	if (bIsNeogeoCartGame)
 		set_neo_system_bios();
@@ -1396,17 +1191,6 @@ void retro_reset()
 		// eeproms are loading nCurrentFrame, but we probably don't want this
 		nCurrentFrame = 0;
 	}
-
-	// romdata & ips patches run!
-	if ((nIndex >= 0) || (nPatches > 0))
-	{
-		retro_incomplete_exit();
-
-		if (nPatches > 0) IpsPatchInit();
-		if (nIndex >= 0) RomDataInit();
-
-		retro_load_game_common();
-	} 
 }
 
 static void VideoBufferInit()
@@ -1422,7 +1206,7 @@ static void VideoBufferInit()
 
 void retro_run()
 {
-	bool bEnableVideo  = true;
+	bool bEnableVideo = true;
 	bool bEmulateAudio = true;
 	bool bPresentAudio = true;
 
@@ -1585,18 +1369,14 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 	if (nBurnDrvActive != ~0U)
 	{
 		BurnDrvGetAspect(&game_aspect_x, &game_aspect_y);
-#if 0
+
 		// if game is vertical and rotation couldn't occur, "fix" the rotated aspect ratio
-		// note (2025-02-12): apparently, nowaday, retroarch rotates the aspect ratio automatically
-		//                    if the rotation couldn't occur, so this code isn't necessary anymore,
-		//                    and actually became harmful for users with disabled rotation
 		if ((BurnDrvGetFlags() & BDF_ORIENTATION_VERTICAL) && !bRotationDone)
 		{
 			int temp = game_aspect_x;
 			game_aspect_x = game_aspect_y;
 			game_aspect_y = temp;
 		}
-#endif
 	}
 	else
 	{
@@ -1964,15 +1744,6 @@ static bool retro_load_game_common()
 	// Initialize Cheats path
 	snprintf_nowarn (szAppCheatsPath, sizeof(szAppCheatsPath), "%s%cfbneo%ccheats%c", g_system_dir, PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C());
 
-	// Initialize Ipses path
-	snprintf_nowarn(szAppIpsesPath, sizeof(szAppIpsesPath), "%s%cfbneo%cips%c", g_system_dir, PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C());
-
-	// Initialize Ipses path
-	snprintf_nowarn(szAppRomdatasPath, sizeof(szAppRomdatasPath), "%s%cfbneo%cromdata%c", g_system_dir, PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C());
-
-	// Initialize Multipath definition path
-	snprintf_nowarn(szAppPathDefPath, sizeof(szAppPathDefPath), "%s%cfbneo%cpath%c", g_system_dir, PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C());
-
 	// Initialize Blend path
 	snprintf_nowarn (szAppBlendPath, sizeof(szAppBlendPath), "%s%cfbneo%cblend%c", g_system_dir, PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C());
 
@@ -2000,12 +1771,12 @@ static bool retro_load_game_common()
 	}
 #endif
 
-	nBurnDrvActive = ((NULL != pDataRomDesc) && (-1 != pRDI->nDescCount)) ? pRDI->nDriverId : BurnDrvGetIndexByName(g_driver_name);
+	nBurnDrvActive = BurnDrvGetIndexByName(g_driver_name);
 	if (nBurnDrvActive < nBurnDrvCount) {
 
 		// If the game is marked as not working, let's stop here
 		if (!(BurnDrvIsWorking())) {
-			SetUguiError(RETRO_ERROR_MESSAGES_01);
+			SetUguiError("This romset is known but marked as not working\nOne of its clones might work so maybe give it a try");
 			HandleMessage(RETRO_LOG_ERROR, "[FBNeo] This romset is known but marked as not working\n");
 			HandleMessage(RETRO_LOG_ERROR, "[FBNeo] One of its clones might work so maybe give it a try\n");
 			goto end;
@@ -2013,13 +1784,13 @@ static bool retro_load_game_common()
 
 		// If the game is a bios, let's stop here
 		if ((BurnDrvGetFlags() & BDF_BOARDROM)) {
-			SetUguiError(RETRO_ERROR_MESSAGES_02);
+			SetUguiError("Bioses aren't meant to be launched this way");
 			HandleMessage(RETRO_LOG_ERROR, "[FBNeo] Bioses aren't meant to be launched this way\n");
 			goto end;
 		}
 
 		if ((BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK) == HARDWARE_SNK_NEOCD && CDEmuImage[0] == '\0') {
-			SetUguiError(RETRO_ERROR_MESSAGES_03);
+			SetUguiError("You need a disc image to launch neogeo CD\n");
 			HandleMessage(RETRO_LOG_ERROR, "[FBNeo] You need a disc image to launch neogeo CD\n");
 			goto end;
 		}
@@ -2042,25 +1813,17 @@ static bool retro_load_game_common()
 		create_variables_from_dipswitches();
 
 		// Initialize debug variables
-		nBurnLayer    = 0xff;
+		nBurnLayer = 0xff;
 		nSpriteEnable = 0xff;
 
 		// Create cheats core options
 		create_variables_from_cheats();
 
-		// Create ipses core options
-		create_variables_from_ipses();
-
-		// Create romdata core options
-		create_variables_from_romdatas();
-
 		// Send core options to frontend
 		set_environment();
 
-		// Cheats & Ipses & romdatas should be avoided while machine is initializing, reset them to default state before boot
+		// Cheats should be avoided while machine is initializing, reset them to default state before boot
 		reset_cheats_from_variables();
-		reset_ipses_from_variables();
-		reset_romdatas_from_variables();
 
 		// Apply core options
 		check_variables();
@@ -2074,7 +1837,7 @@ static bool retro_load_game_common()
 
 		if (!open_archive()) {
 
-			const char* s1 = RETRO_ERROR_MESSAGES_04;
+			const char* s1 = "This game is known but one of your romsets is missing files for THIS VERSION of FBNeo.\n";
 			static char s2[256];
 			const char* rom_name = "";
 			const char* sp1 = "";
@@ -2095,13 +1858,13 @@ static bool retro_load_game_common()
 				sp2 = " ";
 				bios_name = BurnDrvGetTextA(DRV_BOARDROM);
 			}
-			sprintf(s2, RETRO_ERROR_MESSAGES_05, rom_name, sp1, parent_name, sp2, bios_name);
+			sprintf(s2, "Verify the following romsets : %s%s%s%s%s\n", rom_name, sp1, parent_name, sp2, bios_name);
 #ifdef INCLUDE_7Z_SUPPORT
 			const char* s3 = "\n";
 #else
-			const char* s3 = RETRO_ERROR_MESSAGES_06;
+			const char* s3 = "Note that 7z archive support is disabled for your platform.\n\n";
 #endif
-			const char* s4 = RETRO_ERROR_MESSAGES_07;
+			const char* s4 = "THIS IS NOT A BUG ! If you don't understand what this message means,\nthen you need to read the arcade and FBNeo documentations at https://docs.libretro.com/.\n";
 
 			static char uguiText[4096];
 			sprintf(uguiText, "%s%s%s\n\n%s%s", s1, s2, text_missing_files, s3, s4);
@@ -2143,7 +1906,7 @@ static bool retro_load_game_common()
 			HandleMessage(RETRO_LOG_INFO, "[FBNeo] Initialized driver for %s\n", g_driver_name);
 		else
 		{
-			SetUguiError(RETRO_ERROR_MESSAGES_08);
+			SetUguiError("Failed initializing driver\nThis is unexpected, you should probably report it.");
 			HandleMessage(RETRO_LOG_ERROR, "[FBNeo] Failed initializing driver.\n");
 			HandleMessage(RETRO_LOG_ERROR, "[FBNeo] This is unexpected, you should probably report it.\n");
 			goto end;
@@ -2200,14 +1963,17 @@ static bool retro_load_game_common()
 	}
 	else
 	{
-		const char* s1 = RETRO_ERROR_MESSAGES_09;
+		const char* s1 = "Romset is unknown.\n";
+#ifndef LIGHT
 		const char* s2 = "\n";
-		const char* s3 = RETRO_ERROR_MESSAGES_07;
+#else
+		const char* s2 = "Note that your device's limitations prevent you from running a full FBNeo build.\nSo the support for this romset might have been removed.\n\n";
+#endif
+		const char* s3 = "THIS IS NOT A BUG ! If you don't understand what this message means,\nthen you need to read the arcade and FBNeo documentations at https://docs.libretro.com/.\n";
 
 		static char uguiText[4096];
 		sprintf(uguiText, "%s%s%s", s1, s2, s3);
 		SetUguiError(uguiText);
-
 		goto end;
 	}
 	return true;
@@ -2217,122 +1983,16 @@ end:
 	nBurnFPS = 6000;
 	nBurnDrvActive = ~0U;
 	AudioBufferInit(nBurnSoundRate, nBurnFPS);
-	RomDataExit();
-	IpsPatchExit();
-
 	return true;
-}
-
-static int retro_dat_romset_path(const struct retro_game_info* info)
-{
-	INT32 nDat = -1, nRet = 0;	// 1: romdata; 2: ips;
-	char szDatDir[MAX_PATH] = { 0 }, szRomset[128] = { 0 }, * pszTmp = NULL;
-	const char* pszExt = strrchr(info->path, '.');
-
-	if (NULL != pszExt)
-	{
-		pszTmp = (char*)malloc(strlen(pszExt) + 1);
-		if (NULL != pszTmp)
-		{
-			strcpy(pszTmp, pszExt);
-			nDat = strcmp(string_to_lower(pszTmp), ".dat");	// 0: *.dat
-			free(pszTmp);
-			pszTmp = NULL;
-		}
-	}
-
-	if (0 == nDat)
-	{
-		memset(szRomdataName, 0, MAX_PATH);
-		strcpy(szRomdataName, info->path);					// romdata_dir/romdata.dat
-
-		strcpy(szDatDir, info->path);
-
-		if (NULL != (pszTmp = RomdataGetDrvName()))			// romdata
-		{
-			nRet = 1;
-			strcpy(szRomset, pszTmp);						// romset of romdata
-		}
-		else												// ips
-		{
-			nRet = 2;
-			memset(szRomdataName, 0, sizeof(szRomdataName));
-			memset(szAppIpsPath,  0, sizeof(szAppIpsPath));
-			strcpy(szAppIpsPath,  info->path);				// ips_dir/drvname_dir/ips.dat
-		}
-
-		for (INT32 i = 0; i < nRet; i++)
-		{
-			pszTmp = find_last_slash(szDatDir);
-
-			if (NULL != pszTmp)
-				pszTmp[0] = '\0';							// romdata_dir || ips_dir
-
-			if (1 == i)
-				strcpy(szRomset, ++pszTmp);					// romset of ips
-		}
-
-		snprintf(szRomsetPath, MAX_PATH - 1, "%s%c%s", szDatDir, PATH_DEFAULT_SLASH_C(), szRomset);
-	}
-	else
-	{
-		strcpy(szRomsetPath, info->path);
-		extract_basename(szRomset, info->path, sizeof(szRomset), "");
-
-		// Not found in the list of games
-		// Probably the set of romdata
-		if (~0U == BurnDrvGetIndexByName(szRomset))
-		{
-			const char* dir = NULL;
-			char szSysDir[MAX_PATH] = { 0 };
-
-			extract_directory(szDatDir, info->path, sizeof(szDatDir));
-			memset(szRomdataName, 0, MAX_PATH);
-			snprintf(szRomdataName, MAX_PATH - 1, "%s%c%s.dat", szDatDir, PATH_DEFAULT_SLASH_C(), szRomset);
-
-			if (NULL != (pszTmp = RomdataGetDrvName()))
-				nRet = 1;
-			else
-			{
-				if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir) && dir)
-				{
-					memcpy(szSysDir, dir, sizeof(szSysDir));
-					memset(szRomdataName, 0, MAX_PATH);
-					snprintf(szRomdataName, MAX_PATH - 1, "%s%cfbneo%cromdata%c%s.dat", szSysDir, PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C(), PATH_DEFAULT_SLASH_C(), szRomset);
-
-					if (NULL != (pszTmp = RomdataGetDrvName()))
-						nRet = 1;
-				}
-			}
-		}
-	}
-
-	return nRet;
 }
 
 bool retro_load_game(const struct retro_game_info *info)
 {
 	if (!info)
 		return false;
-
-	INT32 nMode = retro_dat_romset_path(info);
-
-	switch (nMode)
-	{
-		case 1:
-			RomDataInit();
-			break;
-
-		case 2:
-			IpsPatchInit();
-			break;
-
-		default:
-			break;
-	}
-
-	extract_basename(g_driver_name, szRomsetPath, sizeof(g_driver_name), "");
-	extract_directory(g_rom_dir, szRomsetPath, sizeof(g_rom_dir));
+	
+	extract_basename(g_driver_name, info->path, sizeof(g_driver_name), "");
+	extract_directory(g_rom_dir, info->path, sizeof(g_rom_dir));
 	extract_basename(g_rom_parent_dir, g_rom_dir, sizeof(g_rom_parent_dir),"");
 	char * prefix="";
 	if(strcmp(g_rom_parent_dir, "coleco")==0 || strcmp(g_rom_parent_dir, "colecovision")==0) {
@@ -2383,10 +2043,6 @@ bool retro_load_game(const struct retro_game_info *info)
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem fds identified from parent folder\n");
 		if (strncmp(g_driver_name, "fds_", 4) != 0) prefix = "fds_";
 	}
-	if(strcmp(g_rom_parent_dir, "snes")==0) {
-		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem snes identified from parent folder\n");
-		if (strncmp(g_driver_name, "snes_", 4) != 0) prefix = "snes_";
-	}
 	if(strcmp(g_rom_parent_dir, "ngp")==0) {
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem ngp identified from parent folder\n");
 		if (strncmp(g_driver_name, "ngp_", 4) != 0) prefix = "ngp_";
@@ -2399,10 +2055,10 @@ bool retro_load_game(const struct retro_game_info *info)
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem neocd identified from parent folder\n");
 		prefix = "";
 		nGameType = RETRO_GAME_TYPE_NEOCD;
-		strcpy(CDEmuImage, szRomsetPath);
+		strcpy(CDEmuImage, info->path);
 		extract_basename(g_driver_name, "neocdz", sizeof(g_driver_name), prefix);
 	} else {
-		extract_basename(g_driver_name, szRomsetPath, sizeof(g_driver_name), prefix);
+		extract_basename(g_driver_name, info->path, sizeof(g_driver_name), prefix);
 	}
 
 	return retro_load_game_common();
@@ -2453,9 +2109,6 @@ bool retro_load_game_special(unsigned game_type, const struct retro_game_info *i
 		case RETRO_GAME_TYPE_FDS:
 			prefix = "fds_";
 			break;
-		case RETRO_GAME_TYPE_SNES:
-			prefix = "snes_";
-			break;
 		case RETRO_GAME_TYPE_NGP:
 			prefix = "ngp_";
 			break;
@@ -2487,42 +2140,6 @@ void retro_unload_game(void)
 		if (bIsNeogeoCartGame && nMemcardMode != 0) {
 			// Force newer format if the file doesn't exist yet
 			if(!filestream_exists(szMemoryCardFile))
-				bMemCardFC1Format = true;
-			MemCardEject();
-		}
-		// Saving minimal savestate (handle some machine settings)
-		if (BurnNvramSave(g_autofs_path) == 0 && path_is_valid(g_autofs_path))
-			HandleMessage(RETRO_LOG_INFO, "[FBNeo] EEPROM succesfully saved to %s\n", g_autofs_path);
-		BurnDrvExit();
-		if (nGameType == RETRO_GAME_TYPE_NEOCD)
-			CDEmuExit();
-		nBurnDrvActive = ~0U;
-	}
-	if (pVidImage) {
-		free(pVidImage);
-		pVidImage = NULL;
-	}
-	if (pAudBuffer) {
-		free(pAudBuffer);
-		pAudBuffer = NULL;
-	}
-	if (pRomFind) {
-		free(pRomFind);
-		pRomFind = NULL;
-	}
-	InputExit();
-	CheevosExit();
-	RomDataExit();
-	IpsPatchExit();
-}
-
-static void retro_incomplete_exit()
-{
-	if (nBurnDrvActive != ~0U)
-	{
-		if (bIsNeogeoCartGame && nMemcardMode != 0) {
-			// Force newer format if the file doesn't exist yet
-			if (!filestream_exists(szMemoryCardFile))
 				bMemCardFC1Format = true;
 			MemCardEject();
 		}
@@ -2948,5 +2565,3 @@ char* GameDecoration(UINT32 nBurnDrv)
 	nBurnDrvActive = nOldBurnDrv;
 	return szGameDecoration;
 }
-
-#undef TYPES_MAX

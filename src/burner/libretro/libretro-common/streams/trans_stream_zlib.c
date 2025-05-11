@@ -30,8 +30,7 @@
 struct zlib_trans_stream
 {
    z_stream z;
-   int window_bits;
-   int level;
+   int ex; /* window_bits or level */
    bool inited;
 };
 
@@ -42,8 +41,7 @@ static void *zlib_deflate_stream_new(void)
    if (!ret)
       return NULL;
    ret->inited      = false;
-   ret->level       = 9;
-   ret->window_bits = 15;
+   ret->ex          = 9;
 
    ret->z.next_in   = NULL;
    ret->z.avail_in  = 0;
@@ -72,7 +70,7 @@ static void *zlib_inflate_stream_new(void)
    if (!ret)
       return NULL;
    ret->inited      = false;
-   ret->window_bits = MAX_WBITS;
+   ret->ex          = MAX_WBITS;
 
    ret->z.next_in   = NULL;
    ret->z.avail_in  = 0;
@@ -117,29 +115,23 @@ static void zlib_inflate_stream_free(void *data)
 
 static bool zlib_deflate_define(void *data, const char *prop, uint32_t val)
 {
-   struct zlib_trans_stream *z = (struct zlib_trans_stream*)data;
-   if (!data)
-      return false;
-
+   struct zlib_trans_stream *z = (struct zlib_trans_stream *) data;
    if (string_is_equal(prop, "level"))
-      z->level = (int) val;
-   else if (string_is_equal(prop, "window_bits"))
-      z->window_bits = (int) val;
-   else
-      return false;
-
-   return true;
+   {
+      if (z)
+         z->ex = (int) val;
+      return true;
+   }
+   return false;
 }
 
 static bool zlib_inflate_define(void *data, const char *prop, uint32_t val)
 {
-   struct zlib_trans_stream *z = (struct zlib_trans_stream*)data;
-   if (!data)
-      return false;
-
+   struct zlib_trans_stream *z = (struct zlib_trans_stream *) data;
    if (string_is_equal(prop, "window_bits"))
    {
-      z->window_bits = (int) val;
+      if (z)
+         z->ex = (int) val;
       return true;
    }
    return false;
@@ -157,7 +149,7 @@ static void zlib_deflate_set_in(void *data, const uint8_t *in, uint32_t in_size)
 
    if (!z->inited)
    {
-      deflateInit2(&z->z, z->level, Z_DEFLATED , z->window_bits, 8,  Z_DEFAULT_STRATEGY );
+      deflateInit(&z->z, z->ex);
       z->inited = true;
    }
 }
@@ -173,7 +165,7 @@ static void zlib_inflate_set_in(void *data, const uint8_t *in, uint32_t in_size)
    z->z.avail_in               = in_size;
    if (!z->inited)
    {
-      inflateInit2(&z->z, z->window_bits);
+      inflateInit2(&z->z, z->ex);
       z->inited = true;
    }
 }
@@ -203,7 +195,7 @@ static bool zlib_deflate_trans(
 
    if (!zt->inited)
    {
-      deflateInit2(z, zt->level, Z_DEFLATED , zt->window_bits, 8,  Z_DEFAULT_STRATEGY );
+      deflateInit(z, zt->ex);
       zt->inited = true;
    }
 
@@ -266,7 +258,7 @@ static bool zlib_inflate_trans(
 
    if (!zt->inited)
    {
-      inflateInit2(z, zt->window_bits);
+      inflateInit2(z, zt->ex);
       zt->inited = true;
    }
 

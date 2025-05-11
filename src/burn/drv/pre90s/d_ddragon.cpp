@@ -508,8 +508,8 @@ static INT32 MemIndex()
 
 // sub(sprite) cpu could be one of 4 cpu-types
 // for ease - we'll access all of them via the cpu registry in the cheat engine.
-static cheat_core *cheat_ptr = NULL;
-static cpu_core_config *cheat_subptr = NULL;
+static cheat_core *cheat_ptr;
+static cpu_core_config *cheat_subptr;
 
 static void subInit()
 {
@@ -559,10 +559,7 @@ static void subReset()
 
 static void subExit()
 {
-	if (cheat_subptr) cheat_subptr->exit();
-
-	cheat_ptr = NULL;
-	cheat_subptr = NULL;
+	cheat_subptr->exit();
 }
 
 static INT32 subScan(INT32 nAction)
@@ -1617,110 +1614,6 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 }
 
 static struct BurnRomInfo ddragonRomDesc[] = {
-	{ "21j-1.26",      	0x08000, 0xae714964, 1 | BRF_ESS | BRF_PRG }, //  0	HD6309 Program Code
-	{ "21j-2-3.25",    	0x08000, 0x5779705e, 1 | BRF_ESS | BRF_PRG }, //  1
-	{ "21a-3.24",      	0x08000, 0xdbf24897, 1 | BRF_ESS | BRF_PRG }, //  2
-	{ "21j-4.23",      	0x08000, 0x6c9f46fa, 1 | BRF_ESS | BRF_PRG }, //  3
-
-	{ "21jm-0.ic55",   	0x04000, 0xf5232d03, 2 | BRF_ESS | BRF_PRG }, //  4	HD63701 Program Code
-
-	{ "21j-0-1",       	0x08000, 0x9efa95bb, 3 | BRF_ESS | BRF_PRG }, //  5	M6809 Program Code
-
-	{ "21j-5",         	0x08000, 0x7a8b8db4, 1 | BRF_GRA },	     	  //  6	Characters
-
-	{ "21j-a",         	0x10000, 0x574face3, 2 | BRF_GRA },	     	  //  7	Sprites
-	{ "21j-b",         	0x10000, 0x40507a76, 2 | BRF_GRA },	     	  //  8
-	{ "21j-c",         	0x10000, 0xbb0bc76f, 2 | BRF_GRA },	     	  //  9
-	{ "21j-d",         	0x10000, 0xcb4f231b, 2 | BRF_GRA },	     	  // 10
-	{ "21j-e",         	0x10000, 0xa0a0c261, 2 | BRF_GRA },	     	  // 11
-	{ "21j-f",         	0x10000, 0x6ba152f6, 2 | BRF_GRA },	     	  // 12
-	{ "21j-g",         	0x10000, 0x3220a0b6, 2 | BRF_GRA },	     	  // 13
-	{ "21j-h",         	0x10000, 0x65c7517d, 2 | BRF_GRA },	     	  // 14
-
-	{ "21j-8",         	0x10000, 0x7c435887, 3 | BRF_GRA },	     	  // 15	Tiles
-	{ "21j-9",         	0x10000, 0xc6640aed, 3 | BRF_GRA },	     	  // 16
-	{ "21j-i",         	0x10000, 0x5effb0a0, 3 | BRF_GRA },	     	  // 17
-	{ "21j-j",         	0x10000, 0x5fb42e7c, 3 | BRF_GRA },	     	  // 18
-
-	{ "21j-6",         	0x10000, 0x34755de3, 1 | BRF_SND },	     	  // 19	Samples
-	{ "21j-7",         	0x10000, 0x904de6f8, 2 | BRF_SND },	     	  // 20
-
-	{ "21j-k-0.101",   	0x00100, 0xfdb130a9, 8 | BRF_OPT },	     	  // 21	PROMs
-	{ "21j-l-0.16",    	0x00200, 0x46339529, 8 | BRF_OPT },	     	  // 22
-};
-
-STD_ROM_PICK(ddragon)
-STD_ROM_FN(ddragon)
-
-static INT32 DdragonInit()
-{
-	subcpu_type = CPU_HD63701;
-	soundcpu_type = CPU_M6809;
-	is_game = DDRAGON;
-
-	if (RomLoader(1)) return 1;
-	if (DdragonCommonInit()) return 1;
-
-	return 0;
-}
-
-struct BurnDriver BurnDrvDdragon = {
-	"ddragon", NULL, NULL, NULL, "1987",
-	"Double Dragon (World set 1)\0", NULL, "Technos Japan (Taito license)", "Miscellaneous",
-	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
-	NULL, ddragonRomInfo, ddragonRomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
-	DdragonInit, DrvExit, DrvFrame, DrvDraw, DrvScan, NULL, 0x180,
-	256, 240, 4, 3
-};
-
-static struct BurnRomInfo ddragonaRomDesc[] = {
-	{ "e1-1.26",       	0x08000, 0x4b951643, 1 | BRF_ESS | BRF_PRG }, //  0	HD6309 Program Code
-	{ "21a-2-4.25",    	0x08000, 0x5cd67657, 1 | BRF_ESS | BRF_PRG }, //  1
-	{ "21a-3.24",      	0x08000, 0xdbf24897, 1 | BRF_ESS | BRF_PRG }, //  2
-	{ "e4-1.23",       	0x08000, 0xb1e26935, 1 | BRF_ESS | BRF_PRG }, //  3
-
-	{ "21jm-0.ic55",   	0x04000, 0xf5232d03, 2 | BRF_ESS | BRF_PRG }, //  4	HD63701 Program Code
-
-	{ "21j-0-1",       	0x08000, 0x9efa95bb, 3 | BRF_ESS | BRF_PRG }, //  5	M6809 Program Code
-
-	{ "21j-5",         	0x08000, 0x7a8b8db4, 1 | BRF_GRA },	     	  //  6	Characters
-
-	{ "21j-a",         	0x10000, 0x574face3, 2 | BRF_GRA },	     	  //  7	Sprites
-	{ "21j-b",         	0x10000, 0x40507a76, 2 | BRF_GRA },	     	  //  8
-	{ "21j-c",         	0x10000, 0xbb0bc76f, 2 | BRF_GRA },	     	  //  9
-	{ "21j-d",         	0x10000, 0xcb4f231b, 2 | BRF_GRA },	     	  // 10
-	{ "21j-e",         	0x10000, 0xa0a0c261, 2 | BRF_GRA },	     	  // 11
-	{ "21j-f",         	0x10000, 0x6ba152f6, 2 | BRF_GRA },	     	  // 12
-	{ "21j-g",         	0x10000, 0x3220a0b6, 2 | BRF_GRA },	     	  // 13
-	{ "21j-h",         	0x10000, 0x65c7517d, 2 | BRF_GRA },	     	  // 14
-
-	{ "21j-8",         	0x10000, 0x7c435887, 3 | BRF_GRA },	     	  // 15	Tiles
-	{ "21j-9",         	0x10000, 0xc6640aed, 3 | BRF_GRA },	     	  // 16
-	{ "21j-i",         	0x10000, 0x5effb0a0, 3 | BRF_GRA },	     	  // 17
-	{ "21j-j",         	0x10000, 0x5fb42e7c, 3 | BRF_GRA },	     	  // 18
-
-	{ "21j-6",         	0x10000, 0x34755de3, 1 | BRF_SND },	     	  // 19	Samples
-	{ "21j-7",         	0x10000, 0x904de6f8, 2 | BRF_SND },	     	  // 20
-
-	{ "21j-k-0.101",   	0x00100, 0xfdb130a9, 8 | BRF_OPT },	     	  // 21	PROMs
-	{ "21j-l-0.16",    	0x00200, 0x46339529, 8 | BRF_OPT },	     	  // 22
-};
-
-STD_ROM_PICK(ddragona)
-STD_ROM_FN(ddragona)
-
-struct BurnDriver BurnDrvDdragona = {
-	"ddragona", "ddragon", NULL, NULL, "1987",
-	"Double Dragon (World set 2)\0", NULL, "Technos Japan (Taito license)", "Miscellaneous",
-	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
-	NULL, ddragonaRomInfo, ddragonaRomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
-	DdragonInit, DrvExit, DrvFrame, DrvDraw, DrvScan, NULL, 0x180,
-	256, 240, 4, 3
-};
-
-static struct BurnRomInfo ddragonjRomDesc[] = {
 	{ "21j-1-5.26",    	0x08000, 0x42045dfd, 1 | BRF_ESS | BRF_PRG }, //  0	HD6309 Program Code
 	{ "21j-2-3.25",    	0x08000, 0x5779705e, 1 | BRF_ESS | BRF_PRG }, //  1
 	{ "21j-3.24",      	0x08000, 0x3bdea613, 1 | BRF_ESS | BRF_PRG }, //  2
@@ -1753,24 +1646,36 @@ static struct BurnRomInfo ddragonjRomDesc[] = {
 	{ "21j-l-0",       	0x00200, 0x46339529, 8 | BRF_OPT },	     	  // 22
 };
 
-STD_ROM_PICK(ddragonj)
-STD_ROM_FN(ddragonj)
+STD_ROM_PICK(ddragon)
+STD_ROM_FN(ddragon)
 
-struct BurnDriver BurnDrvDdragonj = {
-	"ddragonj", "ddragon", NULL, NULL, "1987",
-	"Double Dragon (Japan set 1)\0", NULL, "Technos Japan", "Miscellaneous",
+static INT32 DdragonInit()
+{
+	subcpu_type = CPU_HD63701;
+	soundcpu_type = CPU_M6809;
+	is_game = DDRAGON;
+
+	if (RomLoader(1)) return 1;
+	if (DdragonCommonInit()) return 1;
+
+	return 0;
+}
+
+struct BurnDriver BurnDrvDdragon = {
+	"ddragon", NULL, NULL, NULL, "1987",
+	"Double Dragon (Japan)\0", NULL, "Technos Japan", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
-	NULL, ddragonjRomInfo, ddragonjRomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
+	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
+	NULL, ddragonRomInfo, ddragonRomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
 	DdragonInit, DrvExit, DrvFrame, DrvDraw, DrvScan, NULL, 0x180,
 	256, 240, 4, 3
 };
 
-static struct BurnRomInfo ddragonjaRomDesc[] = {
-	{ "21j-1-8.26",    	0x08000, 0x54c1ef98, 1 | BRF_ESS | BRF_PRG }, //  0	HD6309 Program Code - BAD DUMP
-	{ "21j-2-4.25",    	0x08000, 0x5cd67657, 1 | BRF_ESS | BRF_PRG }, //  1
-	{ "21j-3.24",      	0x08000, 0x3bdea613, 1 | BRF_ESS | BRF_PRG }, //  2
-	{ "21j-4-2.23",    	0x08000, 0x6312767d, 1 | BRF_ESS | BRF_PRG }, //  3
+static struct BurnRomInfo ddragonwRomDesc[] = {
+	{ "21j-1.26",      	0x08000, 0xae714964, 1 | BRF_ESS | BRF_PRG }, //  0	HD6309 Program Code
+	{ "21j-2-3.25",    	0x08000, 0x5779705e, 1 | BRF_ESS | BRF_PRG }, //  1
+	{ "21a-3.24",      	0x08000, 0xdbf24897, 1 | BRF_ESS | BRF_PRG }, //  2
+	{ "21j-4.23",      	0x08000, 0x6c9f46fa, 1 | BRF_ESS | BRF_PRG }, //  3
 
 	{ "21jm-0.ic55",   	0x04000, 0xf5232d03, 2 | BRF_ESS | BRF_PRG }, //  4	HD63701 Program Code
 
@@ -1795,19 +1700,65 @@ static struct BurnRomInfo ddragonjaRomDesc[] = {
 	{ "21j-6",         	0x10000, 0x34755de3, 1 | BRF_SND },	     	  // 19	Samples
 	{ "21j-7",         	0x10000, 0x904de6f8, 2 | BRF_SND },	     	  // 20
 
-	{ "21j-k-0",       	0x00100, 0xfdb130a9, 8 | BRF_OPT },	     	  // 21	PROMs
-	{ "21j-l-0",       	0x00200, 0x46339529, 8 | BRF_OPT },	     	  // 22
+	{ "21j-k-0.101",   	0x00100, 0xfdb130a9, 8 | BRF_OPT },	     	  // 21	PROMs
+	{ "21j-l-0.16",    	0x00200, 0x46339529, 8 | BRF_OPT },	     	  // 22
 };
 
-STD_ROM_PICK(ddragonja)
-STD_ROM_FN(ddragonja)
+STD_ROM_PICK(ddragonw)
+STD_ROM_FN(ddragonw)
 
-struct BurnDriver BurnDrvDdragonja = {
-	"ddragonja", "ddragon", NULL, NULL, "1987",
-	"Double Dragon (Japan set 2)\0", NULL, "Technos Japan", "Miscellaneous",
+struct BurnDriver BurnDrvDdragonw = {
+	"ddragonw", "ddragon", NULL, NULL, "1987",
+	"Double Dragon (World set 1)\0", NULL, "Technos Japan (Taito license)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
-	NULL, ddragonjaRomInfo, ddragonjaRomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
+	NULL, ddragonwRomInfo, ddragonwRomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
+	DdragonInit, DrvExit, DrvFrame, DrvDraw, DrvScan, NULL, 0x180,
+	256, 240, 4, 3
+};
+
+static struct BurnRomInfo ddragonw1RomDesc[] = {
+	{ "e1-1.26",       	0x08000, 0x4b951643, 1 | BRF_ESS | BRF_PRG }, //  0	HD6309 Program Code
+	{ "21a-2-4.25",    	0x08000, 0x5cd67657, 1 | BRF_ESS | BRF_PRG }, //  1
+	{ "21a-3.24",      	0x08000, 0xdbf24897, 1 | BRF_ESS | BRF_PRG }, //  2
+	{ "e4-1.23",       	0x08000, 0xb1e26935, 1 | BRF_ESS | BRF_PRG }, //  3
+
+	{ "21jm-0.ic55",   	0x04000, 0xf5232d03, 2 | BRF_ESS | BRF_PRG }, //  4	HD63701 Program Code
+
+	{ "21j-0-1",       	0x08000, 0x9efa95bb, 3 | BRF_ESS | BRF_PRG }, //  5	M6809 Program Code
+
+	{ "21j-5",         	0x08000, 0x7a8b8db4, 1 | BRF_GRA },	     	  //  6	Characters
+
+	{ "21j-a",         	0x10000, 0x574face3, 2 | BRF_GRA },	     	  //  7	Sprites
+	{ "21j-b",         	0x10000, 0x40507a76, 2 | BRF_GRA },	     	  //  8
+	{ "21j-c",         	0x10000, 0xbb0bc76f, 2 | BRF_GRA },	     	  //  9
+	{ "21j-d",         	0x10000, 0xcb4f231b, 2 | BRF_GRA },	     	  // 10
+	{ "21j-e",         	0x10000, 0xa0a0c261, 2 | BRF_GRA },	     	  // 11
+	{ "21j-f",         	0x10000, 0x6ba152f6, 2 | BRF_GRA },	     	  // 12
+	{ "21j-g",         	0x10000, 0x3220a0b6, 2 | BRF_GRA },	     	  // 13
+	{ "21j-h",         	0x10000, 0x65c7517d, 2 | BRF_GRA },	     	  // 14
+
+	{ "21j-8",         	0x10000, 0x7c435887, 3 | BRF_GRA },	     	  // 15	Tiles
+	{ "21j-9",         	0x10000, 0xc6640aed, 3 | BRF_GRA },	     	  // 16
+	{ "21j-i",         	0x10000, 0x5effb0a0, 3 | BRF_GRA },	     	  // 17
+	{ "21j-j",         	0x10000, 0x5fb42e7c, 3 | BRF_GRA },	     	  // 18
+
+	{ "21j-6",         	0x10000, 0x34755de3, 1 | BRF_SND },	     	  // 19	Samples
+	{ "21j-7",         	0x10000, 0x904de6f8, 2 | BRF_SND },	     	  // 20
+
+	{ "21j-k-0.101",   	0x00100, 0xfdb130a9, 8 | BRF_OPT },	     	  // 21	PROMs
+	{ "21j-l-0.16",    	0x00200, 0x46339529, 8 | BRF_OPT },	     	  // 22
+};
+
+STD_ROM_PICK(ddragonw1)
+STD_ROM_FN(ddragonw1)
+
+struct BurnDriver BurnDrvDdragnw1 = {
+	"ddragonw1", "ddragon", NULL, NULL, "1987",
+	"Double Dragon (World set 2)\0", NULL, "Technos Japan (Taito license)", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
+	NULL, ddragonw1RomInfo, ddragonw1RomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
 	DdragonInit, DrvExit, DrvFrame, DrvDraw, DrvScan, NULL, 0x180,
 	256, 240, 4, 3
 };
@@ -1950,7 +1901,7 @@ struct BurnDriver BurnDrvDdragonub = {
 	256, 240, 4, 3
 };
 
-static struct BurnRomInfo ddragonbl2RomDesc[] = {
+static struct BurnRomInfo ddragonb2RomDesc[] = {
 	{ "b2_4.bin",      	0x08000, 0x668dfa19, 1 | BRF_ESS | BRF_PRG }, //  0	HD6309 Program Code
 	{ "b2_5.bin",      	0x08000, 0x5779705e, 1 | BRF_ESS | BRF_PRG }, //  1
 	{ "b2_6.bin",      	0x08000, 0x3bdea613, 1 | BRF_ESS | BRF_PRG }, //  2
@@ -1983,20 +1934,20 @@ static struct BurnRomInfo ddragonbl2RomDesc[] = {
 	{ "21j-l-0.16",    	0x00200, 0x46339529, 8 | BRF_OPT },	     	  // 22
 };
 
-STD_ROM_PICK(ddragonbl2)
-STD_ROM_FN(ddragonbl2)
+STD_ROM_PICK(ddragonb2)
+STD_ROM_FN(ddragonb2)
 
-struct BurnDriver BurnDrvDdragobl2 = {
-	"ddragonbl2", "ddragon", NULL, NULL, "1987",
+struct BurnDriver BurnDrvDdragob2 = {
+	"ddragonb2", "ddragon", NULL, NULL, "1987",
 	"Double Dragon (bootleg)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
-	NULL, ddragonbl2RomInfo, ddragonbl2RomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
+	NULL, ddragonb2RomInfo, ddragonb2RomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
 	DdragonInit, DrvExit, DrvFrame, DrvDraw, DrvScan, NULL, 0x180,
 	256, 240, 4, 3
 };
 
-static struct BurnRomInfo ddragonblRomDesc[] = {
+static struct BurnRomInfo ddragonbRomDesc[] = {
 	{ "21j-1.26",      	0x08000, 0xae714964, 1 | BRF_ESS | BRF_PRG }, //  0	HD6309 Program Code
 	{ "21j-2-3.25",    	0x08000, 0x5779705e, 1 | BRF_ESS | BRF_PRG }, //  1
 	{ "21a-3.24",      	0x08000, 0xdbf24897, 1 | BRF_ESS | BRF_PRG }, //  2
@@ -2029,10 +1980,10 @@ static struct BurnRomInfo ddragonblRomDesc[] = {
 	{ "21j-l-0.16",    	0x00200, 0x46339529, 8 | BRF_OPT },	     	  // 22
 };
 
-STD_ROM_PICK(ddragonbl)
-STD_ROM_FN(ddragonbl)
+STD_ROM_PICK(ddragonb)
+STD_ROM_FN(ddragonb)
 
-static INT32 ddragonblInit()
+static INT32 DdragonbInit()
 {
 	subcpu_type = CPU_HD6309;
 	soundcpu_type = CPU_M6809;
@@ -2044,17 +1995,17 @@ static INT32 ddragonblInit()
 	return 0;
 }
 
-struct BurnDriver BurnDrvDdragonbl = {
-	"ddragonbl", "ddragon", NULL, NULL, "1987",
+struct BurnDriver BurnDrvDdragonb = {
+	"ddragonb", "ddragon", NULL, NULL, "1987",
 	"Double Dragon (bootleg with HD6309)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
-	NULL, ddragonblRomInfo, ddragonblRomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
-	ddragonblInit, DrvExit, DrvFrame, DrvDraw, DrvScan, NULL, 0x180,
+	NULL, ddragonbRomInfo, ddragonbRomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
+	DdragonbInit, DrvExit, DrvFrame, DrvDraw, DrvScan, NULL, 0x180,
 	256, 240, 4, 3
 };
 
-static struct BurnRomInfo ddragonblaRomDesc[] = {
+static struct BurnRomInfo ddragonbaRomDesc[] = {
 	{ "5.bin",         	0x08000, 0xae714964, 1 | BRF_ESS | BRF_PRG }, //  0	HD6309 Program Code
 	{ "4.bin",         	0x10000, 0x48045762, 1 | BRF_ESS | BRF_PRG }, //  1
 	{ "3.bin",         	0x08000, 0xdbf24897, 1 | BRF_ESS | BRF_PRG }, //  2
@@ -2086,10 +2037,10 @@ static struct BurnRomInfo ddragonblaRomDesc[] = {
 	{ "21j-l-0.16",    	0x00200, 0x46339529, 8 | BRF_OPT },	     	  // 21
 };
 
-STD_ROM_PICK(ddragonbla)
-STD_ROM_FN(ddragonbla)
+STD_ROM_PICK(ddragonba)
+STD_ROM_FN(ddragonba)
 
-static INT32 DdragonblaInit()
+static INT32 DdragonbaInit()
 {
 	subcpu_type = CPU_M6803;
 	soundcpu_type = CPU_M6809;
@@ -2102,13 +2053,13 @@ static INT32 DdragonblaInit()
 	return 0;
 }
 
-struct BurnDriver BurnDrvDdragnbla = {
-	"ddragonbla", "ddragon", NULL, NULL, "1987",
+struct BurnDriver BurnDrvDdragnba = {
+	"ddragonba", "ddragon", NULL, NULL, "1987",
 	"Double Dragon (bootleg with MC6803)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
-	NULL, ddragonblaRomInfo, ddragonblaRomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
-	DdragonblaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, NULL, 0x180,
+	NULL, ddragonbaRomInfo, ddragonbaRomName, NULL, NULL, NULL, NULL, DdragonInputInfo, DdragonDIPInfo,
+	DdragonbaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, NULL, 0x180,
 	256, 240, 4, 3
 };
 
@@ -2238,7 +2189,7 @@ struct BurnDriver BurnDrvDdragon2u = {
 	256, 240, 4, 3
 };
 
-static struct BurnRomInfo ddragon2blRomDesc[] = {
+static struct BurnRomInfo ddragon2bRomDesc[] = {
 	{ "3",    		   	0x08000, 0x5cc38bad, 1 | BRF_ESS | BRF_PRG }, //  0	HD6309 Program Code
 	{ "4",    		   	0x08000, 0x78750947, 1 | BRF_ESS | BRF_PRG }, //  1
 	{ "5",    		   	0x08000, 0x49ddddcd, 1 | BRF_ESS | BRF_PRG }, //  2
@@ -2277,15 +2228,15 @@ static struct BurnRomInfo ddragon2blRomDesc[] = {
 	{ "prom.16",       	0x00200, 0x46339529, 8 | BRF_OPT },	     	  // 28
 };
 
-STD_ROM_PICK(ddragon2bl)
-STD_ROM_FN(ddragon2bl)
+STD_ROM_PICK(ddragon2b)
+STD_ROM_FN(ddragon2b)
 
-struct BurnDriver BurnDrvDdragon2bl = {
-	"ddragon2bl", "ddragon2", NULL, NULL, "1988",
+struct BurnDriver BurnDrvDdragon2b = {
+	"ddragon2b", "ddragon2", NULL, NULL, "1988",
 	"Double Dragon II: The Revenge (US, bootleg, set 1)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
-	NULL, ddragon2blRomInfo, ddragon2blRomName, NULL, NULL, NULL, NULL, DdragonInputInfo, Ddragon2DIPInfo,
+	NULL, ddragon2bRomInfo, ddragon2bRomName, NULL, NULL, NULL, NULL, DdragonInputInfo, Ddragon2DIPInfo,
 	Ddragon2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, NULL, 0x180,
 	256, 240, 4, 3
 };

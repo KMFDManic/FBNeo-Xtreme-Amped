@@ -47,7 +47,6 @@ bool bAlwaysCreateSupportFolders = true;
 bool bAutoLoadGameList = false;
 
 bool bQuietLoading = false;
-bool bNoPopups = false;
 
 bool bShonkyProfileMode = false;
 
@@ -737,15 +736,6 @@ static int AppInit()
 	OpenDebugLog();
 #endif
 
-#if defined BUILD_X64_EXE
-	if (nVidSelect == 1) {
-		// if "d3d7 / enhanced blitter" is set & running 64bit build,
-		// fall back to "basic blitter".  (d3d7 has no 64bit mode!)
-		nVidSelect = 0;
-		bprintf(0, _T("*** D3D7 / Enhanced Blitter set w/64bit build - falling back to basic blitter.\n"));
-	}
-#endif
-
 	FBALocaliseInit(szLocalisationTemplate);
 	BurnerDoGameListLocalisation();
 
@@ -804,21 +794,27 @@ static int AppInit()
 
 	bNumlockStatus = SetNumLock(false);
 
-	CreateDrvIconsCache();
+	if(bEnableIcons && !bIconsLoaded) {
+		// load driver icons
+		LoadDrvIcons();
+		bIconsLoaded = 1;
+	}
 
 	return 0;
 }
 
 static int AppExit()
 {
-	UnloadDrvIcons();
-	DestroyDrvIconsCache();
+	if(bIconsLoaded) {
+		// unload driver icons
+		UnloadDrvIcons();
+		bIconsLoaded = 0;
+	}
 
 	SetNumLock(bNumlockStatus);
 
 	DrvExit();						// Make sure any game driver is exitted
 	FreeROMInfo();
-	DestroySubDir();
 	MediaExit();
 	BurnLibExit();					// Exit the Burn library
 
@@ -877,29 +873,6 @@ bool AppProcessKeyboardInput()
 	return true;
 }
 
-void make_sha1_database(bool snes)
-{
-	UINT32 nGameSelect = 0;
-
-	bNoPopups = true;
-
-	for (nGameSelect = 0; nGameSelect < nBurnDrvCount; nGameSelect++) {
-
-		#define HW_NES ( ((BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK) == HARDWARE_NES)  )
-		#define HW_SNES ( ((BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK) == HARDWARE_SNES)  )
-
-		nBurnDrvActive=nGameSelect;
-
-		if ((!snes && HW_NES) || (snes && HW_SNES)) {
-			bprintf(0, _T("generating for %S\n"), BurnDrvGetTextA(DRV_NAME));
-			DrvInit(nGameSelect, true);
-			DrvExit();
-		}
-	}
-
-	return;
-}
-
 int ProcessCmdLine()
 {
 	unsigned int i;
@@ -932,16 +905,6 @@ int ProcessCmdLine()
 	}
 
 	if (_tcslen(szName)) {
-		if (_tcscmp(szName, _T("-nessha1")) == 0) {
-			make_sha1_database(0);
-			return 1;
-		}
-
-		if (_tcscmp(szName, _T("-snessha1")) == 0) {
-			make_sha1_database(1);
-			return 1;
-		}
-
 		if (_tcscmp(szName, _T("-listinfo")) == 0 ||
 			_tcscmp(szName, _T("-listxml")) == 0) {
 			write_datfile(DAT_ARCADE_ONLY, stdout);
@@ -1010,11 +973,6 @@ int ProcessCmdLine()
 
 		if (_tcscmp(szName, _T("-listinfofdsonly")) == 0) {
 			write_datfile(DAT_FDS_ONLY, stdout);
-			return 1;
-		}
-
-		if (_tcscmp(szName, _T("-listinfosnesonly")) == 0) {
-			write_datfile(DAT_SNES_ONLY, stdout);
 			return 1;
 		}
 
@@ -1109,7 +1067,7 @@ int ProcessCmdLine()
 				TCHAR* szDatName = _tcstok(szPoint, _T("\""));
 
 				memset(szRomdataName, '\0', sizeof(szRomdataName));
-				_stprintf(szRomdataName, _T("%s%s%s"), szAppRomdataPath, szDatName, _T(".dat"));
+				_stprintf(szRomdataName, _T("%s%s%s"), _T(".\\config\\romdata\\"), szDatName, _T(".dat"));
 
 				szDatName = NULL;
 				szPoint = NULL;
@@ -1263,7 +1221,6 @@ static void CreateSupportFolders()
 		{_T("support/samples/")},
 		{_T("support/hdd/")},
 		{_T("support/ips/")},
-		{_T("support/romdata/")},
 		{_T("support/neocdz/")},
 		{_T("support/blend/")},
 		{_T("support/select/")},
@@ -1294,7 +1251,6 @@ static void CreateSupportFolders()
 		{_T("roms/spectrum/")},
 		{_T("roms/nes/")},
 		{_T("roms/fds/")},
-		{_T("roms/snes/")},
 		{_T("roms/ngp/")},
 		{_T("roms/channelf/")},
 		{_T("roms/romdata/")},
@@ -1343,7 +1299,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nShowCmd
 		{_T("config/ips")},
 		{_T("config/localisation")},
 		{_T("config/presets")},
-//		{_T("config/romdata")},
+		{_T("config/romdata")},
 		{_T("recordings")},
 		{_T("roms")},
 		{_T("savestates")},

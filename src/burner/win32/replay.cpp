@@ -313,10 +313,11 @@ INT32 ReplayInput()
 		PrintInputs();
 	}
 
+#if 0
 	if ( (GetCurrentFrame()-nStartFrame) == (nTotalFrames-1) ) {
-		bprintf(0, _T("*** Replay: pausing before end of video!  Input-eof?: %x\n"), inputbuf_eof());
-		SetPauseMode(1);
+		bRunPause = 1; // pause at the last recorded frame? causes weird issues when pauses.  investigate later.. -dink
 	}
+#endif
 
 	if (inputbuf_eof()) {
 		StopReplay();
@@ -821,11 +822,6 @@ static inline UINT16 Read16(const UINT8*& ptr)
 	v = (UINT16)(*ptr++);
 	v |= (UINT16)((*ptr++)<<8);
 	return v;
-}
-
-INT32 FreezeInputSize()
-{
-	return 4 + 2*nGameInpCount;
 }
 
 INT32 FreezeInput(UINT8** buf, INT32* size)

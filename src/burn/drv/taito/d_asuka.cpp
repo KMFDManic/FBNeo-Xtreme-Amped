@@ -354,7 +354,7 @@ static struct BurnDIPInfo AsukaDIPList[]=
 	{0x14, 0x01, 0x30, 0x30, "3"			},
 	{0x14, 0x01, 0x30, 0x00, "4"			},
 
-	{0   , 0xfe, 0   ,    4, "Show Continue Message"	},
+	{0   , 0xfe, 0   ,    4, "Allow Continue"	},
 	{0x14, 0x01, 0xc0, 0x00, "No"			},
 	{0x14, 0x01, 0xc0, 0xc0, "Up To Level 2"	},
 	{0x14, 0x01, 0xc0, 0x80, "Up To Level 3"	},
@@ -1659,7 +1659,7 @@ struct BurnDriver BurnDrvCadash = {
 };
 
 
-// Cadash (Japan, rev 2)
+// Cadash (Japan, version 2)
 
 static struct BurnRomInfo cadashjRomDesc[] = {
 	{ "c21_04-2.ic11",			0x20000, 0x7a9c1828, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
@@ -1686,7 +1686,7 @@ STD_ROM_FN(cadashj)
 
 struct BurnDriver BurnDrvCadashj = {
 	"cadashj", "cadash", NULL, NULL, "1989",
-	"Cadash (Japan, rev 2)\0", NULL, "Taito Corporation", "Taito Misc",
+	"Cadash (Japan, version 2)\0", NULL, "Taito Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
 	NULL, cadashjRomInfo, cadashjRomName, NULL, NULL, NULL, NULL, CadashInputInfo, CadashjDIPInfo,
@@ -1695,7 +1695,7 @@ struct BurnDriver BurnDrvCadashj = {
 };
 
 
-// Cadash (Japan, rev 1)
+// Cadash (Japan, version 1)
 
 static struct BurnRomInfo cadashj1RomDesc[] = {
 	{ "c21_04-1.ic11",			0x20000, 0xcc22ebe5, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
@@ -1722,7 +1722,7 @@ STD_ROM_FN(cadashj1)
 
 struct BurnDriver BurnDrvCadashj1 = {
 	"cadashj1", "cadash", NULL, NULL, "1989",
-	"Cadash (Japan, rev 1)\0", NULL, "Taito Corporation", "Taito Misc",
+	"Cadash (Japan, version 1)\0", NULL, "Taito Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
 	NULL, cadashj1RomInfo, cadashj1RomName, NULL, NULL, NULL, NULL, CadashInputInfo, CadashjDIPInfo,
@@ -1731,7 +1731,7 @@ struct BurnDriver BurnDrvCadashj1 = {
 };
 
 
-// Cadash (Japan)
+// Cadash (Japan, oldest version)
 
 static struct BurnRomInfo cadashjoRomDesc[] = {
 	{ "c21_04.ic11",			0x20000, 0xbe7d3f12, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
@@ -1758,7 +1758,7 @@ STD_ROM_FN(cadashjo)
 
 struct BurnDriver BurnDrvCadashjo = {
 	"cadashjo", "cadash", NULL, NULL, "1989",
-	"Cadash (Japan)\0", NULL, "Taito Corporation", "Taito Misc",
+	"Cadash (Japan, oldest version)\0", NULL, "Taito Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
 	NULL, cadashjoRomInfo, cadashjoRomName, NULL, NULL, NULL, NULL, CadashInputInfo, CadashjDIPInfo,
@@ -1767,7 +1767,7 @@ struct BurnDriver BurnDrvCadashjo = {
 };
 
 
-// Cadash (US, rev 2)
+// Cadash (US, version 2)
 
 static struct BurnRomInfo cadashuRomDesc[] = {
 	{ "c21_14-2.ic11",			0x20000, 0xf823d418, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
@@ -1794,7 +1794,7 @@ STD_ROM_FN(cadashu)
 
 struct BurnDriver BurnDrvCadashu = {
 	"cadashu", "cadash", NULL, NULL, "1989",
-	"Cadash (US, rev 2)\0", NULL, "Taito America Corporation", "Taito Misc",
+	"Cadash (US, version 2)\0", NULL, "Taito America Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
 	NULL, cadashuRomInfo, cadashuRomName, NULL, NULL, NULL, NULL, CadashInputInfo, CadashuDIPInfo,
@@ -1803,7 +1803,7 @@ struct BurnDriver BurnDrvCadashu = {
 };
 
 
-// Cadash (US, rev 1?)
+// Cadash (US, version 1?)
 
 static struct BurnRomInfo cadashu1RomDesc[] = {
 	{ "c21_14-x.ic11",			0x20000, 0x64f22e5e, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
@@ -1830,7 +1830,7 @@ STD_ROM_FN(cadashu1)
 
 struct BurnDriver BurnDrvCadashu1 = {
 	"cadashu1", "cadash", NULL, NULL, "1989",
-	"Cadash (US, rev 1?)\0", NULL, "Taito America Corporation", "Taito Misc",
+	"Cadash (US, version 1?)\0", NULL, "Taito America Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
 	NULL, cadashu1RomInfo, cadashu1RomName, NULL, NULL, NULL, NULL, CadashInputInfo, CadashuDIPInfo,
@@ -1911,7 +1911,7 @@ struct BurnDriver BurnDrvCadashf = {
 };
 
 
-// Cadash (Germany, rev 1)
+// Cadash (Germany, version 1)
 
 static struct BurnRomInfo cadashgRomDesc[] = {
 	{ "c21_23-1.ic11",			0x20000, 0x30ddbabe, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
@@ -1938,7 +1938,7 @@ STD_ROM_FN(cadashg)
 
 struct BurnDriver BurnDrvCadashg = {
 	"cadashg", "cadash", NULL, NULL, "1989",
-	"Cadash (Germany, rev 1)\0", NULL, "Taito Corporation Japan", "Taito Misc",
+	"Cadash (Germany, version 1)\0", NULL, "Taito Corporation Japan", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
 	NULL, cadashgRomInfo, cadashgRomName, NULL, NULL, NULL, NULL, CadashInputInfo, CadashDIPInfo,
@@ -2019,7 +2019,7 @@ struct BurnDriver BurnDrvCadashp = {
 };
 
 
-// Cadash (Spain, rev 1)
+// Cadash (Spain, version 1)
 // no labels on the program ROMs
 
 static struct BurnRomInfo cadashsRomDesc[] = {
@@ -2047,47 +2047,10 @@ STD_ROM_FN(cadashs)
 
 struct BurnDriver BurnDrvCadashs = {
 	"cadashs", "cadash", NULL, NULL, "1989",
-	"Cadash (Spain, rev 1)\0", NULL, "Taito Corporation Japan", "Taito Misc",
+	"Cadash (Spain, version 1)\0", NULL, "Taito Corporation Japan", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
 	NULL, cadashsRomInfo, cadashsRomName, NULL, NULL, NULL, NULL, CadashInputInfo, CadashDIPInfo,
-	CadashInit, TaitoExit, CadashFrame, DrvDraw, DrvScan, NULL, 0x1000,
-	320, 240, 4, 3
-};
-
-
-// Cadash (Spain)
-// Taito PCB: K1100526A / J1100218A
-
-static struct BurnRomInfo cadashsoRomDesc[] = {
-	{ "conchimatic_c_31.ic11",	0x20000, 0x091e71de, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
-	{ "conchimatic_c_33.ic15",	0x20000, 0x64722757, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  1
-	{ "conchimatic_c_30.ic10",	0x20000, 0xf7572e71, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  2
-	{ "conchimatic_c_32.ic14",	0x20000, 0x3947b8b5, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  3
-
-	{ "c21-08.38",				0x10000, 0xdca495a0, BRF_PRG | BRF_ESS | TAITO_Z80ROM1 },			//  4 Z80 Code
-
-	{ "c21-02.9",				0x80000, 0x205883b9, BRF_GRA | TAITO_CHARS },						//  5 Characters
-
-	{ "c21-01.1",				0x80000, 0x1ff6f39c, BRF_GRA | TAITO_SPRITESA },					//  6 Sprites
-
-	{ "c21-07.57",				0x08000, 0xf02292bd, BRF_PRG | BRF_OPT },							//  7 HD64180RP8 code (link)
-	
-	{ "pal16l8b-c21-09.ic34",	0x00104, 0x4b296700, BRF_OPT },										//  8 plds
-	{ "pal16l8b-c21-10.ic45",	0x00104, 0x35642f00, BRF_OPT },										//  9
-	{ "pal16l8b-c21-11-1.ic46",	0x00104, 0xf4791e24, BRF_OPT },										// 10
-	{ "pal20l8b-c21-12.ic47",	0x00144, 0xbbc2cc97, BRF_OPT },										// 11
-};
-
-STD_ROM_PICK(cadashso)
-STD_ROM_FN(cadashso)
-
-struct BurnDriver BurnDrvCadashso = {
-	"cadashso", "cadash", NULL, NULL, "1989",
-	"Cadash (Spain)\0", NULL, "Taito Corporation Japan", "Taito Misc",
-	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_SCRFIGHT, 0,
-	NULL, cadashsoRomInfo, cadashsoRomName, NULL, NULL, NULL, NULL, CadashInputInfo, CadashDIPInfo,
 	CadashInit, TaitoExit, CadashFrame, DrvDraw, DrvScan, NULL, 0x1000,
 	320, 240, 4, 3
 };
@@ -2208,7 +2171,7 @@ struct BurnDriver BurnDrvAsuka = {
 };
 
 
-// Asuka & Asuka (Japan, rev 1)
+// Asuka & Asuka (Japan, version 1)
 
 static struct BurnRomInfo asukajRomDesc[] = {
 	{ "b68-09-1.ic23",		0x20000, 0xd61be555, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
@@ -2234,7 +2197,7 @@ STD_ROM_FN(asukaj)
 
 struct BurnDriver BurnDrvAsukaj = {
 	"asukaj", "asuka", NULL, NULL, "1988",
-	"Asuka & Asuka (Japan, rev 1)\0", NULL, "Taito Corporation", "Taito Misc",
+	"Asuka & Asuka (Japan, version 1)\0", NULL, "Taito Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_VERSHOOT, 0,
 	NULL, asukajRomInfo, asukajRomName, NULL, NULL, NULL, NULL, AsukaInputInfo, AsukaDIPInfo,
@@ -2507,7 +2470,7 @@ struct BurnDriver BurnDrvEarthjkrp = {
 };
 
 
-// Bonze Adventure (World, rev 1)
+// Bonze Adventure (World, newer)
 
 static struct BurnRomInfo bonzeadvRomDesc[] = {
 	{ "b41-09-1.17",		0x10000, 0xaf821fbc, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
@@ -2543,7 +2506,7 @@ static INT32 BonzeInit()
 
 struct BurnDriver BurnDrvBonzeadv = {
 	"bonzeadv", NULL, "cchip", NULL, "1988",
-	"Bonze Adventure (World, rev 1)\0", NULL, "Taito Corporation Japan", "Taito Misc",
+	"Bonze Adventure (World, newer)\0", NULL, "Taito Corporation Japan", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_RUNGUN, 0,
 	NULL, bonzeadvRomInfo, bonzeadvRomName, NULL, NULL, NULL, NULL, BonzeadvInputInfo, BonzeadvDIPInfo,
@@ -2552,7 +2515,7 @@ struct BurnDriver BurnDrvBonzeadv = {
 };
 
 
-// Bonze Adventure (World)
+// Bonze Adventure (World, older)
 
 static struct BurnRomInfo bonzeadvoRomDesc[] = {
 	{ "b41-09.17",			0x10000, 0x06818710, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
@@ -2577,7 +2540,7 @@ STD_ROM_FN(bonzeadvo)
 
 struct BurnDriver BurnDrvBonzeadvo = {
 	"bonzeadvo", "bonzeadv", "cchip", NULL, "1988",
-	"Bonze Adventure (World)\0", NULL, "Taito Corporation Japan", "Taito Misc",
+	"Bonze Adventure (World, older)\0", NULL, "Taito Corporation Japan", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_RUNGUN, 0,
 	NULL, bonzeadvoRomInfo, bonzeadvoRomName, NULL, NULL, NULL, NULL, BonzeadvInputInfo, BonzeadvDIPInfo,
@@ -2586,7 +2549,7 @@ struct BurnDriver BurnDrvBonzeadvo = {
 };
 
 
-// Bonze Adventure (US, rev 1)
+// Bonze Adventure (US)
 
 static struct BurnRomInfo bonzeadvuRomDesc[] = {
 	{ "b41-09-1.17",		0x10000, 0xaf821fbc, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
@@ -2611,7 +2574,7 @@ STD_ROM_FN(bonzeadvu)
 
 struct BurnDriver BurnDrvBonzeadvu = {
 	"bonzeadvu", "bonzeadv", "cchip", NULL, "1988",
-	"Bonze Adventure (US, rev 1)\0", NULL, "Taito America Corporation", "Taito Misc",
+	"Bonze Adventure (US)\0", NULL, "Taito America Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_RUNGUN, 0,
 	NULL, bonzeadvuRomInfo, bonzeadvuRomName, NULL, NULL, NULL, NULL, BonzeadvInputInfo, JigkmgriDIPInfo,
@@ -2725,7 +2688,7 @@ struct BurnDriver BurnDrvBonzeadvp2 = {
 };
 
 
-// Jigoku Meguri (Japan, rev 1)
+// Jigoku Meguri (Japan)
 
 static struct BurnRomInfo jigkmgriRomDesc[] = {
 	{ "b41-09-1.17",		0x10000, 0xaf821fbc, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
@@ -2750,8 +2713,8 @@ STD_ROM_FN(jigkmgri)
 
 struct BurnDriver BurnDrvJigkmgri = {
 	"jigkmgri", "bonzeadv", "cchip", NULL, "1988",
-	"Jigoku Meguri (Japan, rev 1)\0", NULL, "Taito Corporation", "Taito Misc",
-	L"\u5730\u7344\u3081\u3050\u308A\0Jigoku Meguri (Japan, rev 1)\0", NULL, NULL, NULL,
+	"Jigoku Meguri (Japan)\0", NULL, "Taito Corporation", "Taito Misc",
+	L"\u5730\u7344\u3081\u3050\u308A\0Jigoku Meguri (Japan)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_RUNGUN, 0,
 	NULL, jigkmgriRomInfo, jigkmgriRomName, NULL, NULL, NULL, NULL, BonzeadvInputInfo, JigkmgriDIPInfo,
 	BonzeInit, TaitoExit, BonzeFrame, DrvDraw, DrvScan, NULL, 0x1000,
@@ -2759,41 +2722,6 @@ struct BurnDriver BurnDrvJigkmgri = {
 };
 
 
-// Jigoku Meguri (Japan)
-
-static struct BurnRomInfo jigkmgriaRomDesc[] = {
-	{ "b41-09.17",			0x10000, 0x06818710, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  0 68K Code
-	{ "b41-11.26",			0x10000, 0x33c4c2f4, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  1
-	{ "b41-10.16",			0x10000, 0x4ca94d77, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  2
-	{ "b41-12.25",			0x10000, 0x40d9c1fc, BRF_PRG | BRF_ESS | TAITO_68KROM1_BYTESWAP },	//  3
-	{ "b41-01.15",			0x80000, 0x5d072fa4, BRF_PRG | BRF_ESS | TAITO_68KROM1 },			//  4
-
-	{ "b41-13.20",			0x10000, 0x9e464254, BRF_PRG | BRF_ESS | TAITO_Z80ROM1 },			//  5 Z80 Code
-
-	{ "b41-03.1",			0x80000, 0x736d35d0, BRF_GRA | TAITO_CHARS },						//  6 Characters
-
-	{ "b41-02.7",			0x80000, 0x29f205d9, BRF_GRA | TAITO_SPRITESA },					//  7 Sprites
-
-	{ "b41-04.48",			0x80000, 0xc668638f, BRF_SND | TAITO_YM2610A },						//  8 YM2610 Samples
-
-	{ "cchip_b41-05.43",	0x02000, 0x75c52553, BRF_ESS | BRF_PRG | TAITO_CCHIP_EEPROM },		//  9 CCHIP EEPROM
-};
-
-STDROMPICKEXT(jigkmgria, jigkmgria, cchip)
-STD_ROM_FN(jigkmgria)
-
-struct BurnDriver BurnDrvJigkmgria = {
-	"jigkmgria", "bonzeadv", "cchip", NULL, "1988",
-	"Jigoku Meguri (Japan)\0", NULL, "Taito Corporation", "Taito Misc",
-	L"\u5730\u7344\u3081\u3050\u308A\0Jigoku Meguri (Japan)\0", NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_TAITO_MISC, GBF_RUNGUN, 0,
-	NULL, jigkmgriaRomInfo, jigkmgriaRomName, NULL, NULL, NULL, NULL, BonzeadvInputInfo, JigkmgriDIPInfo,
-	BonzeInit, TaitoExit, BonzeFrame, DrvDraw, DrvScan, NULL, 0x1000,
-	320, 224, 4, 3
-};
-
-
-#if 0
 // Jigoku Meguri (Japan, hack?)
 /* Copyright year has been removed */
 
@@ -2827,4 +2755,3 @@ struct BurnDriver BurnDrvJigkmgria = {
 	BonzeInit, TaitoExit, BonzeFrame, DrvDraw, DrvScan, NULL, 0x1000,
 	320, 224, 4, 3
 };
-#endif // 0

@@ -6872,7 +6872,7 @@ static struct BurnRomInfo ZerotimemcRomDesc[] = {
 STD_ROM_PICK(Zerotimemc)
 STD_ROM_FN(Zerotimemc)
 
-static struct BurnRomInfo ZerotimeaRomDesc[] = {
+static struct BurnRomInfo ZerotimeuRomDesc[] = {
 	// Unknown manufacturer / bootleger
 	{ "1.bin",         0x00800, 0xac64aabe, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	{ "2.bin",         0x00800, 0xa433067e, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
@@ -6886,25 +6886,8 @@ static struct BurnRomInfo ZerotimeaRomDesc[] = {
 	{ "82s123.bin",    0x00020, 0xc3ac9467, BRF_GRA | GAL_ROM_PROM },
 };
 
-STD_ROM_PICK(Zerotimea)
-STD_ROM_FN(Zerotimea)
-
-static struct BurnRomInfo ZerotimebRomDesc[] = {
-	// Unknown manufacturer / bootleger
-	{ "p01-6b52-2716.bin",  0x00800, 0x90a2bc61, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "p02-f499-2716.bin",  0x00800, 0xa433067e, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "p03a-eh61-2716.bin", 0x00800, 0xaaf038d4, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "p04-17c7-2716.bin",  0x00800, 0x786d690a, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "p05-07fe-2716.bin",  0x00800, 0xaf9260d7, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	
-	{ "7-2716.bin",         0x00800, 0x39546539, BRF_GRA | GAL_ROM_TILES_SHARED },
-	{ "6-2716.bin",         0x00800, 0xd10337c3, BRF_GRA | GAL_ROM_TILES_SHARED },
-	
-	{ "mb7051.6l",          0x00020, 0xc3ac9467, BRF_GRA | GAL_ROM_PROM },
-};
-
-STD_ROM_PICK(Zerotimeb)
-STD_ROM_FN(Zerotimeb)
+STD_ROM_PICK(Zerotimeu)
+STD_ROM_FN(Zerotimeu)
 
 static struct BurnRomInfo GalaxcirsaRomDesc[] = {
 	{ "cirsagal.1",    0x00800, 0xac64aabe, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
@@ -7363,22 +7346,12 @@ struct BurnDriver BurnDrvZerotimemc = {
 	NULL, 392, 224, 256, 3, 4
 };
 
-struct BurnDriver BurnDrvZerotimea = {
-	"zerotimea", "galaxian", NULL, NULL, "1979",
-	"Zero Time (Spanish bootleg, set 1)\0", NULL, "bootleg", "Galaxian",
+struct BurnDriver BurnDrvZerotimeu = {
+	"zerotimeu", "galaxian", NULL, NULL, "1979",
+	"Zero Time (Spanish bootleg)\0", NULL, "bootleg", "Galaxian",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
-	NULL, ZerotimeaRomInfo, ZerotimeaRomName, NULL, NULL, NULL, NULL, GalaxianInputInfo, ZerotimeDIPInfo,
-	GalInit, GalExit, GalFrame, GalDraw, GalScan,
-	NULL, 392, 224, 256, 3, 4
-};
-
-struct BurnDriver BurnDrvZerotimeb = {
-	"zerotimeb", "galaxian", NULL, NULL, "1979",
-	"Zero Time (Spanish bootleg, set 2)\0", NULL, "bootleg", "Galaxian",
-	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
-	NULL, ZerotimebRomInfo, ZerotimebRomName, NULL, NULL, NULL, NULL, GalaxianInputInfo, ZerotimeDIPInfo,
+	NULL, ZerotimeuRomInfo, ZerotimeuRomName, NULL, NULL, NULL, NULL, GalaxianInputInfo, ZerotimeDIPInfo,
 	GalInit, GalExit, GalFrame, GalDraw, GalScan,
 	NULL, 392, 224, 256, 3, 4
 };
@@ -7622,7 +7595,7 @@ static struct BurnRomInfo CatacombRomDesc[] = {
 	{ "cat-gfx1",      0x00800, 0xe871e65c, BRF_GRA | GAL_ROM_TILES_SHARED },
 	{ "cat-gfx2",      0x00800, 0xb14dafaa, BRF_GRA | GAL_ROM_TILES_SHARED },
 	
-	{ "74s288.bin",    0x00020, 0x7e0b79cb, BRF_GRA | GAL_ROM_PROM },
+	{ "mmi6331.6l",    0x00020, 0x6a0c7d87, BRF_GRA | GAL_ROM_PROM },
 };
 
 STD_ROM_PICK(Catacomb)
@@ -10115,7 +10088,7 @@ struct BurnDriver BurnDrvPacmanblc = {
 
 struct BurnDriver BurnDrvPacmanblv = {
 	"pacmanblv", "puckman", NULL, NULL, "1981",
-	"Pac-Man (Video Dens, Spanish bootleg on Galaxian hardware, set 1)\0", NULL, "bootleg (Video Dens)", "Galaxian",
+	"Pac-Man (Video Dens, Spanish bootleg on Galaxian hardware)\0", NULL, "bootleg (Video Dens)", "Galaxian",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED  | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_MAZE, 0,
 	NULL, PacmanblvRomInfo, PacmanblvRomName, NULL, NULL, NULL, NULL, PacmanblInputInfo, PacmanblDIPInfo,
@@ -10137,7 +10110,7 @@ struct BurnDriver BurnDrvPhoenxp2 = {
 	"phoenxp2", "phoenix", NULL, NULL, "1981",
 	"Phoenix Part 2\0", NULL, "bootleg", "Galaxian",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_SHOOT, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_SHOOT, 0,
 	NULL, Phoenxp2RomInfo, Phoenxp2RomName, NULL, NULL, NULL, NULL, Phoenxp2InputInfo, Phoenxp2DIPInfo,
 	PacmanblInit, GalExit, GalFrame, GalDraw, GalScan,
 	NULL, 392, 224, 256, 3, 4
@@ -10147,7 +10120,7 @@ struct BurnDriver BurnDrvAtlantisb = {
 	"atlantisb", "atlantis", NULL, NULL, "1981",
 	"Battle of Atlantis (bootleg)\0", NULL, "bootleg", "Galaxian",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_HORSHOOT, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_HORSHOOT, 0,
 	NULL, AtlantisbRomInfo, AtlantisbRomName, NULL, NULL, NULL, NULL, Phoenxp2InputInfo, AtlantisbDIPInfo,
 	AtlantisbInit, GalExit, GalFrame, GalDraw, GalScan,
 	NULL, 392, 224, 256, 3, 4
@@ -14347,7 +14320,7 @@ struct BurnDriver BurnDrvJumpbug = {
 
 struct BurnDriver BurnDrvJumpbugb = {
 	"jumpbugb", "jumpbug", NULL, NULL, "1981",
-	"Jump Bug (bootleg, set 1)\0", NULL, "bootleg", "Galaxian",
+	"Jump Bug (bootleg)\0", NULL, "bootleg", "Galaxian",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_HORSHOOT, 0,
 	NULL, JumpbugbRomInfo, JumpbugbRomName, NULL, NULL, NULL, NULL, JumpbugInputInfo, JumpbugDIPInfo,
@@ -17217,27 +17190,6 @@ static struct BurnRomInfo ExplorerRomDesc[] = {
 STD_ROM_PICK(Explorer)
 STD_ROM_FN(Explorer)
 
-static struct BurnRomInfo Explorer2RomDesc[] = {
-	// Explorer (different revision)
-	// PCB is marked: "sidam 10800" 
-	// f205v id 310
-	{ "10805_0p.10l",  		0x01000, 0xd5adf626, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "10805_1p.9l",   		0x01000, 0x48e32788, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "10805_2p.8l",   		0x01000, 0xc0dbdbde, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "10805_3p.7l",   		0x01000, 0x40cfe7b2, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	
-	{ "10805_0s.3b",   		0x01000, 0x9faf18cf, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG2 },
-	{ "10805_1s.4b",   		0x00800, 0xe910b5c3, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG2 },
-
-	{ "10805_0gc.5h",  		0x00800, 0x4708845b, BRF_GRA | GAL_ROM_TILES_SHARED },
-	{ "10805_1gc.3h",  		0x00800, 0x11fd2887, BRF_GRA | GAL_ROM_TILES_SHARED },
-		
-	{ "10806_6331-1j.1k",   0x00020, 0x4e3caeab, BRF_GRA | GAL_ROM_PROM },
-};
-
-STD_ROM_PICK(Explorer2)
-STD_ROM_FN(Explorer2)
-
 static struct BurnRomInfo BomberRomDesc[] = {
 	{ "1.3l",          0x00800, 0x8c30c7c3, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	{ "2.3k",          0x00800, 0x1fca370c, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
@@ -18700,11 +18652,7 @@ static INT32 MarsInit()
 	
 	nRet = GalInit(); if (nRet) return 1;
 	KonamiSoundInit();
-
-	filter_rc_set_src_gain(3, 0.45);
-	filter_rc_set_src_gain(4, 0.45);
-	filter_rc_set_src_gain(5, 0.45);
-
+	
 	GalRenderBackgroundFunction = ScrambleDrawBackground;
 	GalDrawBulletsFunction = ScrambleDrawBullets;
 	
@@ -19270,7 +19218,7 @@ struct BurnDriver BurnDrvStrfbomb = {
 
 struct BurnDriver BurnDrvExplorer = {
 	"explorer", "scramble", NULL, NULL, "1981",
-	"Explorer (bootleg of Scramble, set 1)\0", NULL, "bootleg (Sidam)", "Galaxian",
+	"Explorer (bootleg of Scramble)\0", NULL, "bootleg (Sidam)", "Galaxian",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_HORSHOOT, 0,
 	NULL, ExplorerRomInfo, ExplorerRomName, NULL, NULL, NULL, NULL, ExplorerInputInfo, ExplorerDIPInfo,
@@ -19278,15 +19226,6 @@ struct BurnDriver BurnDrvExplorer = {
 	NULL, 392, 224, 256, 3, 4
 };
 
-struct BurnDriver BurnDrvExplorer2 = {
-	"explorer2", "scramble", NULL, NULL, "1981",
-	"Explorer (bootleg of Scramble, set 2)\0", NULL, "bootleg (Sidam)", "Galaxian",
-	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_HORSHOOT, 0,
-	NULL, Explorer2RomInfo, Explorer2RomName, NULL, NULL, NULL, NULL, ExplorerInputInfo, ExplorerDIPInfo,
-	ExplorerInit, KonamiExit, GalFrame, GalDraw, GalScan,
-	NULL, 392, 224, 256, 3, 4
-};
 struct BurnDriver BurnDrvBomber = {
 	"bomber", "scramble", NULL, NULL, "198?",
 	"Bomber (bootleg of Scramble)\0", NULL, "bootleg (Alca)", "Galaxian",

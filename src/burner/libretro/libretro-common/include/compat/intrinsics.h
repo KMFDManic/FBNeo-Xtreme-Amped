@@ -38,13 +38,7 @@
 
 RETRO_BEGIN_DECLS
 
-/**
- * Counts the leading zero bits in a \c uint16_t.
- * Uses compiler intrinsics if available, or a standard C implementation if not.
- *
- * @param val Value to count leading zeroes in.
- * @return Number of leading zeroes in \c val.
- */
+/* Count Leading Zero, unsigned 16bit input value */
 static INLINE unsigned compat_clz_u16(uint16_t val)
 {
 #if defined(__GNUC__)
@@ -62,13 +56,7 @@ static INLINE unsigned compat_clz_u16(uint16_t val)
 #endif
 }
 
-/**
- * Counts the trailing zero bits in a \c uint16_t.
- * Uses compiler intrinsics if available, or a standard C implementation if not.
- *
- * @param val Value to count trailing zeroes in.
- * @return Number of trailing zeroes in \c val.
- */
+/* Count Trailing Zero */
 static INLINE int compat_ctz(unsigned x)
 {
 #if defined(__GNUC__) && !defined(RARCH_CONSOLE)

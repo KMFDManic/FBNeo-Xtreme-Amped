@@ -1,5 +1,4 @@
 #include "gal.h"
-#include "biquad.h"
 
 UINT8 GalSoundType;
 UINT8 GalSoundSubType = 0;
@@ -61,9 +60,6 @@ static double GalGain;
 static INT32 GalOutputDir;
 
 static INT16 GalToneWave[4][TOOTHSAW_LENGTH];
-
-static BIQ biquad_explode;
-static BIQ biquad_explode2;
 
 static const INT16 GalBackgroundWave[32] =
 {
@@ -422,9 +418,6 @@ void GalSoundInit()
 		
 		GalGain = 4.00;
 		GalOutputDir = BURN_SND_ROUTE_BOTH;
-
-		biquad_explode.init(FILT_LOWSHELF, nBurnSoundRate, 150.00, 1.00, 10.0);
-		biquad_explode2.init(FILT_LOWPASS, nBurnSoundRate, 550.00, 1.00, 10.0);
 	}
 }
 
@@ -457,12 +450,7 @@ void GalSoundExit()
 	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_KONAMIAY8910 || GalSoundType == GAL_SOUND_HARDWARE_TYPE_FROGGERAY8910 || GalSoundType == GAL_SOUND_HARDWARE_TYPE_SFXAY8910DAC) {
 		filter_rc_exit();
 	}
-
-	if (GalSoundType == GAL_SOUND_HARDWARE_TYPE_GALAXIAN || GalSoundType == GAL_SOUND_HARDWARE_TYPE_KINGBALLDAC) {
-		biquad_explode.exit();
-		biquad_explode2.exit();
-	}
-
+	
 	BurnFree(GalNoiseWave);
 	BurnFree(GalShootWave);
 
@@ -925,8 +913,8 @@ static void GalRenderShootSample(INT16 *pSoundBuf, INT32 nLength)
 		nLeftSample = BURN_SND_CLIP(nLeftSample);
 		nRightSample = BURN_SND_CLIP(nRightSample);
 			
-		pSoundBuf[i + 0] = BURN_SND_CLIP(pSoundBuf[i + 0] + nLeftSample);
-		pSoundBuf[i + 1] = BURN_SND_CLIP(pSoundBuf[i + 1] + nRightSample);
+		pSoundBuf[i + 0] += nLeftSample;
+		pSoundBuf[i + 1] += nRightSample;
 		
 		Addr += Step;
 	}
@@ -946,8 +934,7 @@ static void GalRenderNoiseSample(INT16 *pSoundBuf, INT32 nLength)
 	for (INT32 i = 0; i < nLength; i += 2) {
 		INT16 Sample = (INT16)(GalNoiseWave[(INT32)Addr] * ((double)GalNoiseVolume / 100));
 		Sample /= 10;
-		Sample = biquad_explode2.filter(biquad_explode.filter(Sample) + Sample);
-
+		
 		INT32 nLeftSample = 0, nRightSample = 0;
 			
 		if ((GalOutputDir & BURN_SND_ROUTE_LEFT) == BURN_SND_ROUTE_LEFT) {
@@ -956,16 +943,16 @@ static void GalRenderNoiseSample(INT16 *pSoundBuf, INT32 nLength)
 		if ((GalOutputDir & BURN_SND_ROUTE_RIGHT) == BURN_SND_ROUTE_RIGHT) {
 			nRightSample += (INT32)(Sample * GalGain);
 		}
-
+			
 		nLeftSample = BURN_SND_CLIP(nLeftSample);
 		nRightSample = BURN_SND_CLIP(nRightSample);
-
-		pSoundBuf[i + 0] = BURN_SND_CLIP(pSoundBuf[i + 0] + nLeftSample);
-		pSoundBuf[i + 1] = BURN_SND_CLIP(pSoundBuf[i + 1] + nRightSample);
-
+			
+		pSoundBuf[i + 0] += nLeftSample;
+		pSoundBuf[i + 1] += nRightSample;
+		
 		Addr += Step;
 	}
-
+	
 	GalNoiseWavePos = Addr;
 	if (GalNoiseWavePos > NOISE_LENGTH) {
 		GalNoiseWavePos = 0;
@@ -1040,8 +1027,8 @@ static void GalRenderLfoWaveSample(INT32 nLfoWave, INT16 *pSoundBuf, INT32 nLeng
 		nLeftSample = BURN_SND_CLIP(nLeftSample);
 		nRightSample = BURN_SND_CLIP(nRightSample);
 			
-		pSoundBuf[i + 0] = BURN_SND_CLIP(pSoundBuf[i + 0] + nLeftSample);
-		pSoundBuf[i + 1] = BURN_SND_CLIP(pSoundBuf[i + 1] + nRightSample);
+		pSoundBuf[i + 0] += nLeftSample;
+		pSoundBuf[i + 1] += nRightSample;
 		
 		Addr += Step;
 	}
@@ -1067,7 +1054,7 @@ void GalRenderSoundSamples(INT16 *pSoundBuf, INT32 nLength)
 void GalaxianSoundWrite(UINT32 Offset, UINT8 d)
 {
 	d &= 0x01;
-
+	
 	switch (Offset & 0x07) {
 		case 0x00:
 		case 0x01:
@@ -1077,7 +1064,7 @@ void GalaxianSoundWrite(UINT32 Offset, UINT8 d)
 		}
 		
 		case 0x03: {
-			if ((d & 1) && GalNoiseHold) {
+			if ((d & 1) && GalNoiseEnable) {
 				GalNoiseHold = 20; // already noise-ing, just extend the hold
 				GalNoiseVolume = 100;
 				return;
